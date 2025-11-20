@@ -1,0 +1,242 @@
+/**
+ * Phylogeny Page Styles
+ */
+
+/* Page Layout */
+.phylogeny-main {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.phylogeny-header {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.phylogeny-header h1 {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.phylogeny-header .subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* Controls */
+.phylogeny-controls {
+    background: white;
+    border-bottom: 1px solid var(--border-color);
+    padding: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.controls-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.control-group label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.control-group input[type="text"] {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    min-width: 250px;
+}
+
+.kingdom-filters {
+    display: flex;
+    gap: 1rem;
+}
+
+.kingdom-filters label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+/* Stats */
+.phylogeny-stats {
+    flex-direction: row;
+    gap: 2rem;
+    margin-left: auto;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Tree Section */
+.phylogeny-tree-section {
+    position: relative;
+    min-height: 600px;
+    background: #f8fafc;
+}
+
+#tree-container {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+#phylogeny-tree {
+    width: 100%;
+    height: 800px;
+}
+
+/* Tree Nodes */
+.node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 3px;
+    cursor: pointer;
+}
+
+.node circle:hover {
+    stroke-width: 5px;
+}
+
+.node text {
+    font-size: 12px;
+    font-family: var(--font-main);
+}
+
+.node--internal circle {
+    fill: #555;
+}
+
+.node--leaf circle {
+    fill: var(--accent-color);
+}
+
+/* Kingdom Colors */
+.kingdom-viridiplantae circle {
+    fill: #10b981 !important;
+}
+
+.kingdom-metazoa circle {
+    fill: #3b82f6 !important;
+}
+
+.kingdom-fungi circle {
+    fill: #8b5cf6 !important;
+}
+
+.kingdom-other circle {
+    fill: #f59e0b !important;
+}
+
+/* Links */
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+}
+
+/* Info Panel */
+.info-panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 400px;
+    background: white;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 200;
+}
+
+.info-panel:not(.hidden) {
+    transform: translateX(0);
+}
+
+.close-panel {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.close-panel:hover {
+    color: var(--primary-color);
+}
+
+/* Loading & Errors */
+.loading-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem;
+    gap: 1rem;
+}
+
+.error-message {
+    text-align: center;
+    padding: 4rem;
+    color: #ef4444;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .controls-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .phylogeny-stats {
+        margin-left: 0;
+        justify-content: space-around;
+    }
+
+    .info-panel {
+        width: 100%;
+    }
+}

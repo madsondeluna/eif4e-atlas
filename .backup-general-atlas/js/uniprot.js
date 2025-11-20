@@ -19,9 +19,8 @@ export async function searchUniProt(query) {
             searchQuery = `accession:${query}`;
         } else {
             // ALWAYS search for eIF4E and its variants (eif4e1a, etc.)
-            // AND filter to plants only (Viridiplantae)
-            // This guarantees we only get plant eIF4E-related proteins
-            searchQuery = `(eif4e OR eif4e1a OR "translation initiation factor 4e") AND ${query} AND taxonomy_name:Viridiplantae`;
+            // This guarantees we only get eIF4E-related proteins, never other proteins
+            searchQuery = `(eif4e OR eif4e1a OR "translation initiation factor 4e") AND ${query}`;
         }
 
         const url = `${UNIPROT_API_BASE}/search?query=${encodeURIComponent(searchQuery)}&fields=accession,id,protein_name,gene_names,organism_name,length,sequence&format=json&size=20`;
@@ -67,15 +66,17 @@ export async function getProteinDetails(accession) {
  */
 export async function getGlobalStats() {
     try {
-        const url = `${UNIPROT_API_BASE}/search?query=(gene:EIF4E OR protein_name:eIF4E) AND taxonomy_name:Viridiplantae&size=0`;
+        const url = `${UNIPROT_API_BASE}/search?query=(gene:EIF4E OR protein_name:eIF4E)&size=0`;
         const response = await fetch(url);
 
         if (!response.ok) {
-            return { totalEntries: 1500 }; // fallback
+            throw new Error('Failed to fetch stats');
         }
 
         const total = response.headers.get('x-total-results');
-        return { totalEntries: parseInt(total) || 1500 };
+        return {
+            totalEntries: parseInt(total) || 3500
+        };
     } catch (error) {
         console.error('Error fetching global stats:', error);
         return { totalEntries: 3500 }; // Fallback
