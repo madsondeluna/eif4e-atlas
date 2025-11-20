@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virus Interactions - Plant eIF4E Atlas</title>
+    <meta name="description" content="Plant viruses and their interactions with eIF4E proteins">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/virus.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <nav class="nav-container">
+            <div class="logo">Plant eIF4E Atlas</div>
+            <div class="main-nav">
+                <a href="index.html" class="nav-link">Search</a>
+                <a href="structural-biology.html" class="nav-link">Structure</a>
+                <a href="msa.html" class="nav-link">MSA</a>
+                <a href="phylogeny.html" class="nav-link">Phylogeny</a>
+                <a href="virus-interactions.html" class="nav-link active">Viruses</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="virus-main">
+        <!-- Hero -->
+        <section class="virus-hero">
+            <h1>Plant Viruses & eIF4E</h1>
+            <p>How viruses hijack translation initiation factors for infection</p>
+        </section>
+
+        <!-- Introduction -->
+        <section class="content-section">
+            <div class="section-container">
+                <h2>Why Viruses Target eIF4E</h2>
+                <div class="intro-content">
+                    <p class="lead">Plant viruses have evolved sophisticated mechanisms to manipulate host translation
+                        machinery for successful infection. The eIF4E protein family serves as a critical host factor
+                        for many plant viruses.</p>
+
+                    <div class="mechanism-grid">
+                        <div class="mechanism-card">
+                            <div class="mech-number">1</div>
+                            <h3>VPg Protein</h3>
+                            <p>Viruses encode a genome-linked protein (VPg) that mimics the m7G cap structure, binding
+                                to eIF4E</p>
+                        </div>
+                        <div class="mechanism-card">
+                            <div class="mech-number">2</div>
+                            <h3>Translation Hijacking</h3>
+                            <p>VPg-eIF4E interaction recruits the translation machinery to viral RNA instead of host
+                                mRNA</p>
+                        </div>
+                        <div class="mechanism-card">
+                            <div class="mech-number">3</div>
+                            <h3>Resistance Evolution</h3>
+                            <p>Natural eIF4E polymorphisms can disrupt VPg binding while maintaining cap-binding
+                                function</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Virus Families Section -->
+        <section class="content-section dark-bg">
+            <div class="section-container">
+                <h2>Major Virus Families</h2>
+                <p class="section-intro">Plant virus families known to interact with eIF4E proteins</p>
+
+                <div class="virus-families-grid">
+                    <div class="virus-family-card">
+                        <div class="family-header" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                            <h3>Potyviridae</h3>
+                            <span class="badge">Most Studied</span>
+                        </div>
+                        <div class="family-content">
+                            <p><strong>Examples:</strong> Tobacco etch virus (TEV), Potato virus Y (PVY), Turnip mosaic
+                                virus (TuMV)</p>
+                            <p><strong>Hosts:</strong> Wide range including Solanaceae, Brassicaceae, Fabaceae</p>
+                            <p><strong>eIF4E Interaction:</strong> VPg protein binds to eIF4E and eIF(iso)4E isoforms
+                            </p>
+                            <p><strong>Resistance:</strong> Multiple natural resistance alleles identified (e.g., pvr2
+                                in pepper)</p>
+                        </div>
+                    </div>
+
+                    <div class="virus-family-card">
+                        <div class="family-header" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">
+                            <h3>Comoviridae</h3>
+                        </div>
+                        <div class="family-content">
+                            <p><strong>Examples:</strong> Cowpea mosaic virus (CPMV), Bean pod mottle virus (BPMV)</p>
+                            <p><strong>Hosts:</strong> Primarily legumes (Fabaceae)</p>
+                            <p><strong>eIF4E Interaction:</strong> VPg-mediated, similar to potyviruses</p>
+                            <p><strong>Resistance:</strong> eIF4E alleles in pea and bean conferring resistance</p>
+                        </div>
+                    </div>
+
+                    <div class="virus-family-card">
+                        <div class="family-header" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                            <h3>Secoviridae</h3>
+                        </div>
+                        <div class="family-content">
+                            <p><strong>Examples:</strong> Rice tungro spherical virus (RTSV), Lettuce mosaic virus (LMV)
+                            </p>
+                            <p><strong>Hosts:</strong> Various including monocots and dicots</p>
+                            <p><strong>eIF4E Interaction:</strong> VPg-dependent translation initiation</p>
+                            <p><strong>Resistance:</strong> eIF4E-based resistance in lettuce varieties</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Publications -->
+        <section class="content-section">
+            <div class="section-container">
+                <h2>Key Publications & Reviews</h2>
+                <p class="section-intro">Essential reading on plant virus-eIF4E interactions</p>
+
+                <div class="publications-list">
+                    <div class="publication-card">
+                        <h3>Translation initiation factors: a weak link in plant RNA virus infection</h3>
+                        <p class="authors">Robaglia C, Caranta C</p>
+                        <p class="journal"><strong>Trends in Plant Science</strong> (2006) 11(1):40-45</p>
+                        <p class="summary">Seminal review establishing eIF4E as a susceptibility factor for plant
+                            viruses. Discusses the implications for resistance breeding.</p>
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/16343979/" target="_blank" class="pub-link">View on
+                            PubMed →</a>
+                    </div>
+
+                    <div class="publication-card">
+                        <h3>Crop immunity against viruses: outcomes and future challenges</h3>
+                        <p class="authors">Nicaise V</p>
+                        <p class="journal"><strong>Frontiers in Plant Science</strong> (2014) 5:660</p>
+                        <p class="summary">Comprehensive review of virus resistance mechanisms, including extensive
+                            coverage of eIF4E-mediated resistance.</p>
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/25505474/" target="_blank" class="pub-link">View on
+                            PubMed →</a>
+                    </div>
+
+                    <div class="publication-card">
+                        <h3>Mimicking natural polymorphism in eIF4E by CRISPR-Cas9 confers resistance to Potyviruses
+                        </h3>
+                        <p class="authors">Bastet A, et al.</p>
+                        <p class="journal"><strong>Genome Biology</strong> (2019) 20:3</p>
+                        <p class="summary">Demonstrates how CRISPR genome editing can create virus-resistant crops by
+                            mimicking natural eIF4E alleles.</p>
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/30606230/" target="_blank" class="pub-link">View on
+                            PubMed →</a>
+                    </div>
+
+                    <div class="publication-card">
+                        <h3>The eukaryotic translation initiation factor 4E family: structure, function, and plant virus
+                            resistance</h3>
+                        <p class="authors">Wang A, Krishnaswamy S</p>
+                        <p class="journal"><strong>Critical Reviews in Plant Sciences</strong> (2012) 31(4):282-295</p>
+                        <p class="summary">Detailed review of eIF4E family members and their role in plant-virus
+                            interactions.</p>
+                        <a href="https://doi.org/10.1080/07352689.2011.645429" target="_blank" class="pub-link">View
+                            Article →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section class="content-section dark-bg">
+            <div class="section-container">
+                <h2>External Resources</h2>
+                <div class="resources-grid">
+                    <a href="https://www.ncbi.nlm.nih.gov/pmc/" target="_blank" class="resource-card">
+                        <h3>PubMed Central</h3>
+                        <p>Free full-text archive of biomedical literature</p>
+                    </a>
+                    <a href="https://www.ictvonline.org/" target="_blank" class="resource-card">
+                        <h3>ICTV Database</h3>
+                        <p>International Committee on Taxonomy of Viruses</p>
+                    </a>
+                    <a href="https://www.rcsb.org" target="_blank" class="resource-card">
+                        <h3>Protein Data Bank</h3>
+                        <p>Crystal structures of VPg-eIF4E complexes</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2024 Plant eIF4E Atlas. Data provided by <a href="https://www.uniprot.org/"
+                target="_blank">UniProt</a>.</p>
+    </footer>
+</body>
+
+</html>

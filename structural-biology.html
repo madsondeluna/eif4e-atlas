@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structural Biology - Plant eIF4E Atlas</title>
+    <meta name="description" content="Explore the structural biology of plant eIF4E proteins">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/structural.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <nav class="nav-container">
+            <div class="logo">Plant eIF4E Atlas</div>
+            <div class="main-nav">
+                <a href="index.html" class="nav-link">Search</a>
+                <a href="structural-biology.html" class="nav-link active">Structure</a>
+                <a href="msa.html" class="nav-link">MSA</a>
+                <a href="phylogeny.html" class="nav-link">Phylogeny</a>
+                <a href="virus-interactions.html" class="nav-link">Viruses</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="structural-main">
+        <!-- Hero -->
+        <section class="structural-hero">
+            <h1>Structural Biology of Plant eIF4E</h1>
+            <p>Understanding the architecture and function of translation initiation factors in plant biology</p>
+        </section>
+
+        <!-- Overview Section -->
+        <section class="content-section">
+            <div class="section-container">
+                <h2>What is eIF4E?</h2>
+                <div class="content-grid">
+                    <div class="content-text">
+                        <p><strong>eIF4E (Eukaryotic Initiation Factor 4E)</strong> is a crucial protein that recognizes
+                            and binds to the 5' cap structure (m7GpppN) of mRNA molecules, initiating the translation
+                            process.</p>
+
+                        <p>In plants, eIF4E proteins play essential roles in:</p>
+                        <ul>
+                            <li>Translation initiation and regulation</li>
+                            <li>Cellular stress responses</li>
+                            <li>Development and morphogenesis</li>
+                            <li>Defense against viral infections</li>
+                        </ul>
+
+                        <h3>Plant-Specific Features</h3>
+                        <p>Unlike animals, plants possess multiple eIF4E isoforms:</p>
+                        <ul>
+                            <li><strong>eIF4E</strong> - Canonical cap-binding protein</li>
+                            <li><strong>eIF(iso)4E</strong> - Isoform with distinct biochemical properties</li>
+                            <li><strong>nCBP</strong> - Novel cap-binding proteins</li>
+                        </ul>
+                    </div>
+                    <div class="content-visual">
+                        <div class="info-card">
+                            <h4>Key Statistics</h4>
+                            <div class="stat-row">
+                                <span class="stat-label">Typical Size:</span>
+                                <span class="stat-value">~200-220 amino acids</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Molecular Weight:</span>
+                                <span class="stat-value">~25 kDa</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label">Cap-binding Domain:</span>
+                                <span class="stat-value">Conserved across eukaryotes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3D Structure Section -->
+        <section class="content-section dark-bg">
+            <div class="section-container">
+                <h2>3D Structure</h2>
+                <p class="section-intro">Explore the three-dimensional architecture of plant eIF4E proteins</p>
+
+                <div class="structure-viewer-container">
+                    <div class="viewer-card">
+                        <h3>Arabidopsis thaliana eIF4E</h3>
+                        <p class="accession-id">UniProt: <a href="https://www.uniprot.org/uniprotkb/P32811"
+                                target="_blank">P32811</a></p>
+
+                        <div class="structure-actions">
+                            <a href="https://alphafold.ebi.ac.uk/entry/P32811" target="_blank" class="action-btn">
+                                <span>View in AlphaFold DB</span>
+                                <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                    </path>
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="structure-features">
+                            <h4>Key Structural Features:</h4>
+                            <ul>
+                                <li>Cap-binding pocket with conserved Trp residues</li>
+                                <li>Eight-stranded antiparallel β-sheet</li>
+                                <li>Three α-helices surrounding the β-sheet</li>
+                                <li>Dorsal and ventral surfaces for protein interactions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conserved Motifs Section -->
+        <section class="content-section">
+            <div class="section-container">
+                <h2>Conserved Motifs & Functional Sites</h2>
+
+                <div class="motifs-grid">
+                    <div class="motif-card">
+                        <div class="motif-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">W</div>
+                        <h3>Tryptophan Residues</h3>
+                        <p>Two conserved Trp residues (Trp56, Trp102 in Arabidopsis) form the cap-binding pocket through
+                            π-π stacking with the m7G cap</p>
+                    </div>
+
+                    <div class="motif-card">
+                        <div class="motif-icon" style="background: linear-gradient(135deg, #10b981, #059669);">VPg</div>
+                        <h3>VPg Binding Surface</h3>
+                        <p>Specific residues on the dorsal surface interact with viral VPg proteins, critical for virus
+                            resistance</p>
+                    </div>
+
+                    <div class="motif-card">
+                        <div class="motif-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">4G</div>
+                        <h3>eIF4G Interaction</h3>
+                        <p>Lateral surface binds eIF4G scaffolding protein to form the eIF4F complex</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section class="content-section dark-bg">
+            <div class="section-container">
+                <h2>Structural Resources</h2>
+                <div class="resources-grid">
+                    <a href="https://www.rcsb.org" target="_blank" class="resource-card">
+                        <h3>PDB</h3>
+                        <p>Protein Data Bank - Experimentally determined structures</p>
+                    </a>
+                    <a href="https://alphafold.ebi.ac.uk" target="_blank" class="resource-card">
+                        <h3>AlphaFold</h3>
+                        <p>AI-predicted protein structures with high confidence</p>
+                    </a>
+                    <a href="https://www.uniprot.org" target="_blank" class="resource-card">
+                        <h3>UniProt</h3>
+                        <p>Comprehensive protein sequence and functional information</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2024 Plant eIF4E Atlas. Data provided by <a href="https://www.uniprot.org/"
+                target="_blank">UniProt</a>.</p>
+    </footer>
+</body>
+
+</html>

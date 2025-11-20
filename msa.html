@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSA - Plant eIF4E Atlas</title>
+    <meta name="description" content="Interactive multiple sequence alignment of plant eIF4E proteins">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/msa.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <nav class="nav-container">
+            <div class="logo">Plant eIF4E Atlas</div>
+            <div class="main-nav">
+                <a href="index.html" class="nav-link">Search</a>
+                <a href="structural-biology.html" class="nav-link">Structure</a>
+                <a href="msa.html" class="nav-link active">MSA</a>
+                <a href="phylogeny.html" class="nav-link">Phylogeny</a>
+                <a href="virus-interactions.html" class="nav-link">Viruses</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="msa-main">
+        <!-- Hero -->
+        <section class="msa-hero">
+            <h1>Multiple Sequence Alignment</h1>
+            <p>Explore sequence conservation and diversity across plant eIF4E proteins</p>
+        </section>
+
+        <!-- MSA Viewer (Placeholder) -->
+        <section class="msa-section">
+            <div class="msa-container">
+                <div class="msa-placeholder">
+                    <div class="placeholder-card">
+                        <svg style="width: 100px; height: 100px; margin-bottom: 2rem; color: var(--accent-color);"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M4 7h16M4 12h16M4 17h16"></path>
+                        </svg>
+                        <h2>MSA Viewer Coming Soon</h2>
+                        <p class="large-text">Interactive multiple sequence alignment visualization is under development
+                        </p>
+
+                        <div class="features-preview">
+                            <h3>Planned Features:</h3>
+                            <ul>
+                                <li>✓ Interactive alignment viewer with color schemes</li>
+                                <li>✓ Filter by plant family, genus, or species</li>
+                                <li>✓ Conservation plot and analysis</li>
+                                <li>✓ Highlight key residues (cap-binding, VPg interaction)</li>
+                                <li>✓ Export alignments in multiple formats</li>
+                                <li>✓ Integrated phylogenetic tree view</li>
+                            </ul>
+                        </div>
+
+                        <div class="alternative-resources">
+                            <h3>Meanwhile, explore sequences via:</h3>
+                            <div class="resource-links">
+                                <a href="https://www.uniprot.org/align" target="_blank" class="resource-btn">
+                                    <span>UniProt Align</span>
+                                    <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                        </path>
+                                    </svg>
+                                </a>
+                                <a href="https://www.ebi.ac.uk/Tools/msa/clustalo/" target="_blank"
+                                    class="resource-btn">
+                                    <span>Clustal Omega</span>
+                                    <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                        </path>
+                                    </svg>
+                                </a>
+                                <a href="index.html" class="resource-btn primary">
+                                    <span>Search Plant eIF4E</span>
+                                    <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2024 Plant eIF4E Atlas. Data provided by <a href="https://www.uniprot.org/"
+                target="_blank">UniProt</a>.</p>
+    </footer>
+</body>
+
+</html>
