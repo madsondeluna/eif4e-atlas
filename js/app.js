@@ -196,7 +196,7 @@ function setupTabs(accession) {
             tabBtns.forEach(b => b.classList.remove('active'));
             tabContents.forEach(c => c.classList.remove('active'));
             btn.classList.add('active');
-            document.getElementById(`tab - ${btn.dataset.tab} `).classList.add('active');
+            document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
 
             // Lazy Load Viewers
             if (btn.dataset.tab === 'structure') {

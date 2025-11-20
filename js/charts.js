@@ -6,10 +6,22 @@
 let mutationChartInstance = null;
 
 export function renderMutationChart(features, sequenceLength) {
-    const ctx = document.getElementById('mutationChart').getContext('2d');
+    const canvas = document.getElementById('mutationChart');
+    if (!canvas) {
+        console.error('Chart canvas not found');
+        return;
+    }
+
+    const ctx = canvas.getContext('2d');
 
     // Filter for variants/mutations
     const variants = features.filter(f => f.type === 'Variant');
+
+    // If no sequence length, use a default or skip
+    if (!sequenceLength || sequenceLength === 0) {
+        console.warn('No sequence length provided for chart');
+        sequenceLength = 500; // Default fallback
+    }
 
     // Create a distribution of mutations across the sequence
     // We'll bin them to show "hotspots"
@@ -64,6 +76,9 @@ export function renderMutationChart(features, sequenceLength) {
                 title: {
                     display: true,
                     text: `Mutation Distribution (Total: ${variants.length})`
+                },
+                legend: {
+                    display: variants.length > 0
                 }
             }
         }
