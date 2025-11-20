@@ -1,4 +1,3 @@
-```
 import { searchUniProt, getProteinDetails, getGlobalStats } from './uniprot.js';
 import { renderMutationChart } from './charts.js';
 
@@ -19,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     resultsContainer = document.getElementById('results-container');
     loadingIndicator = document.getElementById('loading-indicator');
     clearResultsBtn = document.getElementById('clear-results');
-    
+
     modal = document.getElementById('details-modal');
     closeModalBtn = document.querySelector('.close-modal');
     modalTitle = document.getElementById('modal-title');
@@ -161,7 +160,7 @@ async function openDetails(accession) {
         const sequence = data.sequence?.value || '';
 
         modalTitle.innerText = proteinName;
-        modalSubtitle.innerText = `${ organism } (Gene: ${ geneName })`;
+        modalSubtitle.innerText = `${organism} (Gene: ${geneName})`;
 
         // Setup FASTA Download
         const downloadBtn = document.getElementById('download-fasta-btn');
@@ -169,7 +168,7 @@ async function openDetails(accession) {
 
         // Populate Overview
         modalInfoList.innerHTML = `
-    < li > <strong>Accession:</strong> ${ data.primaryAccession }</li >
+    < li > <strong>Accession:</strong> ${data.primaryAccession}</li >
             <li><strong>Length:</strong> ${length} amino acids</li>
             <li><strong>Mass:</strong> ${mass} Da</li>
             <li><strong>Function:</strong> ${data.comments?.find(c => c.commentType === 'FUNCTION')?.texts?.[0]?.value || 'Not available'}</li>
@@ -197,7 +196,7 @@ function setupTabs(accession) {
             tabBtns.forEach(b => b.classList.remove('active'));
             tabContents.forEach(c => c.classList.remove('active'));
             btn.classList.add('active');
-            document.getElementById(`tab - ${ btn.dataset.tab } `).classList.add('active');
+            document.getElementById(`tab - ${btn.dataset.tab} `).classList.add('active');
 
             // Lazy Load Viewers
             if (btn.dataset.tab === 'structure') {
@@ -210,12 +209,12 @@ function setupTabs(accession) {
 }
 
 function downloadFasta(accession, sequence) {
-    const fastaContent = `> ${ accession } \n${ sequence.match(/.{1,60}/g).join('\n') } `;
+    const fastaContent = `> ${accession} \n${sequence.match(/.{1,60}/g).join('\n')} `;
     const blob = new Blob([fastaContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${ accession }.fasta`;
+    a.download = `${accession}.fasta`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
