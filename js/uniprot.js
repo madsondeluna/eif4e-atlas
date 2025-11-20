@@ -18,9 +18,9 @@ export async function searchUniProt(query) {
         if (/^[A-Z0-9]{6,10}$/i.test(query)) {
             searchQuery = `accession:${query}`;
         } else {
-            // For named queries, search eIF4E across multiple fields AND the query in organism/taxonomy
-            // This allows searches like "vigna", "human", "vigna unguiculata" to work properly
-            searchQuery = `(gene:EIF4E OR protein_name:eIF4E) AND (organism_name:${query} OR taxonomy_name:${query})`;
+            // ALWAYS search for eIF4E and its variants (eif4e1a, etc.)
+            // This guarantees we only get eIF4E-related proteins, never other proteins
+            searchQuery = `(eif4e OR eif4e1a OR "translation initiation factor 4e") AND ${query}`;
         }
 
         const url = `${UNIPROT_API_BASE}/search?query=${encodeURIComponent(searchQuery)}&fields=accession,id,protein_name,gene_names,organism_name,length,sequence&format=json&size=20`;
