@@ -1,23 +1,6 @@
 import { searchUniProt, getProteinDetails } from './uniprot.js';
 import { renderMutationChart } from './charts.js';
 
-// DOM Elements
-const searchInput = document.getElementById('main-search-input');
-const searchBtn = document.getElementById('search-btn');
-const tagBtns = document.querySelectorAll('.tag-btn');
-const resultsSection = document.getElementById('results-section');
-const resultsContainer = document.getElementById('results-container');
-const loadingIndicator = document.getElementById('loading-indicator');
-const clearResultsBtn = document.getElementById('clear-results');
-const statNumbers = document.querySelectorAll('.stat-number');
-
-// Modal Elements
-const modal = document.getElementById('details-modal');
-const closeModalBtn = document.querySelector('.close-modal');
-const modalTitle = document.getElementById('modal-title');
-const modalSubtitle = document.getElementById('modal-subtitle');
-const modalInfoList = document.getElementById('modal-info-list');
-
 // State
 let currentResults = [];
 
@@ -28,6 +11,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupEventListeners() {
+    // DOM Elements
+    const searchInput = document.getElementById('main-search-input');
+    const searchBtn = document.getElementById('search-btn');
+    const tagBtns = document.querySelectorAll('.tag-btn');
+    const resultsSection = document.getElementById('results-section');
+    const resultsContainer = document.getElementById('results-container');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const clearResultsBtn = document.getElementById('clear-results');
+
+    // Modal Elements
+    const modal = document.getElementById('details-modal');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalSubtitle = document.getElementById('modal-subtitle');
+    const modalInfoList = document.getElementById('modal-info-list');
     // Search Button
     searchBtn.addEventListener('click', handleSearch);
 
