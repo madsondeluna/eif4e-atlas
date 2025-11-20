@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phylogeny - eIF4E Atlas</title>
+    <meta name="description" content="Interactive phylogenetic tree of eIF4E proteins across species.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+
+    <!-- D3.js for tree visualization -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/phylogeny.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">
+                <h1>eIF4E Atlas</h1>
+            </div>
+            <nav class="main-nav">
+                <a href="index.html">Home</a>
+                <a href="phylogeny.html" class="active">Phylogeny</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="phylogeny-main">
+        <!-- Page Header -->
+        <section class="phylogeny-header">
+            <h1>eIF4E Phylogenetic Tree</h1>
+            <p class="subtitle">Explore the evolutionary relationships of eIF4E proteins across kingdoms and species</p>
+        </section>
+
+        <!-- Controls -->
+        <section class="phylogeny-controls">
+            <div class="controls-wrapper">
+                <!-- Search -->
+                <div class="control-group">
+                    <label for="organism-search">Search Organism:</label>
+                    <input type="text" id="organism-search" placeholder="e.g., Vigna, Human, Arabidopsis...">
+                </div>
+
+                <!-- Kingdom Filters -->
+                <div class="control-group">
+                    <label>Filter by Kingdom:</label>
+                    <div class="kingdom-filters">
+                        <label><input type="checkbox" value="Viridiplantae" checked> Plants</label>
+                        <label><input type="checkbox" value="Metazoa" checked> Animals</label>
+                        <label><input type="checkbox" value="Fungi" checked> Fungi</label>
+                        <label><input type="checkbox" value="Other" checked> Other</label>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="control-group phylogeny-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="total-proteins">0</span>
+                        <span class="stat-label">Proteins</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="total-species">0</span>
+                        <span class="stat-label">Species</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" id="total-kingdoms">0</span>
+                        <span class="stat-label">Kingdoms</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tree Visualization -->
+        <section class="phylogeny-tree-section">
+            <div id="loading-tree" class="loading-indicator">
+                <div class="spinner"></div>
+                <p>Loading phylogenetic data...</p>
+            </div>
+            <div id="tree-container" class="hidden">
+                <svg id="phylogeny-tree"></svg>
+            </div>
+            <div id="tree-error" class="error-message hidden">
+                <p>Failed to load phylogenetic data. Please refresh the page.</p>
+            </div>
+        </section>
+
+        <!-- Info Panel -->
+        <aside id="info-panel" class="info-panel hidden">
+            <button class="close-panel">&times;</button>
+            <div id="panel-content"></div>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>&copy; 2024 eIF4E Atlas. Data provided by <a href="https://www.uniprot.org/" target="_blank">UniProt</a>.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="js/taxonomy.js"></script>
+    <script type="module" src="js/phylogeny.js"></script>
+</body>
+
+</html>
