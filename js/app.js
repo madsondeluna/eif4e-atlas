@@ -129,7 +129,6 @@ function createResultCard(entry) {
         </div>
     `;
 }
-}
 
 async function openDetails(accession) {
     // Reset Tabs
