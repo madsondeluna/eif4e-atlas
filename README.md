@@ -2,8 +2,6 @@
 
 A comprehensive genomic and structural atlas for **eIF4E** (Eukaryotic Translation Initiation Factor 4E), featuring mutation data, structural insights, and cross-species analysis.
 
-![eIF4E Atlas Preview](assets/preview.png)
-
 ## Features
 
 -   **Centralized Search**: Search by Protein Name, Species (e.g., "Human"), or UniProt ID (e.g., "P06730").
