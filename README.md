@@ -42,4 +42,4 @@ This project is designed to be hosted on **GitHub Pages**.
 
 ## License
 
-MIT
+This application is open source and available under the MIT License.
