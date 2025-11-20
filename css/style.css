@@ -576,6 +576,78 @@ protvista-uniprot {
     text-decoration: none;
 }
 
+/* GO Terms and Cellular Location Styles */
+.no-data {
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.go-category {
+    margin-bottom: 1.5rem;
+}
+
+.go-category h4 {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+}
+
+.go-list {
+    list-style: none;
+    padding: 0;
+}
+
+.go-list li {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: #f8fafc;
+    border-left: 3px solid var(--accent-color);
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.go-term {
+    font-weight: 500;
+    flex: 1;
+}
+
+.go-id {
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    text-decoration: none;
+    padding: 0.25rem 0.5rem;
+    background: white;
+    border-radius: 0.25rem;
+    border: 1px solid var(--border-color);
+}
+
+.go-id:hover {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+#cellular-location ul {
+    list-style: none;
+    padding: 0;
+}
+
+#cellular-location li {
+    padding: 0.75rem;
+    background: #f0fdf4;
+    border-left: 3px solid #10b981;
+    margin-bottom: 0.5rem;
+    border-radius: 0.25rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .hero-title {

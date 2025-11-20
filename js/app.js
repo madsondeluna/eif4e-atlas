@@ -174,8 +174,8 @@ async function openDetails(accession) {
             <li><strong>Function:</strong> ${data.comments?.find(c => c.commentType === 'FUNCTION')?.texts?.[0]?.value || 'Not available'}</li>
         `;
 
-        // Render Overview Chart
-        renderMutationChart(data.features || [], length);
+        // Display GO Terms and Cellular Location
+        displayGOAndLocation(data);
 
         // Setup Tabs Logic
         setupTabs(accession);
@@ -208,6 +208,84 @@ function setupTabs(accession) {
     });
 }
 
+function displayGOAndLocation(data) {
+    // Cellular Location
+    const locationDiv = document.getElementById('cellular-location');
+    const subcellLocations = data.comments?.filter(c => c.commentType === 'SUBCELLULAR LOCATION') || [];
+
+    if (subcellLocations.length > 0) {
+        const locations = subcellLocations.map(loc => {
+            const locTexts = loc.subcellularLocations?.map(sl => {
+                return sl.location?.value || 'Unknown';
+            }) || [];
+            return locTexts.join(', ');
+        }).filter(Boolean);
+
+        locationDiv.innerHTML = locations.length > 0
+            ? `<ul>${locations.map(l => `<li>${l}</li>`).join('')}</ul>`
+            : '<p class="no-data">No cellular location data available</p>';
+    } else {
+        locationDiv.innerHTML = '<p class="no-data">No cellular location data available</p>';
+    }
+
+    // GO Terms
+    const goDiv = document.getElementById('go-terms');
+    const goReferences = data.uniProtKBCrossReferences?.filter(ref => ref.database === 'GO') || [];
+
+    if (goReferences.length > 0) {
+        // Group by GO category (P, F, C)
+        const goByCategory = {
+            'P': { label: 'Biological Process', terms: [] },
+            'F': { label: 'Molecular Function', terms: [] },
+            'C': { label: 'Cellular Component', terms: [] }
+        };
+
+        goReferences.forEach(ref => {
+            const goId = ref.id;
+            const props = ref.properties || [];
+            const termProp = props.find(p => p.key === 'GoTerm');
+            const categoryProp = props.find(p => p.key === 'GoEvidenceType');
+
+            if (termProp) {
+                // Extract category from term (P:, F:, C:)
+                const termValue = termProp.value;
+                const category = termValue.charAt(0);
+                const termName = termValue.substring(2); // Remove "P:", "F:", etc.
+
+                if (goByCategory[category]) {
+                    goByCategory[category].terms.push({
+                        id: goId,
+                        name: termName
+                    });
+                }
+            }
+        });
+
+        let goHTML = '';
+        Object.values(goByCategory).forEach(cat => {
+            if (cat.terms.length > 0) {
+                goHTML += `
+                    <div class="go-category">
+                        <h4>${cat.label}</h4>
+                        <ul class="go-list">
+                            ${cat.terms.map(t => `
+                                <li>
+                                    <span class="go-term">${t.name}</span>
+                                    <a href="https://www.ebi.ac.uk/QuickGO/term/${t.id}" target="_blank" class="go-id">${t.id}</a>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+        });
+
+        goDiv.innerHTML = goHTML || '<p class="no-data">No GO term data available</p>';
+    } else {
+        goDiv.innerHTML = '<p class="no-data">No GO term data available</p>';
+    }
+}
+
 function downloadFasta(accession, sequence) {
     const fastaContent = `> ${accession} \n${sequence.match(/.{1,60}/g).join('\n')} `;
     const blob = new Blob([fastaContent], { type: 'text/plain' });
@@ -236,26 +314,34 @@ function initMolstar(accession) {
             return;
         }
 
-        // Initialize PDBe Molstar Plugin
-        molstarPlugin = new PDBeMolstarPlugin();
+        // Initialize PDBe Molstar Plugin with correct AlphaFold URL
+        const viewerInstance = new PDBeMolstarPlugin();
 
         const options = {
             customData: {
                 url: `https://alphafold.ebi.ac.uk/files/AF-${accession}-F1-model_v4.cif`,
-                format: 'cif'
+                format: 'cif',
+                binary: false
             },
             alphafoldView: true,
             bgColor: { r: 255, g: 255, b: 255 },
             hideControls: false,
-            sequencePanel: true
+            sequencePanel: true,
+            landscape: false
         };
 
-        molstarPlugin.render(container, options);
+        const viewerContainer = document.getElementById('molstar-container');
+        viewerInstance.render(viewerContainer, options);
+
+        molstarPlugin = viewerInstance;
     } catch (error) {
         console.error('Error initializing Molstar:', error);
         container.innerHTML = `<div style="padding: 2rem; text-align: center; color: #ef4444;">
             <p>Could not load 3D structure for ${accession}</p>
-            <p style="font-size: 0.9rem; margin-top: 0.5rem;">This protein may not have an AlphaFold structure available.</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                This protein may not have an AlphaFold structure available.<br>
+                <a href="https://alphafold.ebi.ac.uk/entry/${accession}" target="_blank" style="color: #3b82f6;">View on AlphaFold DB</a>
+            </p>
         </div>`;
     }
 }
@@ -267,31 +353,52 @@ function initProtVista(accession) {
     // Show loading message
     container.innerHTML = '<div style="padding: 2rem; text-align: center; color: #64748b;">Loading variant data...</div>';
 
-    try {
-        // Create ProtVista Element
-        const protvista = document.createElement('protvista-uniprot');
-        protvista.setAttribute('accession', accession);
+    setTimeout(() => {
+        try {
+            // Clear loading message
+            container.innerHTML = '';
 
-        // Clear loading message
-        container.innerHTML = '';
-        container.appendChild(protvista);
+            // Create ProtVista as iframe to avoid CORS issues
+            const iframeUrl = `https://www.ebi.ac.uk/proteins/api/proteins/${accession}`;
 
-        // Check if it loaded after a delay
-        setTimeout(() => {
-            if (container.querySelector('protvista-uniprot') && !container.querySelector('protvista-uniprot').shadowRoot) {
-                container.innerHTML = `<div style="padding: 2rem; text-align: center; color: #ef4444;">
-                    <p>Could not load variant viewer.</p>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Try viewing on <a href="https://www.uniprot.org/uniprotkb/${accession}/variant-viewer" target="_blank" style="color: #3b82f6;">UniProt directly</a>.</p>
-                </div>`;
+            // Try web component first
+            if (customElements.get('protvista-uniprot')) {
+                const protvista = document.createElement('protvista-uniprot');
+                protvista.setAttribute('accession', accession);
+                container.appendChild(protvista);
+
+                // Fallback after timeout
+                setTimeout(() => {
+                    if (!protvista.shadowRoot || protvista.shadowRoot.children.length === 0) {
+                        showProtVistaFallback(container, accession);
+                    }
+                }, 5000);
+            } else {
+                // Show fallback immediately if component not loaded
+                showProtVistaFallback(container, accession);
             }
-        }, 3000);
-    } catch (error) {
-        console.error('Error initializing ProtVista:', error);
-        container.innerHTML = `<div style="padding: 2rem; text-align: center; color: #ef4444;">
-            <p>Could not load variant viewer for ${accession}</p>
-            <p style="font-size: 0.9rem; margin-top: 0.5rem;">View on <a href="https://www.uniprot.org/uniprotkb/${accession}/variant-viewer" target="_blank" style="color: #3b82f6;">UniProt</a>.</p>
-        </div>`;
-    }
+        } catch (error) {
+            console.error('Error initializing ProtVista:', error);
+            showProtVistaFallback(container, accession);
+        }
+    }, 100);
+}
+
+function showProtVistaFallback(container, accession) {
+    container.innerHTML = `
+        <div style="padding: 2rem; text-align: center;">
+            <p style="margin-bottom: 1rem;">View detailed variant information on UniProt:</p>
+            <a href="https://www.uniprot.org/uniprotkb/${accession}/variant-viewer" 
+               target="_blank" 
+               class="action-btn"
+               style="display: inline-block; text-decoration: none;">
+                Open Variant Viewer on UniProt
+            </a>
+            <p style="font-size: 0.85rem; color: #64748b; margin-top: 1rem;">
+                The variant viewer will open in a new tab with full interactive features.
+            </p>
+        </div>
+    `;
 }
 
 // Update Global Stats with Real Data
