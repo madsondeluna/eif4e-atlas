@@ -214,16 +214,23 @@ function displayGOAndLocation(data) {
     const subcellLocations = data.comments?.filter(c => c.commentType === 'SUBCELLULAR LOCATION') || [];
 
     if (subcellLocations.length > 0) {
-        const locations = subcellLocations.map(loc => {
-            const locTexts = loc.subcellularLocations?.map(sl => {
-                return sl.location?.value || 'Unknown';
-            }) || [];
-            return locTexts.join(', ');
-        }).filter(Boolean);
+        // Flatten all subcellular locations from all comments
+        const allLocations = [];
+        subcellLocations.forEach(comment => {
+            if (comment.subcellularLocations) {
+                comment.subcellularLocations.forEach(sl => {
+                    if (sl.location?.value) {
+                        allLocations.push(sl.location.value);
+                    }
+                });
+            }
+        });
 
-        locationDiv.innerHTML = locations.length > 0
-            ? `<ul>${locations.map(l => `<li>${l}</li>`).join('')}</ul>`
-            : '<p class="no-data">No cellular location data available</p>';
+        if (allLocations.length > 0) {
+            locationDiv.innerHTML = `<ul>${allLocations.map(l => `<li>${l}</li>`).join('')}</ul>`;
+        } else {
+            locationDiv.innerHTML = '<p class="no-data">No cellular location data available</p>';
+        }
     } else {
         locationDiv.innerHTML = '<p class="no-data">No cellular location data available</p>';
     }
