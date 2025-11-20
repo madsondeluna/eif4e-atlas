@@ -1,6 +1,6 @@
-# eIF4E Genomic Atlas
+# eIF4E Atlas
 
-A comprehensive genomic and structural atlas for **eIF4E** (Eukaryotic Translation Initiation Factor 4E), featuring mutation data, structural insights, and cross-species analysis.
+A comprehensive proteomic and genomic atlas for **eIF4E** (Eukaryotic Translation Initiation Factor 4E), featuring mutation data, structural insights, and cross-species analysis.
 
 ## Features
 
