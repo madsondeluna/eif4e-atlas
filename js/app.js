@@ -115,7 +115,7 @@ function createResultCard(entry) {
     const length = entry.sequence?.length || 0;
 
     return `
-    < div class="result-card" >
+        <div class="result-card">
             <div class="card-header">
                 <span class="accession-badge">${accession}</span>
                 <span class="gene-name">${geneName}</span>
@@ -126,8 +126,9 @@ function createResultCard(entry) {
                 <span>Length: ${length} aa</span>
             </div>
             <button class="view-details-btn" data-accession="${accession}">View Details</button>
-        </div >
+        </div>
     `;
+}
 }
 
 async function openDetails(accession) {
