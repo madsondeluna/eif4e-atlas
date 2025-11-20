@@ -311,83 +311,61 @@ function initMolstar(accession) {
     const container = document.getElementById('molstar-container');
     if (container.childElementCount > 0) return; // Already initialized
 
-    // Show loading message
-    container.innerHTML = '<div style="padding: 2rem; text-align: center; color: #64748b;">Loading 3D structure...</div>';
-
-    // Use AlphaFold's embedded viewer directly via iframe
-    // This is more reliable than trying to use Mol* directly
-    setTimeout(() => {
-        container.innerHTML = `
-            <div style="position: relative; width: 100%; height: 100%;">
-                <iframe 
-                    src="https://alphafold.ebi.ac.uk/entry/${accession}" 
-                    style="width: 100%; height: 500px; border: none; border-radius: 0.5rem;"
-                    title="AlphaFold Structure Viewer"
-                    allow="fullscreen">
-                </iframe>
-                <div style="margin-top: 1rem; text-align: center;">
-                    <a href="https://alphafold.ebi.ac.uk/entry/${accession}" 
-                       target="_blank" 
-                       class="action-btn"
-                       style="display: inline-block; text-decoration: none; font-size: 0.9rem;">
-                        Open in AlphaFold Database
-                    </a>
-                </div>
+    // Show elegant card with external link instead of iframe
+    container.innerHTML = `
+        <div style="max-width: 600px; margin: 2rem auto; text-align: center;">
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 3rem 2rem; border-radius: 1rem; color: white; margin-bottom: 1.5rem;">
+                <svg style="width: 80px; height: 80px; margin-bottom: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                </svg>
+                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 600;">AlphaFold 3D Structure</h3>
+                <p style="opacity: 0.9; font-size: 1rem; margin-bottom: 0;">View high-quality protein structure prediction</p>
             </div>
-        `;
-    }, 500);
+            
+            <a href="https://alphafold.ebi.ac.uk/entry/${accession}" 
+               target="_blank" 
+               class="action-btn"
+               style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 1rem 2rem; font-size: 1.1rem;">
+                <span>Open in AlphaFold Database</span>
+                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+            </a>
+            
+            <p style="font-size: 0.9rem; color: #64748b; margin-top: 1rem;">
+                Opens in a new tab with full interactive 3D viewer, download options, and detailed structural information
+            </p>
+        </div>
+    `;
 }
 
 function initProtVista(accession) {
     const container = document.getElementById('protvista-container');
     if (container.childElementCount > 0) return; // Already initialized
 
-    // Show loading message
-    container.innerHTML = '<div style="padding: 2rem; text-align: center; color: #64748b;">Loading variant data...</div>';
-
-    setTimeout(() => {
-        try {
-            // Clear loading message
-            container.innerHTML = '';
-
-            // Create ProtVista as iframe to avoid CORS issues
-            const iframeUrl = `https://www.ebi.ac.uk/proteins/api/proteins/${accession}`;
-
-            // Try web component first
-            if (customElements.get('protvista-uniprot')) {
-                const protvista = document.createElement('protvista-uniprot');
-                protvista.setAttribute('accession', accession);
-                container.appendChild(protvista);
-
-                // Fallback after timeout
-                setTimeout(() => {
-                    if (!protvista.shadowRoot || protvista.shadowRoot.children.length === 0) {
-                        showProtVistaFallback(container, accession);
-                    }
-                }, 5000);
-            } else {
-                // Show fallback immediately if component not loaded
-                showProtVistaFallback(container, accession);
-            }
-        } catch (error) {
-            console.error('Error initializing ProtVista:', error);
-            showProtVistaFallback(container, accession);
-        }
-    }, 100);
-}
-
-function showProtVistaFallback(container, accession) {
+    // Show elegant card with external link
     container.innerHTML = `
-        <div style="padding: 2rem; text-align: center;">
-            <p style="margin-bottom: 1rem;">View detailed variant information on UniProt:</p>
+        <div style="max-width: 600px; margin: 2rem auto; text-align: center;">
+            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 3rem 2rem; border-radius: 1rem; color: white; margin-bottom: 1.5rem;">
+                <svg style="width: 80px; height: 80px; margin-bottom: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 600;">Protein Variants</h3>
+                <p style="opacity: 0.9; font-size: 1rem; margin-bottom: 0;">Explore natural variants and mutations</p>
+            </div>
+            
             <a href="https://www.uniprot.org/uniprotkb/${accession}/variant-viewer" 
                target="_blank" 
                class="action-btn"
-               style="display: inline-block; text-decoration: none;">
-                Open Variant Viewer on UniProt
+               style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 1rem 2rem; font-size: 1.1rem;">
+                <span>Open Variant Viewer on UniProt</span>
+                <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
             </a>
-            <p style="font-size: 0.85rem; color: #64748b; margin-top: 1rem;">
-                The variant viewer will open in a new tab with full interactive features.
+            
+            <p style="font-size: 0.9rem; color: #64748b; margin-top: 1rem;">
+                Opens in a new tab with full interactive variant viewer, showing all known mutations and their effects
             </p>
         </div>
     `;
