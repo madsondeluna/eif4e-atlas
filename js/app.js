@@ -314,43 +314,28 @@ function initMolstar(accession) {
     // Show loading message
     container.innerHTML = '<div style="padding: 2rem; text-align: center; color: #64748b;">Loading 3D structure...</div>';
 
-    try {
-        // Check if PDBeMolstarPlugin is available
-        if (typeof PDBeMolstarPlugin === 'undefined') {
-            container.innerHTML = '<div style="padding: 2rem; text-align: center; color: #ef4444;">AlphaFold viewer library not loaded. Please refresh the page.</div>';
-            return;
-        }
-
-        // Initialize PDBe Molstar Plugin with correct AlphaFold URL
-        const viewerInstance = new PDBeMolstarPlugin();
-
-        const options = {
-            customData: {
-                url: `https://alphafold.ebi.ac.uk/files/AF-${accession}-F1-model_v4.cif`,
-                format: 'cif',
-                binary: false
-            },
-            alphafoldView: true,
-            bgColor: { r: 255, g: 255, b: 255 },
-            hideControls: false,
-            sequencePanel: true,
-            landscape: false
-        };
-
-        const viewerContainer = document.getElementById('molstar-container');
-        viewerInstance.render(viewerContainer, options);
-
-        molstarPlugin = viewerInstance;
-    } catch (error) {
-        console.error('Error initializing Molstar:', error);
-        container.innerHTML = `<div style="padding: 2rem; text-align: center; color: #ef4444;">
-            <p>Could not load 3D structure for ${accession}</p>
-            <p style="font-size: 0.9rem; margin-top: 0.5rem;">
-                This protein may not have an AlphaFold structure available.<br>
-                <a href="https://alphafold.ebi.ac.uk/entry/${accession}" target="_blank" style="color: #3b82f6;">View on AlphaFold DB</a>
-            </p>
-        </div>`;
-    }
+    // Use AlphaFold's embedded viewer directly via iframe
+    // This is more reliable than trying to use Mol* directly
+    setTimeout(() => {
+        container.innerHTML = `
+            <div style="position: relative; width: 100%; height: 100%;">
+                <iframe 
+                    src="https://alphafold.ebi.ac.uk/entry/${accession}" 
+                    style="width: 100%; height: 500px; border: none; border-radius: 0.5rem;"
+                    title="AlphaFold Structure Viewer"
+                    allow="fullscreen">
+                </iframe>
+                <div style="margin-top: 1rem; text-align: center;">
+                    <a href="https://alphafold.ebi.ac.uk/entry/${accession}" 
+                       target="_blank" 
+                       class="action-btn"
+                       style="display: inline-block; text-decoration: none; font-size: 0.9rem;">
+                        Open in AlphaFold Database
+                    </a>
+                </div>
+            </div>
+        `;
+    }, 500);
 }
 
 function initProtVista(accession) {
