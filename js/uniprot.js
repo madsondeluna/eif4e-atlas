@@ -15,22 +15,21 @@ export async function searchUniProt(query) {
         // Construct a query that prioritizes eIF4E and the user's term
         // We search for "eIF4E" AND the user query to keep results relevant to the atlas
         // Or if the user query looks like an ID, we search for that directly.
-        
+
         let searchQuery = '';
-        
+
         // Simple heuristic: if it looks like an accession (e.g. P06730), search directly
         if (/^[A-Z0-9]{6,10}$/i.test(query)) {
             searchQuery = `accession:${query}`;
         } else {
-            // Otherwise search for eIF4E AND the term (species or name)
-            // We use parentheses to group the OR clause if we wanted to expand, but here we keep it strict for now.
-            searchQuery = `(gene:EIF4E OR protein_name:eIF4E) AND ${query}`;
+            // Search for eIF4E in the query terms
+            searchQuery = `(gene:EIF4E OR protein_name:eIF4E OR gene:eif4e) AND (${query})`;
         }
 
         const url = `${UNIPROT_API_BASE}/search?query=${encodeURIComponent(searchQuery)}&fields=accession,id,protein_name,gene_names,organism_name,length,sequence&format=json&size=20`;
-        
+
         const response = await fetch(url);
-        
+
         if (!response.ok) {
             throw new Error(`UniProt API Error: ${response.statusText}`);
         }
@@ -52,7 +51,7 @@ export async function getProteinDetails(accession) {
     try {
         const url = `${UNIPROT_API_BASE}/${accession}.json`;
         const response = await fetch(url);
-        
+
         if (!response.ok) {
             throw new Error(`Failed to fetch details for ${accession}`);
         }
