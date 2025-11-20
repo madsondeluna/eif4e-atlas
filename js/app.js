@@ -226,28 +226,72 @@ function initMolstar(accession) {
     const container = document.getElementById('molstar-container');
     if (container.childElementCount > 0) return; // Already initialized
 
-    // Initialize PDBe Molstar Plugin
-    molstarPlugin = new PDBeMolstarPlugin();
+    // Show loading message
+    container.innerHTML = '<div style="padding: 2rem; text-align: center; color: #64748b;">Loading 3D structure...</div>';
 
-    const options = {
-        moleculeId: accession, // UniProt ID usually works for AlphaFold in PDBe
-        alphafoldView: true,
-        bgColor: { r: 255, g: 255, b: 255 },
-        hideControls: true
-    };
+    try {
+        // Check if PDBeMolstarPlugin is available
+        if (typeof PDBeMolstarPlugin === 'undefined') {
+            container.innerHTML = '<div style="padding: 2rem; text-align: center; color: #ef4444;">AlphaFold viewer library not loaded. Please refresh the page.</div>';
+            return;
+        }
 
-    molstarPlugin.render(container, options);
+        // Initialize PDBe Molstar Plugin
+        molstarPlugin = new PDBeMolstarPlugin();
+
+        const options = {
+            customData: {
+                url: `https://alphafold.ebi.ac.uk/files/AF-${accession}-F1-model_v4.cif`,
+                format: 'cif'
+            },
+            alphafoldView: true,
+            bgColor: { r: 255, g: 255, b: 255 },
+            hideControls: false,
+            sequencePanel: true
+        };
+
+        molstarPlugin.render(container, options);
+    } catch (error) {
+        console.error('Error initializing Molstar:', error);
+        container.innerHTML = `<div style="padding: 2rem; text-align: center; color: #ef4444;">
+            <p>Could not load 3D structure for ${accession}</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">This protein may not have an AlphaFold structure available.</p>
+        </div>`;
+    }
 }
 
 function initProtVista(accession) {
     const container = document.getElementById('protvista-container');
     if (container.childElementCount > 0) return; // Already initialized
 
-    // Create ProtVista Element
-    // We use the standard protvista-uniprot web component
-    const protvista = document.createElement('protvista-uniprot');
-    protvista.setAttribute('accession', accession);
-    container.appendChild(protvista);
+    // Show loading message
+    container.innerHTML = '<div style="padding: 2rem; text-align: center; color: #64748b;">Loading variant data...</div>';
+
+    try {
+        // Create ProtVista Element
+        const protvista = document.createElement('protvista-uniprot');
+        protvista.setAttribute('accession', accession);
+
+        // Clear loading message
+        container.innerHTML = '';
+        container.appendChild(protvista);
+
+        // Check if it loaded after a delay
+        setTimeout(() => {
+            if (container.querySelector('protvista-uniprot') && !container.querySelector('protvista-uniprot').shadowRoot) {
+                container.innerHTML = `<div style="padding: 2rem; text-align: center; color: #ef4444;">
+                    <p>Could not load variant viewer.</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Try viewing on <a href="https://www.uniprot.org/uniprotkb/${accession}/variant-viewer" target="_blank" style="color: #3b82f6;">UniProt directly</a>.</p>
+                </div>`;
+            }
+        }, 3000);
+    } catch (error) {
+        console.error('Error initializing ProtVista:', error);
+        container.innerHTML = `<div style="padding: 2rem; text-align: center; color: #ef4444;">
+            <p>Could not load variant viewer for ${accession}</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">View on <a href="https://www.uniprot.org/uniprotkb/${accession}/variant-viewer" target="_blank" style="color: #3b82f6;">UniProt</a>.</p>
+        </div>`;
+    }
 }
 
 // Update Global Stats with Real Data
