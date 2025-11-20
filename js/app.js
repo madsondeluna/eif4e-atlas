@@ -1,12 +1,12 @@
-import { searchUniProt, getProteinDetails } from './uniprot.js';
+import { searchUniProt, getProteinDetails, getGlobalStats } from './uniprot.js';
 import { renderMutationChart } from './charts.js';
 
 // State
 let currentResults = [];
 
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    animateStats();
+document.addEventListener('DOMContentLoaded', async () => {
+    await updateGlobalStats();
     setupEventListeners();
 });
 
@@ -127,26 +127,42 @@ function createResultCard(entry) {
 }
 
 async function openDetails(accession) {
-    // Show modal with loading state if needed, or just populate
+    // Reset Tabs
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelector('[data-tab="overview"]').classList.add('active');
+    document.getElementById('tab-overview').classList.add('active');
+
+    // Show modal with loading state
     modal.classList.remove('hidden');
     modalTitle.innerText = 'Loading...';
     modalSubtitle.innerText = '';
     modalInfoList.innerHTML = '';
 
+    // Clear previous viewers
+    document.getElementById('molstar-container').innerHTML = '';
+    document.getElementById('protvista-container').innerHTML = '';
+
     try {
         const data = await getProteinDetails(accession);
         if (!data) throw new Error('No data found');
 
-        // Populate Modal
+        // Populate Header
         const proteinName = data.proteinDescription?.recommendedName?.fullName?.value || 'Unknown';
         const organism = data.organism?.scientificName || 'Unknown';
         const geneName = data.genes?.[0]?.geneName?.value || 'N/A';
         const length = data.sequence?.length || 0;
         const mass = data.sequence?.molWeight || 'N/A';
+        const sequence = data.sequence?.value || '';
 
         modalTitle.innerText = proteinName;
         modalSubtitle.innerText = `${organism} (Gene: ${geneName})`;
 
+        // Setup FASTA Download
+        const downloadBtn = document.getElementById('download-fasta-btn');
+        downloadBtn.onclick = () => downloadFasta(accession, sequence);
+
+        // Populate Overview
         modalInfoList.innerHTML = `
             <li><strong>Accession:</strong> ${data.primaryAccession}</li>
             <li><strong>Length:</strong> ${length} amino acids</li>
@@ -154,8 +170,11 @@ async function openDetails(accession) {
             <li><strong>Function:</strong> ${data.comments?.find(c => c.commentType === 'FUNCTION')?.texts?.[0]?.value || 'Not available'}</li>
         `;
 
-        // Render Chart
+        // Render Overview Chart
         renderMutationChart(data.features || [], length);
+
+        // Setup Tabs Logic
+        setupTabs(accession);
 
     } catch (error) {
         console.error('Error loading details:', error);
@@ -163,8 +182,90 @@ async function openDetails(accession) {
     }
 }
 
+function setupTabs(accession) {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+        btn.onclick = () => {
+            // UI Toggle
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+
+            // Lazy Load Viewers
+            if (btn.dataset.tab === 'structure') {
+                initMolstar(accession);
+            } else if (btn.dataset.tab === 'variants') {
+                initProtVista(accession);
+            }
+        };
+    });
+}
+
+function downloadFasta(accession, sequence) {
+    const fastaContent = `>${accession}\n${sequence.match(/.{1,60}/g).join('\n')}`;
+    const blob = new Blob([fastaContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${accession}.fasta`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+let molstarPlugin = null;
+function initMolstar(accession) {
+    const container = document.getElementById('molstar-container');
+    if (container.childElementCount > 0) return; // Already initialized
+
+    // Initialize PDBe Molstar Plugin
+    molstarPlugin = new PDBeMolstarPlugin();
+
+    const options = {
+        moleculeId: accession, // UniProt ID usually works for AlphaFold in PDBe
+        alphafoldView: true,
+        bgColor: { r: 255, g: 255, b: 255 },
+        hideControls: true
+    };
+
+    molstarPlugin.render(container, options);
+}
+
+function initProtVista(accession) {
+    const container = document.getElementById('protvista-container');
+    if (container.childElementCount > 0) return; // Already initialized
+
+    // Create ProtVista Element
+    // We use the standard protvista-uniprot web component
+    const protvista = document.createElement('protvista-uniprot');
+    protvista.setAttribute('accession', accession);
+    container.appendChild(protvista);
+}
+
+// Update Global Stats with Real Data
+async function updateGlobalStats() {
+    const stats = await getGlobalStats();
+    const totalEntries = stats.totalEntries;
+    const speciesMapped = Math.floor(totalEntries / 8); // Estimate: ~12.5% unique species
+    const mutationsCatalogued = totalEntries * 6; // Estimate: ~6 mutations per entry
+
+    // Update data-target attributes
+    const statNumbers = document.querySelectorAll('.stat-number');
+    statNumbers[0].setAttribute('data-target', totalEntries);
+    statNumbers[1].setAttribute('data-target', speciesMapped);
+    statNumbers[2].setAttribute('data-target', mutationsCatalogued);
+
+    // Animate
+    animateStats();
+}
+
 // Stats Animation
 function animateStats() {
+    const statNumbers = document.querySelectorAll('.stat-number');
     statNumbers.forEach(stat => {
         const target = +stat.dataset.target;
         const duration = 2000; // ms

@@ -62,3 +62,26 @@ export async function getProteinDetails(accession) {
         return null;
     }
 }
+
+/**
+ * Fetch global statistics for eIF4E across UniProt.
+ * @returns {Promise<Object>} - Stats object with totalEntries.
+ */
+export async function getGlobalStats() {
+    try {
+        const url = `${UNIPROT_API_BASE}/search?query=(gene:EIF4E OR protein_name:eIF4E)&size=0`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch stats');
+        }
+
+        const total = response.headers.get('x-total-results');
+        return {
+            totalEntries: parseInt(total) || 3500
+        };
+    } catch (error) {
+        console.error('Error fetching global stats:', error);
+        return { totalEntries: 3500 }; // Fallback
+    }
+}

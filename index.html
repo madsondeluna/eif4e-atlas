@@ -17,6 +17,16 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- Mol* (PDBe Molstar) CSS & JS -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/pdbe-molstar@3.2.0/build/pdbe-molstar-light.css">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/pdbe-molstar@3.2.0/build/pdbe-molstar-plugin.js"></script>
+
+    <!-- ProtVista (UniProt Variant Viewer) -->
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/protvista-uniprot@latest/dist/protvista-uniprot.js"></script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -98,22 +108,49 @@
             <div class="modal-content">
                 <span class="close-modal">&times;</span>
                 <div id="modal-body">
-                    <!-- Details injected here -->
                     <div class="modal-header">
-                        <h2 id="modal-title">Protein Name</h2>
-                        <p id="modal-subtitle">Organism</p>
+                        <div class="header-content">
+                            <h2 id="modal-title">Protein Name</h2>
+                            <p id="modal-subtitle">Organism</p>
+                        </div>
+                        <div class="header-actions">
+                            <button id="download-fasta-btn" class="action-btn">Download FASTA</button>
+                        </div>
                     </div>
 
-                    <div class="modal-grid">
-                        <div class="modal-section">
-                            <h3>Genomic & Structural Data</h3>
-                            <ul id="modal-info-list"></ul>
-                        </div>
-                        <div class="modal-section full-width">
-                            <h3>Mutation Landscape</h3>
-                            <div class="chart-container">
-                                <canvas id="mutationChart"></canvas>
+                    <!-- Tabs -->
+                    <div class="modal-tabs">
+                        <button class="tab-btn active" data-tab="overview">Overview</button>
+                        <button class="tab-btn" data-tab="structure">3D Structure (AlphaFold)</button>
+                        <button class="tab-btn" data-tab="variants">Variants (ProtVista)</button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content active" id="tab-overview">
+                        <div class="modal-grid">
+                            <div class="modal-section">
+                                <h3>Genomic & Structural Data</h3>
+                                <ul id="modal-info-list"></ul>
                             </div>
+                            <div class="modal-section full-width">
+                                <h3>Mutation Landscape (Summary)</h3>
+                                <div class="chart-container">
+                                    <canvas id="mutationChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-structure">
+                        <div id="molstar-wrapper" style="position: relative; width: 100%; height: 500px;">
+                            <!-- Mol* Plugin will be rendered here -->
+                            <div id="molstar-container"></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tab-variants">
+                        <div id="protvista-container">
+                            <!-- ProtVista Component will be injected here -->
                         </div>
                     </div>
                 </div>
