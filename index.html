@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eIF4E Genomic Atlas</title>
+    <meta name="description" content="A comprehensive genomic and structural atlas for eIF4E mutations and data.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header class="main-header">
+        <nav class="nav-container">
+            <div class="logo">eIF4E Atlas</div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#data">Data</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section with Centralized Search -->
+        <section id="home" class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">eIF4E Genomic Atlas</h1>
+                <p class="hero-subtitle">Exploring the genomic landscape, structural variants, and mutations of
+                    Eukaryotic Translation Initiation Factor 4E.</p>
+
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" id="main-search-input"
+                            placeholder="Search by Name, Species (e.g., Human), or UniProt ID...">
+                        <button id="search-btn" class="search-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="search-tags">
+                        <span>Try:</span>
+                        <button class="tag-btn" data-query="Human">Human</button>
+                        <button class="tag-btn" data-query="P06730">P06730</button>
+                        <button class="tag-btn" data-query="Mus musculus">Mouse</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number" data-target="1500">0</div>
+                    <div class="stat-label">Total Entries</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="450">0</div>
+                    <div class="stat-label">Species Mapped</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="12000">0</div>
+                    <div class="stat-label">Mutations Catalogued</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section (Hidden by default) -->
+        <section id="results-section" class="results-section hidden">
+            <div class="section-header">
+                <h2>Search Results</h2>
+                <button id="clear-results" class="text-btn">Clear Search</button>
+            </div>
+            <div id="loading-indicator" class="hidden">
+                <div class="spinner"></div>
+                <p>Fetching data from UniProt...</p>
+            </div>
+            <div id="results-container" class="results-grid">
+                <!-- Results will be injected here -->
+            </div>
+        </section>
+
+        <!-- Details Modal -->
+        <div id="details-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div id="modal-body">
+                    <!-- Details injected here -->
+                    <div class="modal-header">
+                        <h2 id="modal-title">Protein Name</h2>
+                        <p id="modal-subtitle">Organism</p>
+                    </div>
+
+                    <div class="modal-grid">
+                        <div class="modal-section">
+                            <h3>Genomic & Structural Data</h3>
+                            <ul id="modal-info-list"></ul>
+                        </div>
+                        <div class="modal-section full-width">
+                            <h3>Mutation Landscape</h3>
+                            <div class="chart-container">
+                                <canvas id="mutationChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2024 eIF4E Genomic Atlas. Data provided by <a href="https://www.uniprot.org/"
+                target="_blank">UniProt</a>.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>
