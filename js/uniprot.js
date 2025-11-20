@@ -12,18 +12,15 @@ const UNIPROT_API_BASE = 'https://rest.uniprot.org/uniprotkb';
  */
 export async function searchUniProt(query) {
     try {
-        // Construct a query that prioritizes eIF4E and the user's term
-        // We search for "eIF4E" AND the user query to keep results relevant to the atlas
-        // Or if the user query looks like an ID, we search for that directly.
-
         let searchQuery = '';
 
         // Simple heuristic: if it looks like an accession (e.g. P06730), search directly
         if (/^[A-Z0-9]{6,10}$/i.test(query)) {
             searchQuery = `accession:${query}`;
         } else {
-            // Search for eIF4E in the query terms
-            searchQuery = `(gene:EIF4E OR protein_name:eIF4E OR gene:eif4e) AND (${query})`;
+            // For named queries, search eIF4E across multiple fields AND the query in organism/taxonomy
+            // This allows searches like "vigna", "human", "vigna unguiculata" to work properly
+            searchQuery = `(gene:EIF4E OR protein_name:eIF4E) AND (organism_name:${query} OR taxonomy_name:${query})`;
         }
 
         const url = `${UNIPROT_API_BASE}/search?query=${encodeURIComponent(searchQuery)}&fields=accession,id,protein_name,gene_names,organism_name,length,sequence&format=json&size=20`;
