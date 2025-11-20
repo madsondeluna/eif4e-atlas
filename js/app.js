@@ -1,31 +1,36 @@
+```
 import { searchUniProt, getProteinDetails, getGlobalStats } from './uniprot.js';
 import { renderMutationChart } from './charts.js';
 
 // State
 let currentResults = [];
 
+// DOM Elements (Global Scope)
+let searchInput, searchBtn, tagBtns, resultsSection, resultsContainer, loadingIndicator, clearResultsBtn;
+let modal, closeModalBtn, modalTitle, modalSubtitle, modalInfoList;
+
 // Initialize
 document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize DOM references
+    searchInput = document.getElementById('main-search-input');
+    searchBtn = document.getElementById('search-btn');
+    tagBtns = document.querySelectorAll('.tag-btn');
+    resultsSection = document.getElementById('results-section');
+    resultsContainer = document.getElementById('results-container');
+    loadingIndicator = document.getElementById('loading-indicator');
+    clearResultsBtn = document.getElementById('clear-results');
+    
+    modal = document.getElementById('details-modal');
+    closeModalBtn = document.querySelector('.close-modal');
+    modalTitle = document.getElementById('modal-title');
+    modalSubtitle = document.getElementById('modal-subtitle');
+    modalInfoList = document.getElementById('modal-info-list');
+
     await updateGlobalStats();
     setupEventListeners();
 });
 
 function setupEventListeners() {
-    // DOM Elements
-    const searchInput = document.getElementById('main-search-input');
-    const searchBtn = document.getElementById('search-btn');
-    const tagBtns = document.querySelectorAll('.tag-btn');
-    const resultsSection = document.getElementById('results-section');
-    const resultsContainer = document.getElementById('results-container');
-    const loadingIndicator = document.getElementById('loading-indicator');
-    const clearResultsBtn = document.getElementById('clear-results');
-
-    // Modal Elements
-    const modal = document.getElementById('details-modal');
-    const closeModalBtn = document.querySelector('.close-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalSubtitle = document.getElementById('modal-subtitle');
-    const modalInfoList = document.getElementById('modal-info-list');
     // Search Button
     searchBtn.addEventListener('click', handleSearch);
 
@@ -111,7 +116,7 @@ function createResultCard(entry) {
     const length = entry.sequence?.length || 0;
 
     return `
-        <div class="result-card">
+    < div class="result-card" >
             <div class="card-header">
                 <span class="accession-badge">${accession}</span>
                 <span class="gene-name">${geneName}</span>
@@ -122,7 +127,7 @@ function createResultCard(entry) {
                 <span>Length: ${length} aa</span>
             </div>
             <button class="view-details-btn" data-accession="${accession}">View Details</button>
-        </div>
+        </div >
     `;
 }
 
@@ -156,7 +161,7 @@ async function openDetails(accession) {
         const sequence = data.sequence?.value || '';
 
         modalTitle.innerText = proteinName;
-        modalSubtitle.innerText = `${organism} (Gene: ${geneName})`;
+        modalSubtitle.innerText = `${ organism } (Gene: ${ geneName })`;
 
         // Setup FASTA Download
         const downloadBtn = document.getElementById('download-fasta-btn');
@@ -164,11 +169,11 @@ async function openDetails(accession) {
 
         // Populate Overview
         modalInfoList.innerHTML = `
-            <li><strong>Accession:</strong> ${data.primaryAccession}</li>
+    < li > <strong>Accession:</strong> ${ data.primaryAccession }</li >
             <li><strong>Length:</strong> ${length} amino acids</li>
             <li><strong>Mass:</strong> ${mass} Da</li>
             <li><strong>Function:</strong> ${data.comments?.find(c => c.commentType === 'FUNCTION')?.texts?.[0]?.value || 'Not available'}</li>
-        `;
+`;
 
         // Render Overview Chart
         renderMutationChart(data.features || [], length);
@@ -192,7 +197,7 @@ function setupTabs(accession) {
             tabBtns.forEach(b => b.classList.remove('active'));
             tabContents.forEach(c => c.classList.remove('active'));
             btn.classList.add('active');
-            document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+            document.getElementById(`tab - ${ btn.dataset.tab } `).classList.add('active');
 
             // Lazy Load Viewers
             if (btn.dataset.tab === 'structure') {
@@ -205,12 +210,12 @@ function setupTabs(accession) {
 }
 
 function downloadFasta(accession, sequence) {
-    const fastaContent = `>${accession}\n${sequence.match(/.{1,60}/g).join('\n')}`;
+    const fastaContent = `> ${ accession } \n${ sequence.match(/.{1,60}/g).join('\n') } `;
     const blob = new Blob([fastaContent], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${accession}.fasta`;
+    a.download = `${ accession }.fasta`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
