@@ -419,6 +419,11 @@ body {
     color: var(--text-secondary);
     cursor: pointer;
     transition: color 0.2s;
+    z-index: 10;
+    background: transparent;
+    border: none;
+    padding: 0;
+    line-height: 1;
 }
 
 .close-modal:hover {
@@ -429,6 +434,7 @@ body {
     margin-bottom: var(--spacing-md);
     border-bottom: 1px solid var(--border-color);
     padding-bottom: var(--spacing-sm);
+    padding-right: 3rem;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;

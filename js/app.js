@@ -168,11 +168,11 @@ async function openDetails(accession) {
 
         // Populate Overview
         modalInfoList.innerHTML = `
-    < li > <strong>Accession:</strong> ${data.primaryAccession}</li >
+            <li><strong>Accession:</strong> ${data.primaryAccession}</li>
             <li><strong>Length:</strong> ${length} amino acids</li>
             <li><strong>Mass:</strong> ${mass} Da</li>
             <li><strong>Function:</strong> ${data.comments?.find(c => c.commentType === 'FUNCTION')?.texts?.[0]?.value || 'Not available'}</li>
-`;
+        `;
 
         // Render Overview Chart
         renderMutationChart(data.features || [], length);
