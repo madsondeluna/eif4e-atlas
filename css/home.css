@@ -279,7 +279,27 @@
     font-size: 3rem;
     margin-bottom: 1rem;
     font-weight: 700;
-    color: white;
+    /* Color defined by specific card class below */
+}
+
+.card-search .card-icon {
+    color: #3b82f6;
+}
+
+.card-structure .card-icon {
+    color: #10b981;
+}
+
+.card-msa .card-icon {
+    color: #f59e0b;
+}
+
+.card-phylogeny .card-icon {
+    color: #8b5cf6;
+}
+
+.card-viruses .card-icon {
+    color: #ef4444;
 }
 
 .explore-card h3 {
