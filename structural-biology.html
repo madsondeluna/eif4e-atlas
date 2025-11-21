@@ -17,6 +17,9 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/structural.css">
+
+    <!-- Structure Diagram Script -->
+    <script src="js/structure-diagram.js"></script>
 </head>
 
 <body>
@@ -197,6 +200,40 @@
                             <li>Some loops critical for VPg interaction</li>
                             <li>~35% of structure (flexible regions)</li>
                         </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive 2D Structure Diagram -->
+        <section class="content-section">
+            <div class="section-container">
+                <h2>Interactive Secondary Structure Diagram</h2>
+                <p class="section-intro">Click or touch structural elements to learn more about each component and
+                    binding site</p>
+
+                <div class="diagram-container">
+                    <div id="eif4e-structure-diagram" class="structure-diagram-wrapper"></div>
+                    <div class="diagram-info">
+                        <h3 id="structure-info-title">Select an element</h3>
+                        <p id="structure-info-description">Click or tap on any structural element (β-strands, α-helices,
+                            loops, or binding sites) to see detailed information about its role in eIF4E function.</p>
+
+                        <div class="binding-sites-legend">
+                            <h4>Binding Sites</h4>
+                            <div class="legend-item">
+                                <span class="legend-dot" style="background: #ef4444;"></span>
+                                <strong>m⁷G Cap:</strong> Central cap-binding pocket
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-dot" style="background: #10b981;"></span>
+                                <strong>eIF4G:</strong> Lateral surface for complex formation
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-dot" style="background: #8b5cf6;"></span>
+                                <strong>VPg:</strong> Dorsal surface for viral interaction
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

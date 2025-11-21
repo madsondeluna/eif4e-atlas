@@ -581,3 +581,116 @@
         grid-template-columns: 1fr;
     }
 }
+/* Interactive Structure Diagram */
+.diagram-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.structure-diagram-wrapper {
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    padding: 1rem;
+}
+
+.structure-diagram {
+    width: 100%;
+    height: auto;
+    max-width: 800px;
+}
+
+.diagram-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.diagram-info h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.diagram-info p {
+    color: var(--text-primary);
+    line-height: 1.7;
+}
+
+.binding-sites-legend {
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border-left: 4px solid var(--accent-color);
+}
+
+.binding-sites-legend h4 {
+    color: var(--primary-color);
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.legend-item:last-child {
+    border-bottom: none;
+}
+
+.legend-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-item strong {
+    color: var(--primary-color);
+    min-width: 80px;
+}
+
+/* SVG interactivity styles */
+.structure-diagram .beta-strand,
+.structure-diagram .alpha-helix,
+.structure-diagram .loop,
+.structure-diagram .binding-site {
+    transition: all 0.3s ease;
+}
+
+.structure-diagram .beta-strand:hover,
+.structure-diagram .alpha-helix:hover,
+.structure-diagram .loop:hover,
+.structure-diagram .binding-site:hover {
+    filter: brightness(1.1) drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
+}
+
+/* Responsive diagram */
+@media (max-width: 992px) {
+    .diagram-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .structure-diagram-wrapper {
+        min-height: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .structure-diagram-wrapper {
+        min-height: 400px;
+    }
+}
