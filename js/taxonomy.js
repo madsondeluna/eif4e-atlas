@@ -26,8 +26,8 @@ export async function fetchAllEIF4EProteins() {
 
         do {
             const url = cursor
-                ? `${UNIPROT_API_BASE}/search?query=(eif4e OR eif4e1a OR "translation initiation factor 4e")&fields=accession,organism_name,lineage,gene_names&format=json&size=25&cursor=${cursor}`
-                : `${UNIPROT_API_BASE}/search?query=(eif4e OR eif4e1a OR "translation initiation factor 4e")&fields=accession,organism_name,lineage,gene_names&format=json&size=25`;
+                ? `${UNIPROT_API_BASE}/search?query=(eif4e OR eif4e1a OR "translation initiation factor 4e") AND taxonomy_name:Viridiplantae&fields=accession,organism_name,lineage,gene_names&format=json&size=25&cursor=${cursor}`
+                : `${UNIPROT_API_BASE}/search?query=(eif4e OR eif4e1a OR "translation initiation factor 4e") AND taxonomy_name:Viridiplantae&fields=accession,organism_name,lineage,gene_names&format=json&size=25`;
 
             const response = await fetch(url);
             if (!response.ok) throw new Error('Failed to fetch data');
@@ -59,7 +59,7 @@ export async function fetchAllEIF4EProteins() {
  */
 export function buildTaxonomyTree(proteins) {
     const tree = {
-        name: 'eIF4E Proteins',
+        name: 'Plant eIF4E Proteins',
         children: []
     };
 
