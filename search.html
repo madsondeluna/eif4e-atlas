@@ -37,13 +37,14 @@
         <nav class="nav-container">
             <div class="logo">Plant eIF4E Atlas</div>
             <div class="main-nav">
-                <a href="index.html" class="nav-link nav-home">Home</div>
-                <a href="search.html" class="nav-link active nav-search">Search</div>
-                <a href="structural-biology.html" class="nav-link nav-structure">Structure</div>
-                <a href="msa.html" class="nav-link nav-msa">MSA</div>
-                <a href="phylogeny.html" class="nav-link nav-phylogeny">Phylogeny</div>
-                <a href="virus-interactions.html" class="nav-link nav-viruses">Viruses</div>
+                <a href="index.html" class="nav-link nav-home">Home
             </div>
+            <a href="search.html" class="nav-link active nav-search">Search</div>
+                <a href="structural-biology.html" class="nav-link nav-structure">Structure</div>
+                    <a href="msa.html" class="nav-link nav-msa">MSA</div>
+                        <a href="phylogeny.html" class="nav-link nav-phylogeny">Phylogeny</div>
+                            <a href="virus-interactions.html" class="nav-link nav-viruses">Viruses</div>
+                                </div>
         </nav>
     </header>
 
@@ -84,17 +85,17 @@
             <div class="stats-container">
                 <div class="stat-card">
                     <div class="stat-number" data-target="1500">0</div>
-                        <div class="stat-label">Total Entries</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number" data-target="450">0</div>
-                                    <div class="stat-label">Species Mapped</div>
-                                        </div>
-                                        <div class="stat-card">
-                                            <div class="stat-number" data-target="12000">0</div>
-                                                <div class="stat-label">Mutations Catalogued</div>
-                                                    </div>
-                                                    </div>
+                    <div class="stat-label">Total Entries</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="450">0</div>
+                    <div class="stat-label">Species Mapped</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-target="12000">0</div>
+                    <div class="stat-label">Mutations Catalogued</div>
+                </div>
+            </div>
         </section>
 
         <!-- Results Section (Hidden by default) -->
@@ -102,14 +103,14 @@
             <div class="section-header">
                 <h2>Search Results</h2>
                 <button id="clear-results" class="text-btn">Clear Search</button>
-                </div>
-                <div id="loading-indicator" class="hidden">
-                    <div class="spinner"></div>
-                        <p>Fetching data from UniProt...</p>
-                        </div>
-                        <div id="results-container" class="results-grid">
-                            <!-- Results will be injected here -->
-                            </div>
+            </div>
+            <div id="loading-indicator" class="hidden">
+                <div class="spinner"></div>
+                <p>Fetching data from UniProt...</p>
+            </div>
+            <div id="results-container" class="results-grid">
+                <!-- Results will be injected here -->
+            </div>
         </section>
 
         <!-- Details Modal -->
@@ -121,59 +122,58 @@
                         <div class="header-content">
                             <h2 id="modal-title">Protein Name</h2>
                             <p id="modal-subtitle">Organism</p>
+                        </div>
+                        <div class="header-actions">
+                            <button id="download-fasta-btn" class="action-btn">Download FASTA</button>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="modal-tabs">
+                        <button class="tab-btn active" data-tab="overview">Overview</button>
+                        <button class="tab-btn" data-tab="structure">3D Structure (AlphaFold)</button>
+                        <button class="tab-btn" data-tab="variants">Variants (ProtVista)</button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content active" id="tab-overview">
+                        <div class="modal-grid">
+                            <div class="modal-section">
+                                <h3>Genomic & Structural Data</h3>
+                                <ul id="modal-info-list"></ul>
                             </div>
-                            <div class="header-actions">
-                                <button id="download-fasta-btn" class="action-btn">Download FASTA</button>
-                                </div>
-                                </div>
+                            <div class="modal-section">
+                                <h3>Cellular Location</h3>
+                                <div id="cellular-location"></div>
+                            </div>
+                            <div class="modal-section full-width">
+                                <h3>Gene Ontology (GO) Terms</h3>
+                                <div id="go-terms"></div>
+                            </div>
+                        </div>
+                    </div>
 
-                                <!-- Tabs -->
-                                <div class="modal-tabs">
-                                    <button class="tab-btn active" data-tab="overview">Overview</button>
-                                    <button class="tab-btn" data-tab="structure">3D Structure (AlphaFold)</button>
-                                    <button class="tab-btn" data-tab="variants">Variants (ProtVista)</button>
-                                    </div>
+                    <div class="tab-content" id="tab-structure">
+                        <div id="molstar-wrapper" style="position: relative; width: 100%; height: 500px;">
+                            <!-- Mol* Plugin will be rendered here -->
+                            <div id="molstar-container"></div>
+                        </div>
+                    </div>
 
-                                    <!-- Tab Content -->
-                                    <div class="tab-content active" id="tab-overview">
-                                        <div class="modal-grid">
-                                            <div class="modal-section">
-                                                <h3>Genomic & Structural Data</h3>
-                                                <ul id="modal-info-list"></ul>
-                                                </div>
-                                                <div class="modal-section">
-                                                    <h3>Cellular Location</h3>
-                                                    <div id="cellular-location"></div>
-                                                        </div>
-                                                        <div class="modal-section full-width">
-                                                            <h3>Gene Ontology (GO) Terms</h3>
-                                                            <div id="go-terms"></div>
-                                                                </div>
-                                                                </div>
-                                                                </div>
-
-                                                                <div class="tab-content" id="tab-structure">
-                                                                    <div id="molstar-wrapper"
-                                                                        style="position: relative; width: 100%; height: 500px;">
-                                                                        <!-- Mol* Plugin will be rendered here -->
-                                                                        <div id="molstar-container"></div>
-                                                                            </div>
-                                                                            </div>
-
-                                                                            <div class="tab-content" id="tab-variants">
-                                                                                <div id="protvista-container">
-                                                                                    <!-- ProtVista Component will be injected here -->
-                                                                                    </div>
-                                                                                    </div>
-                                                                                    </div>
-                                                                                    </div>
-                                                                                    </div>
+                    <div class="tab-content" id="tab-variants">
+                        <div id="protvista-container">
+                            <!-- ProtVista Component will be injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
 
     <footer class="main-footer">
-        <p>&copy; 2024 Plant eIF4E Atlas. Data provided by <a href="https://www.uniprot.org/"
-                target="_blank">UniProt</div>.</p>
+        <p>&copy; 2024 Plant eIF4E Atlas. Data provided by <a href="https://www.uniprot.org/" target="_blank">UniProt
+                </div>.</p>
     </footer>
 
     <!-- Scripts -->
