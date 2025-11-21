@@ -157,15 +157,18 @@
     position: relative;
     color: var(--text-primary);
     border-bottom: 1px solid var(--border-color);
+    line-height: 1.6;
 }
 
 .structure-element li::before {
     content: "•";
     position: absolute;
-    left: 0;
+    left: 0.5rem;
+    top: 0.75rem;
     color: var(--accent-color);
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    line-height: 1.6;
 }
 
 .structure-element li:last-child {
@@ -581,6 +584,7 @@
         grid-template-columns: 1fr;
     }
 }
+
 /* Interactive Structure Diagram */
 .diagram-container {
     display: grid;
@@ -683,7 +687,7 @@
     .diagram-container {
         grid-template-columns: 1fr;
     }
-    
+
     .structure-diagram-wrapper {
         min-height: 500px;
     }
