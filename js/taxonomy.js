@@ -58,56 +58,49 @@ export async function fetchAllEIF4EProteins() {
  * Build hierarchical tree from protein lineage data
  */
 export function buildTaxonomyTree(proteins) {
+    // Start with Viridiplantae as root
     const tree = {
-        name: 'Plant eIF4E Proteins',
+        name: 'Viridiplantae (Plants)',
         children: []
     };
 
-    // Group by major kingdom
-    const kingdoms = {};
+    // Group by plant taxonomic levels
+    const plantGroups = {};
 
     proteins.forEach(protein => {
         const lineage = protein.organism?.lineage || [];
         const organismName = protein.organism?.scientificName || 'Unknown';
         const accession = protein.primaryAccession;
 
-        // Find kingdom (usually at index 0 or 1)
-        let kingdom = 'Other';
-        for (const taxon of lineage) {
-            if (['Viridiplantae', 'Metazoa', 'Fungi'].includes(taxon)) {
-                kingdom = taxon;
-                break;
-            }
+        // Verify this is a plant protein
+        if (!lineage.includes('Viridiplantae')) {
+            console.warn(`Skipping non-plant protein: ${accession} (${organismName})`);
+            return;
         }
 
-        // Initialize kingdom if needed
-        if (!kingdoms[kingdom]) {
-            kingdoms[kingdom] = {
-                name: kingdom,
-                type: 'kingdom',
-                children: {},
-                count: 0
-            };
-        }
+        // Find index of Viridiplantae in lineage
+        const plantIndex = lineage.indexOf('Viridiplantae');
 
-        // Build path through taxonomy
-        let currentNode = kingdoms[kingdom].children;
-        const relevantLineage = lineage.slice(1, Math.min(lineage.length, 8)); // Skip root, limit depth
+        // Get plant-specific lineage (everything after Viridiplantae)
+        const plantLineage = lineage.slice(plantIndex + 1);
 
-        for (let i = 0; i < relevantLineage.length; i++) {
-            const taxonName = relevantLineage[i];
+        // Build path through plant taxonomy
+        let currentNode = plantGroups;
+
+        for (let i = 0; i < Math.min(plantLineage.length, 6); i++) {
+            const taxonName = plantLineage[i];
 
             if (!currentNode[taxonName]) {
                 currentNode[taxonName] = {
                     name: taxonName,
-                    type: i === relevantLineage.length - 1 ? 'species' : 'taxon',
+                    type: i === plantLineage.length - 1 ? 'species' : 'taxon',
                     children: {},
                     proteins: [],
                     count: 0
                 };
             }
 
-            if (i === relevantLineage.length - 1) {
+            if (i === plantLineage.length - 1 || i === 5) {
                 // Leaf node - add protein
                 currentNode[taxonName].proteins.push({
                     accession,
@@ -118,17 +111,10 @@ export function buildTaxonomyTree(proteins) {
             currentNode[taxonName].count++;
             currentNode = currentNode[taxonName].children;
         }
-
-        kingdoms[kingdom].count++;
     });
 
     // Convert to D3-friendly format
-    tree.children = Object.values(kingdoms).map(kingdom => ({
-        name: kingdom.name,
-        type: 'kingdom',
-        count: kingdom.count,
-        children: convertToArray(kingdom.children)
-    }));
+    tree.children = convertToArray(plantGroups);
 
     return tree;
 }
