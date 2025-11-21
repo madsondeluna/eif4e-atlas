@@ -4,178 +4,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eIF4E Atlas</title>
-    <meta name="description" content="A comprehensive genomic and structural atlas for eIF4E mutations and data.">
+    <title>Plant eIF4E Atlas - Home</title>
+    <meta name="description" content="Understanding eukaryotic translation initiation factor 4E in plants">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
         rel="stylesheet">
-
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Mol* (PDBe Molstar) CSS & JS -->
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.jsdelivr.net/npm/pdbe-molstar@3.2.0/build/pdbe-molstar-light.css">
-    <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/pdbe-molstar@3.2.0/build/pdbe-molstar-plugin.js"></script>
-
-    <!-- ProtVista (UniProt Variant Viewer) -->
-    <script type="module"
-        src="https://cdn.jsdelivr.net/npm/protvista-uniprot@latest/dist/protvista-uniprot.js"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 
 <body>
-
+    <!-- Header -->
     <header class="main-header">
         <nav class="nav-container">
-            <div class="logo">Plant eIF4E Atlas</div>
+            <a href="home.html" class="logo">Plant eIF4E Atlas</a>
             <div class="main-nav">
-                <a href="index.html" class="nav-link active">Home</a>
-                <a href="structural-biology.html" class="nav-link">Structure</a>
-                <a href="msa.html" class="nav-link">MSA</a>
-                <a href="phylogeny.html" class="nav-link">Phylogeny</a>
-                <a href="virus-interactions.html" class="nav-link">Viruses</a>
+                <a href="home.html" class="nav-link active nav-home">Home</a>
+                <a href="search.html" class="nav-link nav-search">Search</a>
+                <a href="structural-biology.html" class="nav-link nav-structure">Structure</a>
+                <a href="msa.html" class="nav-link nav-msa">MSA</a>
+                <a href="phylogeny.html" class="nav-link nav-phylogeny">Phylogeny</a>
+                <a href="virus-interactions.html" class="nav-link nav-viruses">Viruses</a>
             </div>
         </nav>
     </header>
 
-    <main>
-        <!-- Hero Section with Centralized Search -->
-        <section id="home" class="hero-section">
-            <div class="hero-content">
-                <h1 class="hero-title">Plant eIF4E Atlas</h1>
-                <p class="hero-subtitle">Comprehensive resource for exploring eukaryotic translation initiation factors
-                    in plants: structures, sequences, and viral interactions</p>
+    <!-- Main Content -->
+    <main class="home-main">
+        <!-- Hero -->
+        <section class="home-hero">
+            <h1>eIF4E: The Master Regulator of Translation</h1>
+            <p class="hero-subtitle">Understanding a critical protein that controls gene expression in all eukaryotic
+                life</p>
+        </section>
 
-                <div class="search-container">
-                    <div class="search-box">
-                        <input type="text" id="main-search-input"
-                            placeholder="Search by Name, Species (e.g., Human), or UniProt ID...">
-                        <button id="search-btn" class="search-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg>
-                        </button>
+        <!-- What is eIF4E -->
+        <section class="content-section">
+            <div class="section-container">
+                <h2>What is eIF4E?</h2>
+                <div class="content-layout">
+                    <div class="content-main">
+                        <p class="lead"><strong>Eukaryotic Initiation Factor 4E (eIF4E)</strong> is a crucial protein
+                            that acts as a molecular gatekeeper, controlling which messenger RNAs (mRNAs) get translated
+                            into proteins in all eukaryotic cells—from plants and fungi to animals and humans.</p>
+
+                        <p>Every protein-coding mRNA in eukaryotic cells has a special "cap" structure
+                            (m<sup>7</sup>GpppN) on its 5' end. eIF4E is the only protein that recognizes and binds to
+                            this cap, making it the rate-limiting factor for translation initiation—the first and most
+                            regulated step of protein synthesis.</p>
+
+                        <h3>The Central Role in Gene Expression</h3>
+                        <p>While DNA contains the genetic blueprint and mRNA carries the instructions, it's the
+                            translation of mRNA into protein that ultimately determines cellular function. eIF4E stands
+                            at this critical junction, essentially deciding which genes get expressed at the protein
+                            level.</p>
                     </div>
-                    <div class="search-tags">
-                        <span>Try:</span>
-                        <button class="tag-btn" data-query="Arabidopsis">Arabidopsis</button>
-                        <button class="tag-btn" data-query="Vigna">Vigna</button>
-                        <button class="tag-btn" data-query="Solanum">Tomato</button>
-                        <button class="tag-btn" data-query="Oryza">Rice</button>
+                    <div class="content-sidebar">
+                        <div class="fact-box">
+                            <h4>Key Facts</h4>
+                            <ul>
+                                <li>Found in all eukaryotes</li>
+                                <li>Regulates ~7% of human genome</li>
+                                <li>Highly conserved protein</li>
+                                <li>~200-250 amino acids</li>
+                                <li>Essential for life</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Stats Section -->
-        <section class="stats-section">
-            <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-number" data-target="1500">0</div>
-                    <div class="stat-label">Total Entries</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" data-target="450">0</div>
-                    <div class="stat-label">Species Mapped</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" data-target="12000">0</div>
-                    <div class="stat-label">Mutations Catalogued</div>
+        <!-- Importance Across Life -->
+        <section class="content-section dark-bg">
+            <div class="section-container">
+                <h2>Why eIF4E Matters for All Living Things</h2>
+
+                <div class="importance-grid">
+                    <div class="importance-card">
+                        <div class="icon-wrapper green">🌱</div>
+                        <h3>Plants</h3>
+                        <ul>
+                            <li><strong>Growth & Development:</strong> Controls developmental transitions</li>
+                            <li><strong>Stress Response:</strong> Regulates adaptation to environmental stress</li>
+                            <li><strong>Viral Defense:</strong> Target of plant virus manipulation; basis for resistance
+                                breeding</li>
+                            <li><strong>Crop Improvement:</strong> Multiple eIF4E isoforms allow fine-tuned regulation
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="importance-card">
+                        <div class="icon-wrapper blue">🧬</div>
+                        <h3>Animals & Humans</h3>
+                        <ul>
+                            <li><strong>Cancer:</strong> Overexpressed in many cancers; target for therapy</li>
+                            <li><strong>Learning & Memory:</strong> Critical for synaptic plasticity in neurons</li>
+                            <li><strong>Development:</strong> Controls cell proliferation and differentiation</li>
+                            <li><strong>Immune Response:</strong> Regulates cytokine production</li>
+                        </ul>
+                    </div>
+
+                    <div class="importance-card">
+                        <div class="icon-wrapper purple">🔬</div>
+                        <h3>Research & Medicine</h3>
+                        <ul>
+                            <li><strong>Drug Target:</strong> Therapeutic target in oncology</li>
+                            <li><strong>Biotechnology:</strong> Tool for controlling recombinant protein production</li>
+                            <li><strong>Fundamental Biology:</strong> Model for studying gene regulation</li>
+                            <li><strong>Evolution:</strong> Understanding conserved biological mechanisms</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Results Section (Hidden by default) -->
-        <section id="results-section" class="results-section hidden">
-            <div class="section-header">
-                <h2>Search Results</h2>
-                <button id="clear-results" class="text-btn">Clear Search</button>
-            </div>
-            <div id="loading-indicator" class="hidden">
-                <div class="spinner"></div>
-                <p>Fetching data from UniProt...</p>
-            </div>
-            <div id="results-container" class="results-grid">
-                <!-- Results will be injected here -->
-            </div>
-        </section>
-
-        <!-- Details Modal -->
-        <div id="details-modal" class="modal hidden">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
-                <div id="modal-body">
-                    <div class="modal-header">
-                        <div class="header-content">
-                            <h2 id="modal-title">Protein Name</h2>
-                            <p id="modal-subtitle">Organism</p>
-                        </div>
-                        <div class="header-actions">
-                            <button id="download-fasta-btn" class="action-btn">Download FASTA</button>
-                        </div>
+        <!-- How it Works -->
+        <section class="content-section">
+            <div class="section-container">
+                <h2>How eIF4E Works</h2>
+                <div class="mechanism-flow">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>Cap Recognition</h3>
+                        <p>eIF4E binds to the m<sup>7</sup>G cap structure at the 5' end of mRNA through a conserved
+                            cap-binding pocket</p>
                     </div>
-
-                    <!-- Tabs -->
-                    <div class="modal-tabs">
-                        <button class="tab-btn active" data-tab="overview">Overview</button>
-                        <button class="tab-btn" data-tab="structure">3D Structure (AlphaFold)</button>
-                        <button class="tab-btn" data-tab="variants">Variants (ProtVista)</button>
+                    <div class="arrow">→</div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>Complex Assembly</h3>
+                        <p>Forms the eIF4F complex with scaffolding protein eIF4G and RNA helicase eIF4A</p>
                     </div>
-
-                    <!-- Tab Content -->
-                    <div class="tab-content active" id="tab-overview">
-                        <div class="modal-grid">
-                            <div class="modal-section">
-                                <h3>Genomic & Structural Data</h3>
-                                <ul id="modal-info-list"></ul>
-                            </div>
-                            <div class="modal-section">
-                                <h3>Cellular Location</h3>
-                                <div id="cellular-location"></div>
-                            </div>
-                            <div class="modal-section full-width">
-                                <h3>Gene Ontology (GO) Terms</h3>
-                                <div id="go-terms"></div>
-                            </div>
-                        </div>
+                    <div class="arrow">→</div>
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>Ribosome Recruitment</h3>
+                        <p>Recruits the 40S ribosomal subunit to the mRNA to initiate scanning for the start codon</p>
                     </div>
-
-                    <div class="tab-content" id="tab-structure">
-                        <div id="molstar-wrapper" style="position: relative; width: 100%; height: 500px;">
-                            <!-- Mol* Plugin will be rendered here -->
-                            <div id="molstar-container"></div>
-                        </div>
-                    </div>
-
-                    <div class="tab-content" id="tab-variants">
-                        <div id="protvista-container">
-                            <!-- ProtVista Component will be injected here -->
-                        </div>
+                    <div class="arrow">→</div>
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3>Translation Begins</h3>
+                        <p>Once start codon is found, translation elongation begins and protein is synthesized</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
+        <!-- Explore Section -->
+        <section class="content-section dark-bg">
+            <div class="section-container">
+                <h2>Explore the Plant eIF4E Atlas</h2>
+                <p class="section-intro">Dive deeper into plant eIF4E proteins through our comprehensive resources</p>
+
+                <div class="explore-grid">
+                    <a href="search.html" class="explore-card card-search">
+                        <div class="card-icon">🔍</div>
+                        <h3>Search Database</h3>
+                        <p>Browse and search plant eIF4E proteins from UniProt</p>
+                    </a>
+
+                    <a href="structural-biology.html" class="explore-card card-structure">
+                        <div class="card-icon">🧬</div>
+                        <h3>Structural Biology</h3>
+                        <p>Explore 3D structures and conserved functional motifs</p>
+                    </a>
+
+                    <a href="msa.html" class="explore-card card-msa">
+                        <div class="card-icon">📊</div>
+                        <h3>Sequence Alignment</h3>
+                        <p>Analyze conservation patterns across plant species</p>
+                    </a>
+
+                    <a href="phylogeny.html" class="explore-card card-phylogeny">
+                        <div class="card-icon">🌳</div>
+                        <h3>Phylogenetic Tree</h3>
+                        <p>Visualize evolutionary relationships among plant eIF4E</p>
+                    </a>
+
+                    <a href="virus-interactions.html" class="explore-card card-viruses">
+                        <div class="card-icon">🦠</div>
+                        <h3>Virus Interactions</h3>
+                        <p>Learn how plant viruses hijack eIF4E for infection</p>
+                    </a>
+                </div>
+            </div>
+        </section>
     </main>
 
+    <!-- Footer -->
     <footer class="main-footer">
         <p>&copy; 2024 Plant eIF4E Atlas. Data provided by <a href="https://www.uniprot.org/"
                 target="_blank">UniProt</a>.</p>
     </footer>
-
-    <!-- Scripts -->
-    <script type="module" src="js/app.js"></script>
 </body>
 
 </html>

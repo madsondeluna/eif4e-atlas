@@ -74,9 +74,15 @@ body {
     font-size: 1.5rem;
     color: var(--primary-color);
     letter-spacing: -0.02em;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-/* Elegant Navigation Buttons */
+.logo:hover {
+    color: var(--accent-color);
+}
+
+/* Elegant Navigation Buttons with Page Colors */
 .main-nav {
     display: flex;
     gap: 0.5rem;
@@ -101,27 +107,84 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: -1;
     border-radius: 0.5rem;
 }
 
+/* Page-specific gradient colors */
+.nav-home::before {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.nav-search::before {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.nav-structure::before {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.nav-msa::before {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.nav-phylogeny::before {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.nav-viruses::before {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
 .nav-link:hover {
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .nav-link:hover::before {
     opacity: 1;
 }
 
+/* Active state inherits hover color */
 .nav-link.active {
     color: white;
-    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+}
+
+.nav-link.active::before {
+    opacity: 1;
+}
+
+/* Specific shadow colors on hover for better visual feedback */
+.nav-home:hover,
+.nav-home.active {
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.nav-search:hover,
+.nav-search.active {
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.nav-structure:hover,
+.nav-structure.active {
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.nav-msa:hover,
+.nav-msa.active {
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.nav-phylogeny:hover,
+.nav-phylogeny.active {
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+.nav-viruses:hover,
+.nav-viruses.active {
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
 }
 
 /* Hero Section */
