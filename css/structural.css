@@ -1,5 +1,5 @@
 /**
- * Structural Biology Page Styles
+ * Structural Biology Page Styles - Extended
  */
 
 .structural-main {
@@ -53,6 +53,123 @@
     color: var(--text-secondary);
     font-size: 1.1rem;
     margin-bottom: 3rem;
+}
+
+/* Architecture Grid */
+.architecture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.architecture-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-top: 4px solid var(--accent-color);
+}
+
+.architecture-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+}
+
+.architecture-card p {
+    color: var(--text-primary);
+    line-height: 1.7;
+}
+
+/* Secondary Structure Grid */
+.secondary-structure-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.structure-element {
+    background: white;
+    border-radius: 1rem;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.structure-element.beta {
+    border-top: 4px solid #3b82f6;
+}
+
+.structure-element.alpha {
+    border-top: 4px solid #f59e0b;
+}
+
+.structure-element.loops {
+    border-top: 4px solid #8b5cf6;
+}
+
+.element-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.5rem auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 700;
+    color: white;
+}
+
+.structure-element.beta .element-icon {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.structure-element.alpha .element-icon {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.structure-element.loops .element-icon {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.structure-element h3 {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.structure-element p {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.structure-element ul {
+    list-style: none;
+    padding: 0;
+}
+
+.structure-element li {
+    padding: 0.75rem 0 0.75rem 1.5rem;
+    position: relative;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.structure-element li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.structure-element li:last-child {
+    border-bottom: none;
 }
 
 /* Content Grid */
@@ -172,7 +289,169 @@
     font-weight: bold;
 }
 
-/* Motifs Grid */
+/* Detailed Motifs */
+.motifs-detailed {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.motif-detail-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.motif-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+}
+
+.motif-icon-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+}
+
+.motif-header h3 {
+    color: var(--primary-color);
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.motif-content {
+    padding: 2rem;
+}
+
+.motif-content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+}
+
+.motif-content strong {
+    color: var(--primary-color);
+}
+
+.motif-content ul {
+    margin: 0.5rem 0 1rem 1.5rem;
+}
+
+.motif-content li {
+    margin: 0.5rem 0;
+}
+
+/* Isoform Comparison */
+.isoform-comparison {
+    margin-top: 2rem;
+}
+
+.comparison-table {
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+}
+
+.comparison-header {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 0;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.header-cell {
+    padding: 1.5rem 1rem;
+    font-weight: 600;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.header-cell:first-child {
+    text-align: left;
+    padding-left: 2rem;
+}
+
+.comparison-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comparison-row:last-child {
+    border-bottom: none;
+}
+
+.comparison-row:nth-child(even) {
+    background: #f8fafc;
+}
+
+.feature-cell {
+    padding: 1.25rem 1rem 1.25rem 2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.data-cell {
+    padding: 1.25rem 1rem;
+    text-align: center;
+    color: var(--text-primary);
+}
+
+.comparison-notes {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.comparison-notes h3 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.comparison-notes ul {
+    list-style: none;
+    padding: 0;
+}
+
+.comparison-notes li {
+    padding: 1rem 0 1rem 2rem;
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+    line-height: 1.7;
+}
+
+.comparison-notes li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.comparison-notes li:last-child {
+    border-bottom: none;
+}
+
+/* Motifs Grid (old style - kept for compatibility) */
 .motifs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -254,6 +533,21 @@
 }
 
 /* Responsive */
+@media (max-width: 992px) {
+
+    .comparison-header,
+    .comparison-row {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+        font-size: 0.9rem;
+    }
+
+    .header-cell,
+    .feature-cell,
+    .data-cell {
+        padding: 1rem 0.5rem;
+    }
+}
+
 @media (max-width: 768px) {
     .structural-hero h1 {
         font-size: 2rem;
@@ -265,5 +559,25 @@
 
     .section-container h2 {
         font-size: 2rem;
+    }
+
+    .comparison-header,
+    .comparison-row {
+        grid-template-columns: 1fr;
+    }
+
+    .comparison-header {
+        display: none;
+    }
+
+    .data-cell::before {
+        content: attr(data-label);
+        font-weight: 600;
+        margin-right: 0.5rem;
+        color: var(--primary-color);
+    }
+
+    .secondary-structure-grid {
+        grid-template-columns: 1fr;
     }
 }

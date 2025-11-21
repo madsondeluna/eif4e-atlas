@@ -128,30 +128,250 @@
             </div>
         </section>
 
+        <!-- Structural Architecture Section -->
+        <section class="content-section">
+            <div class="section-container">
+                <h2>Structural Architecture</h2>
+                <p class="section-intro">The eIF4E fold: a conserved cap-binding architecture</p>
+
+                <div class="architecture-grid">
+                    <div class="architecture-card">
+                        <h3>Fold Type</h3>
+                        <p><strong>Canonical eIF4E fold</strong> - A variation of the curved antiparallel β-sheet fold,
+                            forming a distinctive "cupped hand" structure that cradles the m7G cap.</p>
+                    </div>
+
+                    <div class="architecture-card">
+                        <h3>Core Structure</h3>
+                        <p>The protein consists of a <strong>single domain</strong> (~200 residues) with no significant
+                            interdomain regions, making it a compact, globular protein.</p>
+                    </div>
+
+                    <div class="architecture-card">
+                        <h3>Topology</h3>
+                        <p>β-sheet core flanked by α-helices in a <strong>α/β architecture</strong>, characteristic of
+                            nucleotide-binding proteins.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secondary Structure Section -->
+        <section class="content-section dark-bg">
+            <div class="section-container">
+                <h2>Secondary Structure Composition</h2>
+                <p class="section-intro">Detailed breakdown of structural elements in plant eIF4E</p>
+
+                <div class="secondary-structure-grid">
+                    <div class="structure-element beta">
+                        <div class="element-icon">β</div>
+                        <h3>β-Sheets</h3>
+                        <p><strong>8 antiparallel β-strands</strong> arranged in a curved sheet</p>
+                        <ul>
+                            <li>Sheet 1: Strands β1-β8 (concave surface faces cap)</li>
+                            <li>Provides structural scaffold</li>
+                            <li>Forms the cap-binding groove</li>
+                            <li>~40% of secondary structure</li>
+                        </ul>
+                    </div>
+
+                    <div class="structure-element alpha">
+                        <div class="element-icon">α</div>
+                        <h3>α-Helices</h3>
+                        <p><strong>3 major α-helices</strong> positioned on the convex side</p>
+                        <ul>
+                            <li>Helix α1: N-terminal, contacts β-sheet</li>
+                            <li>Helix α2: Central, involved in eIF4G binding</li>
+                            <li>Helix α3: C-terminal, stabilizes structure</li>
+                            <li>~25% of secondary structure</li>
+                        </ul>
+                    </div>
+
+                    <div class="structure-element loops">
+                        <div class="element-icon">Ω</div>
+                        <h3>Loops & Turns</h3>
+                        <p><strong>Multiple connecting loops</strong> providing flexibility</p>
+                        <ul>
+                            <li>8-10 major loop regions between strands</li>
+                            <li>Variable length (2-15 residues)</li>
+                            <li>Some loops critical for VPg interaction</li>
+                            <li>~35% of structure (flexible regions)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Conserved Motifs Section -->
         <section class="content-section">
             <div class="section-container">
                 <h2>Conserved Motifs & Functional Sites</h2>
 
-                <div class="motifs-grid">
-                    <div class="motif-card">
-                        <div class="motif-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">W</div>
-                        <h3>Tryptophan Residues</h3>
-                        <p>Two conserved Trp residues (Trp56, Trp102 in Arabidopsis) form the cap-binding pocket through
-                            π-π stacking with the m7G cap</p>
+                <div class="motifs-detailed">
+                    <div class="motif-detail-card">
+                        <div class="motif-header">
+                            <div class="motif-icon-large"
+                                style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">W</div>
+                            <h3>Tryptophan Residues (Cap Recognition)</h3>
+                        </div>
+                        <div class="motif-content">
+                            <p><strong>Position:</strong> Trp56 and Trp102 (Arabidopsis numbering)</p>
+                            <p><strong>Function:</strong> Two conserved Trp residues form the cap-binding pocket through
+                                π-π stacking interactions with the m<sup>7</sup>G cap structure</p>
+                            <p><strong>Mechanism:</strong> The aromatic rings of both tryptophans sandwich the
+                                methylated guanine base, providing specificity and high-affinity binding (K<sub>d</sub>
+                                ~0.1-1 μM)</p>
+                            <p><strong>Conservation:</strong> >95% conserved across all plant eIF4E isoforms</p>
+                        </div>
                     </div>
 
-                    <div class="motif-card">
-                        <div class="motif-icon" style="background: linear-gradient(135deg, #10b981, #059669);">VPg</div>
-                        <h3>VPg Binding Surface</h3>
-                        <p>Specific residues on the dorsal surface interact with viral VPg proteins, critical for virus
-                            resistance</p>
+                    <div class="motif-detail-card">
+                        <div class="motif-header">
+                            <div class="motif-icon-large"
+                                style="background: linear-gradient(135deg, #10b981, #059669);">VPg</div>
+                            <h3>VPg Binding Surface (Dorsal Side)</h3>
+                        </div>
+                        <div class="motif-content">
+                            <p><strong>Position:</strong> Dorsal surface, residues 60-80 and 110-130 region</p>
+                            <p><strong>Function:</strong> Interaction site for viral VPg (Viral Protein genome-linked)
+                                proteins</p>
+                            <p><strong>Key Residues:</strong> Variable across species - natural polymorphisms in this
+                                region confer virus resistance</p>
+                            <p><strong>Examples:</strong>
+                            <ul>
+                                <li>Pepper pvr2 resistance: mutations at positions 65-67</li>
+                                <li>Pea sbm1 resistance: substitutions at position 76</li>
+                            </ul>
+                            </p>
+                            <p><strong>Significance:</strong> Target for resistance breeding against potyviruses</p>
+                        </div>
                     </div>
 
-                    <div class="motif-card">
-                        <div class="motif-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">4G</div>
-                        <h3>eIF4G Interaction</h3>
-                        <p>Lateral surface binds eIF4G scaffolding protein to form the eIF4F complex</p>
+                    <div class="motif-detail-card">
+                        <div class="motif-header">
+                            <div class="motif-icon-large"
+                                style="background: linear-gradient(135deg, #f59e0b, #d97706);">4G</div>
+                            <h3>eIF4G Interaction Surface (Lateral)</h3>
+                        </div>
+                        <div class="motif-content">
+                            <p><strong>Position:</strong> Lateral surface, centered around helix α2</p>
+                            <p><strong>Function:</strong> Binds the scaffolding protein eIF4G to form the eIF4F
+                                translation initiation complex</p>
+                            <p><strong>Binding Mode:</strong> eIF4G contacts eIF4E through a conserved YXXXXLΦ motif
+                                (where Φ is hydrophobic)</p>
+                            <p><strong>Regulation:</strong> 4E-BP proteins compete for this same surface, providing
+                                translational control</p>
+                            <p><strong>Conservation:</strong> Moderately conserved; some variation between eIF4E and
+                                eIF(iso)4E isoforms</p>
+                        </div>
+                    </div>
+
+                    <div class="motif-detail-card">
+                        <div class="motif-header">
+                            <div class="motif-icon-large"
+                                style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">K+</div>
+                            <h3>Positively Charged Residues (Cap Phosphates)</h3>
+                        </div>
+                        <div class="motif-content">
+                            <p><strong>Position:</strong> Around the cap-binding pocket</p>
+                            <p><strong>Residues:</strong> Conserved Lys and Arg residues (e.g., Lys159, Arg157 in
+                                Arabidopsis)</p>
+                            <p><strong>Function:</strong> Electrostatic interactions with the negatively charged
+                                phosphate groups of the m<sup>7</sup>GpppN cap</p>
+                            <p><strong>Contribution:</strong> Enhances binding affinity and cap specificity beyond the
+                                aromatic stacking</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Isoform Comparison Section -->
+        <section class="content-section dark-bg">
+            <div class="section-container">
+                <h2>Plant eIF4E Isoform Comparison</h2>
+                <p class="section-intro">Structural and functional differences between plant-specific cap-binding
+                    proteins</p>
+
+                <div class="isoform-comparison">
+                    <div class="comparison-table">
+                        <div class="comparison-header">
+                            <div class="header-cell">Feature</div>
+                            <div class="header-cell isoform-eif4e">eIF4E</div>
+                            <div class="header-cell isoform-iso">eIF(iso)4E</div>
+                            <div class="header-cell isoform-ncbp">nCBP</div>
+                        </div>
+
+                        <div class="comparison-row">
+                            <div class="feature-cell">Size</div>
+                            <div class="data-cell">~220 aa</div>
+                            <div class="data-cell">~195 aa</div>
+                            <div class="data-cell">~180 aa</div>
+                        </div>
+
+                        <div class="comparison-row">
+                            <div class="feature-cell">Cap Affinity</div>
+                            <div class="data-cell">High (nM range)</div>
+                            <div class="data-cell">Moderate (μM range)</div>
+                            <div class="data-cell">Lower</div>
+                        </div>
+
+                        <div class="comparison-row">
+                            <div class="feature-cell">Trp Residues</div>
+                            <div class="data-cell">Two conserved</div>
+                            <div class="data-cell">Two conserved</div>
+                            <div class="data-cell">Variable</div>
+                        </div>
+
+                        <div class="comparison-row">
+                            <div class="feature-cell">eIF4G Partner</div>
+                            <div class="data-cell">eIF4G</div>
+                            <div class="data-cell">eIF(iso)4G</div>
+                            <div class="data-cell">Unknown/Variable</div>
+                        </div>
+
+                        <div class="comparison-row">
+                            <div class="feature-cell">Virus Interaction</div>
+                            <div class="data-cell">Some potyviruses</div>
+                            <div class="data-cell">Many potyviruses</div>
+                            <div class="data-cell">Limited data</div>
+                        </div>
+
+                        <div class="comparison-row">
+                            <div class="feature-cell">VPg Binding Surface</div>
+                            <div class="data-cell">Conserved dorsal</div>
+                            <div class="data-cell">More variable</div>
+                            <div class="data-cell">Divergent</div>
+                        </div>
+
+                        <div class="comparison-row">
+                            <div class="feature-cell">Expression</div>
+                            <div class="data-cell">Constitutive</div>
+                            <div class="data-cell">Constitutive</div>
+                            <div class="data-cell">Tissue-specific</div>
+                        </div>
+
+                        <div class="comparison-row">
+                            <div class="feature-cell">Function</div>
+                            <div class="data-cell">Canonical translation</div>
+                            <div class="data-cell">Alternative translation</div>
+                            <div class="data-cell">Specialized roles</div>
+                        </div>
+                    </div>
+
+                    <div class="comparison-notes">
+                        <h3>Key Structural Differences</h3>
+                        <ul>
+                            <li><strong>eIF4E vs eIF(iso)4E:</strong> ~30% sequence identity but maintain similar
+                                overall fold. Main differences in loop regions and eIF4G-binding surface.</li>
+                            <li><strong>nCBP family:</strong> More divergent, with some members lacking one or both
+                                conserved Trp residues. May represent evolutionary adaptations for specialized
+                                functions.</li>
+                            <li><strong>Functional redundancy:</strong> In most plants, both eIF4E and eIF(iso)4E can
+                                support translation, but with different efficiencies for specific mRNAs.</li>
+                            <li><strong>Resistance implications:</strong> Natural alleles affecting VPg binding in
+                                either eIF4E or eIF(iso)4E can confer broad-spectrum virus resistance.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
