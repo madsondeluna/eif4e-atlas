@@ -1,257 +1,284 @@
 /**
- * Interactive 2D Structure Diagram for eIF4E
+ * Clean 2D Topology Diagram for eIF4E - Based on ribbon topology style
  */
 
-class EIF4EStructureDiagram {
+class EIF4ETopologyDiagram {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
-        this.width = 800;
-        this.height = 600;
-        this.selectedRegion = null;
+        this.width = 900;
+        this.height = 400;
+        this.selectedElement = null;
         this.init();
     }
 
     init() {
         this.createSVG();
-        this.drawStructure();
+        this.drawTopology();
         this.addInteractivity();
     }
 
     createSVG() {
         this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         this.svg.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
-        this.svg.setAttribute('class', 'structure-diagram');
+        this.svg.setAttribute('class', 'topology-diagram');
         this.container.appendChild(this.svg);
     }
 
-    drawStructure() {
-        // Draw beta sheet (curved arrangement of 8 strands)
-        this.drawBetaSheet();
+    drawTopology() {
+        const startX = 80;
+        const startY = 320;
+        const strandWidth = 40;
+        const strandHeight = 140;
+        const strandSpacing = 75;
 
-        // Draw alpha helices
-        this.drawAlphaHelices();
+        // Define the 8 beta strands
+        const strands = [
+            { id: 1, direction: 'up', x: startX },
+            { id: 2, direction: 'down', x: startX + strandSpacing },
+            { id: 3, direction: 'up', x: startX + strandSpacing * 2 },
+            { id: 4, direction: 'down', x: startX + strandSpacing * 3 },
+            { id: 5, direction: 'up', x: startX + strandSpacing * 4 },
+            { id: 6, direction: 'down', x: startX + strandSpacing * 5 },
+            { id: 7, direction: 'up', x: startX + strandSpacing * 6 },
+            { id: 8, direction: 'down', x: startX + strandSpacing * 7 }
+        ];
 
-        // Draw loops
-        this.drawLoops();
+        // Draw loops first (so they appear behind strands)
+        this.drawLoops(strands, strandWidth, strandHeight, startY);
 
-        // Draw binding sites
+        // Draw beta strands
+        strands.forEach(strand => {
+            this.drawBetaStrand(strand, strandWidth, strandHeight, startY);
+        });
+
+        // Draw helices
+        this.drawHelices();
+
+        // Draw binding site annotations
         this.drawBindingSites();
 
         // Add labels
         this.addLabels();
     }
 
-    drawBetaSheet() {
-        const centerX = 400;
-        const centerY = 300;
-        const radius = 150;
-        const strandCount = 8;
-        const strandWidth = 25;
-        const strandHeight = 100;
+    drawLoops(strands, width, height, baseY) {
+        // Loop connecting strands (hairpin loops on top/bottom)
+        for (let i = 0; i < strands.length - 1; i++) {
+            const current = strands[i];
+            const next = strands[i + 1];
 
-        for (let i = 0; i < strandCount; i++) {
-            const angle = (i * Math.PI * 2) / strandCount - Math.PI / 2;
-            const x = centerX + Math.cos(angle) * radius;
-            const y = centerY + Math.sin(angle) * radius;
+            const x1 = current.x + width / 2;
+            const x2 = next.x + width / 2;
 
-            const strand = this.createBetaStrand(x, y, angle, i + 1);
-            this.svg.appendChild(strand);
+            let y1, y2, controlY;
+
+            if (current.direction === 'up') {
+                y1 = baseY - height;
+                y2 = next.direction === 'down' ? baseY - height : baseY;
+                controlY = baseY - height - 30;
+            } else {
+                y1 = baseY;
+                y2 = next.direction === 'up' ? baseY - height : baseY;
+                controlY = baseY + 30;
+            }
+
+            const midX = (x1 + x2) / 2;
+            const path = `M ${x1},${y1} Q ${midX},${controlY} ${x2},${y2}`;
+
+            const loopPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            loopPath.setAttribute('d', path);
+            loopPath.setAttribute('stroke', '#94a3b8');
+            loopPath.setAttribute('stroke-width', '3');
+            loopPath.setAttribute('fill', 'none');
+            loopPath.setAttribute('class', 'loop-connector');
+            loopPath.setAttribute('data-type', 'loop');
+            loopPath.setAttribute('data-name', `Loop ${i + 1}`);
+
+            this.svg.appendChild(loopPath);
         }
     }
 
-    createBetaStrand(x, y, angle, number) {
+    drawBetaStrand(strand, width, height, baseY) {
         const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.setAttribute('class', 'beta-strand');
+        g.setAttribute('class', 'beta-strand-element');
         g.setAttribute('data-type', 'beta');
-        g.setAttribute('data-name', `β${number}`);
-        g.setAttribute('transform', `translate(${x},${y}) rotate(${angle * 180 / Math.PI})`);
+        g.setAttribute('data-id', strand.id);
+        g.setAttribute('data-name', `β${strand.id}`);
 
-        // Arrow shape for beta strand
+        const x = strand.x;
+        let y1, y2;
+
+        if (strand.direction === 'up') {
+            y1 = baseY;
+            y2 = baseY - height;
+        } else {
+            y1 = baseY - height;
+            y2 = baseY;
+        }
+
+        // Draw arrow shape
+        const arrowSize = 15;
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        const d = `M -12,-40 L -12,30 L -18,30 L 0,45 L 18,30 L 12,30 L 12,-40 Z`;
-        path.setAttribute('d', d);
+
+        if (strand.direction === 'up') {
+            // Arrow pointing up
+            const d = `
+                M ${x + width / 2 - width / 4},${y1}
+                L ${x + width / 2 - width / 4},${y2 + arrowSize}
+                L ${x},${y2 + arrowSize}
+                L ${x + width / 2},${y2}
+                L ${x + width},${y2 + arrowSize}
+                L ${x + width / 2 + width / 4},${y2 + arrowSize}
+                L ${x + width / 2 + width / 4},${y1}
+                Z
+            `;
+            path.setAttribute('d', d);
+        } else {
+            // Arrow pointing down
+            const d = `
+                M ${x + width / 2 - width / 4},${y1}
+                L ${x + width / 2 - width / 4},${y2 - arrowSize}
+                L ${x},${y2 - arrowSize}
+                L ${x + width / 2},${y2}
+                L ${x + width},${y2 - arrowSize}
+                L ${x + width / 2 + width / 4},${y2 - arrowSize}
+                L ${x + width / 2 + width / 4},${y1}
+                Z
+            `;
+            path.setAttribute('d', d);
+        }
+
         path.setAttribute('fill', '#3b82f6');
         path.setAttribute('stroke', '#1d4ed8');
         path.setAttribute('stroke-width', '2');
 
-        // Text label
+        // Add label
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.setAttribute('x', '0');
-        text.setAttribute('y', '5');
+        text.setAttribute('x', x + width / 2);
+        text.setAttribute('y', (y1 + y2) / 2 + 5);
         text.setAttribute('text-anchor', 'middle');
         text.setAttribute('fill', 'white');
         text.setAttribute('font-size', '14');
         text.setAttribute('font-weight', 'bold');
-        text.textContent = `β${number}`;
+        text.textContent = `β${strand.id}`;
 
         g.appendChild(path);
         g.appendChild(text);
-        return g;
+        this.svg.appendChild(g);
     }
 
-    drawAlphaHelices() {
+    drawHelices() {
         const helices = [
-            { x: 250, y: 150, length: 80, angle: 45, label: 'α1' },
-            { x: 550, y: 300, length: 90, angle: -30, label: 'α2' },
-            { x: 320, y: 480, length: 70, angle: 15, label: 'α3' }
+            { label: 'α1', x: 150, y: 80, length: 60, color: '#f59e0b' },
+            { label: 'α2', x: 400, y: 60, length: 80, color: '#f59e0b' },
+            { label: 'α3', x: 650, y: 90, length: 70, color: '#f59e0b' }
         ];
 
         helices.forEach(helix => {
-            const g = this.createAlphaHelix(helix.x, helix.y, helix.length, helix.angle, helix.label);
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.setAttribute('class', 'helix-element');
+            g.setAttribute('data-type', 'helix');
+            g.setAttribute('data-name', helix.label);
+
+            // Draw helix as rounded rectangle
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('x', helix.x);
+            rect.setAttribute('y', helix.y);
+            rect.setAttribute('width', helix.length);
+            rect.setAttribute('height', 16);
+            rect.setAttribute('rx', 8);
+            rect.setAttribute('fill', helix.color);
+            rect.setAttribute('stroke', '#d97706');
+            rect.setAttribute('stroke-width', '2');
+
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', helix.x + helix.length / 2);
+            text.setAttribute('y', helix.y + 12);
+            text.setAttribute('text-anchor', 'middle');
+            text.setAttribute('fill', 'white');
+            text.setAttribute('font-size', '12');
+            text.setAttribute('font-weight', 'bold');
+            text.textContent = helix.label;
+
+            g.appendChild(rect);
+            g.appendChild(text);
             this.svg.appendChild(g);
-        });
-    }
-
-    createAlphaHelix(x, y, length, angle, label) {
-        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.setAttribute('class', 'alpha-helix');
-        g.setAttribute('data-type', 'helix');
-        g.setAttribute('data-name', label);
-        g.setAttribute('transform', `translate(${x},${y}) rotate(${angle})`);
-
-        // Cylinder shape for helix
-        const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        rect.setAttribute('x', -length / 2);
-        rect.setAttribute('y', -10);
-        rect.setAttribute('width', length);
-        rect.setAttribute('height', 20);
-        rect.setAttribute('rx', 10);
-        rect.setAttribute('fill', '#f59e0b');
-        rect.setAttribute('stroke', '#d97706');
-        rect.setAttribute('stroke-width', '2');
-
-        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.setAttribute('x', '0');
-        text.setAttribute('y', '5');
-        text.setAttribute('text-anchor', 'middle');
-        text.setAttribute('fill', 'white');
-        text.setAttribute('font-size', '14');
-        text.setAttribute('font-weight', 'bold');
-        text.textContent = label;
-
-        g.appendChild(rect);
-        g.appendChild(text);
-        return g;
-    }
-
-    drawLoops() {
-        // Connecting loops between structural elements
-        const loops = [
-            { path: 'M 300,200 Q 280,180 260,170', label: 'Loop 1' },
-            { path: 'M 500,250 Q 520,240 540,250', label: 'Loop 2' },
-            { path: 'M 400,450 Q 380,460 360,470', label: 'Loop 3' }
-        ];
-
-        loops.forEach((loop, i) => {
-            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            path.setAttribute('d', loop.path);
-            path.setAttribute('stroke', '#8b5cf6');
-            path.setAttribute('stroke-width', '3');
-            path.setAttribute('fill', 'none');
-            path.setAttribute('class', 'loop');
-            path.setAttribute('data-type', 'loop');
-            path.setAttribute('data-name', loop.label);
-            this.svg.appendChild(path);
         });
     }
 
     drawBindingSites() {
         const sites = [
-            {
-                x: 400, y: 300, radius: 50, color: '#ef4444', label: 'm⁷G Cap', type: 'cap',
-                description: 'Cap-binding pocket with Trp56 and Trp102'
-            },
-            {
-                x: 520, y: 280, radius: 35, color: '#10b981', label: 'eIF4G', type: 'eif4g',
-                description: 'Lateral surface binding eIF4G via YXXXXLΦ motif'
-            },
-            {
-                x: 350, y: 200, radius: 40, color: '#8b5cf6', label: 'VPg', type: 'vpg',
-                description: 'Dorsal surface for viral VPg interaction'
-            }
+            { label: 'Cap binding', x: 350, y: 260, color: '#ef4444', width: 120 },
+            { label: 'eIF4G', x: 550, y: 240, color: '#10b981', width: 80 },
+            { label: 'VPg', x: 220, y: 200, color: '#8b5cf6', width: 60 }
         ];
 
         sites.forEach(site => {
             const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            g.setAttribute('class', 'binding-site');
-            g.setAttribute('data-type', site.type);
-            g.setAttribute('data-description', site.description);
+            g.setAttribute('class', 'binding-annotation');
+            g.setAttribute('data-type', 'binding');
+            g.setAttribute('data-name', site.label);
 
-            // Circle
-            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            circle.setAttribute('cx', site.x);
-            circle.setAttribute('cy', site.y);
-            circle.setAttribute('r', site.radius);
-            circle.setAttribute('fill', site.color);
-            circle.setAttribute('opacity', '0.3');
-            circle.setAttribute('stroke', site.color);
-            circle.setAttribute('stroke-width', '2');
-            circle.setAttribute('stroke-dasharray', '5,5');
+            // Dashed line
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', site.x);
+            line.setAttribute('y1', site.y);
+            line.setAttribute('x2', site.x + site.width / 2);
+            line.setAttribute('y2', site.y + 40);
+            line.setAttribute('stroke', site.color);
+            line.setAttribute('stroke-width', '2');
+            line.setAttribute('stroke-dasharray', '4,3');
 
-            // Label
+            // Label box
+            const textBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            textBg.setAttribute('x', site.x - 5);
+            textBg.setAttribute('y', site.y - 18);
+            textBg.setAttribute('width', site.width + 10);
+            textBg.setAttribute('height', 20);
+            textBg.setAttribute('fill', site.color);
+            textBg.setAttribute('opacity', '0.9');
+            textBg.setAttribute('rx', 4);
+
             const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            text.setAttribute('x', site.x);
-            text.setAttribute('y', site.y + 5);
+            text.setAttribute('x', site.x + site.width / 2);
+            text.setAttribute('y', site.y - 4);
             text.setAttribute('text-anchor', 'middle');
-            text.setAttribute('fill', site.color);
-            text.setAttribute('font-size', '12');
+            text.setAttribute('fill', 'white');
+            text.setAttribute('font-size', '11');
             text.setAttribute('font-weight', 'bold');
             text.textContent = site.label;
 
-            g.appendChild(circle);
+            g.appendChild(line);
+            g.appendChild(textBg);
             g.appendChild(text);
             this.svg.appendChild(g);
         });
     }
 
     addLabels() {
-        // Title
-        const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        title.setAttribute('x', '400');
-        title.setAttribute('y', '40');
-        title.setAttribute('text-anchor', 'middle');
-        title.setAttribute('font-size', '24');
-        title.setAttribute('font-weight', 'bold');
-        title.setAttribute('fill', '#1e293b');
-        title.textContent = 'eIF4E Secondary Structure (2D Topology)';
-        this.svg.appendChild(title);
+        // N' and C' terminal labels
+        const nTerm = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        nTerm.setAttribute('x', '50');
+        nTerm.setAttribute('y', '330');
+        nTerm.setAttribute('font-size', '16');
+        nTerm.setAttribute('font-weight', 'bold');
+        nTerm.setAttribute('fill', '#475569');
+        nTerm.textContent = "N'";
 
-        // Legend
-        this.createLegend();
-    }
+        const cTerm = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        cTerm.setAttribute('x', '850');
+        cTerm.setAttribute('y', '330');
+        cTerm.setAttribute('font-size', '16');
+        cTerm.setAttribute('font-weight', 'bold');
+        cTerm.setAttribute('fill', '#475569');
+        cTerm.textContent = "C'";
 
-    createLegend() {
-        const legendData = [
-            { color: '#3b82f6', label: 'β-Sheets (8 strands)', x: 50, y: 50 },
-            { color: '#f59e0b', label: 'α-Helices (3)', x: 50, y: 80 },
-            { color: '#8b5cf6', label: 'Loops & Turns', x: 50, y: 110 }
-        ];
-
-        legendData.forEach(item => {
-            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            rect.setAttribute('x', item.x);
-            rect.setAttribute('y', item.y);
-            rect.setAttribute('width', '20');
-            rect.setAttribute('height', '20');
-            rect.setAttribute('fill', item.color);
-            rect.setAttribute('stroke', '#334155');
-            rect.setAttribute('stroke-width', '1');
-
-            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            text.setAttribute('x', item.x + 30);
-            text.setAttribute('y', item.y + 15);
-            text.setAttribute('font-size', '14');
-            text.setAttribute('fill', '#334155');
-            text.textContent = item.label;
-
-            this.svg.appendChild(rect);
-            this.svg.appendChild(text);
-        });
+        this.svg.appendChild(nTerm);
+        this.svg.appendChild(cTerm);
     }
 
     addInteractivity() {
-        // Add hover/touch effects
-        const elements = this.svg.querySelectorAll('.beta-strand, .alpha-helix, .loop, .binding-site');
+        const elements = this.svg.querySelectorAll('.beta-strand-element, .helix-element, .loop-connector, .binding-annotation');
 
         elements.forEach(el => {
             el.style.cursor = 'pointer';
@@ -260,7 +287,6 @@ class EIF4EStructureDiagram {
             el.addEventListener('mouseleave', (e) => this.unhighlightElement(e.currentTarget));
             el.addEventListener('click', (e) => this.selectElement(e.currentTarget));
 
-            // Touch support
             el.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 this.selectElement(e.currentTarget);
@@ -269,48 +295,65 @@ class EIF4EStructureDiagram {
     }
 
     highlightElement(element) {
-        element.style.opacity = '0.8';
-        element.style.transform = 'scale(1.05)';
-        element.style.transition = 'all 0.3s ease';
+        element.style.opacity = '0.7';
+        element.style.filter = 'brightness(1.2)';
     }
 
     unhighlightElement(element) {
-        if (element !== this.selectedRegion) {
+        if (element !== this.selectedElement) {
             element.style.opacity = '1';
-            element.style.transform = 'scale(1)';
+            element.style.filter = 'none';
         }
     }
 
     selectElement(element) {
-        // Clear previous selection
-        if (this.selectedRegion) {
-            this.selectedRegion.style.transform = 'scale(1)';
+        if (this.selectedElement) {
+            this.selectedElement.style.filter = 'none';
+            this.selectedElement.style.opacity = '1';
         }
 
-        this.selectedRegion = element;
-        element.style.transform = 'scale(1.1)';
+        this.selectedElement = element;
+        element.style.filter = 'brightness(1.3) drop-shadow(0 0 8px rgba(59, 130, 246, 0.6))';
 
-        // Show info
         const type = element.getAttribute('data-type');
         const name = element.getAttribute('data-name');
-        const description = element.getAttribute('data-description');
-
-        if (description || name) {
-            this.showInfo(name || type, description || this.getDefaultDescription(type, name));
-        }
+        this.showInfo(name, this.getDescription(type, name));
     }
 
-    getDefaultDescription(type, name) {
+    getDescription(type, name) {
         const descriptions = {
-            'beta': `Beta strand ${name} - Part of the curved antiparallel β-sheet that forms the structural scaffold and cap-binding groove`,
-            'helix': `${name} helix - Alpha helix positioned on the convex side, involved in structural stability and protein interactions`,
-            'loop': `Flexible loop region connecting structural elements, some involved in VPg binding`
+            'beta': {
+                'β1': 'First beta strand - Part of the curved antiparallel β-sheet forming the structural core',
+                'β2': 'Second beta strand - Contributes to the concave cap-binding surface',
+                'β3': 'Third beta strand - Central strand in the β-sheet scaffold',
+                'β4': 'Fourth beta strand - Involved in maintaining sheet curvature',
+                'β5': 'Fifth beta strand - Part of the cap-binding pocket region',
+                'β6': 'Sixth beta strand - Contributes to overall fold stability',
+                'β7': 'Seventh beta strand - Near the C-terminal region',
+                'β8': 'Eighth beta strand - Terminal strand completing the sheet'
+            },
+            'helix': {
+                'α1': 'Alpha helix 1 - N-terminal helix contacting the β-sheet, provides structural support',
+                'α2': 'Alpha helix 2 - Central helix on convex side, critical for eIF4G binding interactions',
+                'α3': 'Alpha helix 3 - C-terminal helix stabilizing the overall protein architecture'
+            },
+            'loop': 'Flexible loop region connecting β-strands - some loops are critical for VPg viral protein binding',
+            'binding': {
+                'Cap binding': 'm⁷G cap-binding pocket - Conserved Trp56 and Trp102 residues sandwich the methylated guanine through π-π stacking',
+                'eIF4G': 'eIF4G binding surface - Lateral region where eIF4G binds via YXXXXLΦ motif to form eIF4F complex',
+                'VPg': 'VPg binding surface - Dorsal surface where viral VPg proteins interact; mutations here confer virus resistance'
+            }
         };
-        return descriptions[type] || 'Structural element of eIF4E';
+
+        if (type === 'beta') return descriptions.beta[name] || 'Beta strand';
+        if (type === 'helix') return descriptions.helix[name] || 'Alpha helix';
+        if (type === 'loop') return descriptions.loop;
+        if (type === 'binding') return descriptions.binding[name] || 'Binding site';
+
+        return 'Structural element of eIF4E';
     }
 
     showInfo(title, description) {
-        // Update info panel
         const infoTitle = document.getElementById('structure-info-title');
         const infoDesc = document.getElementById('structure-info-description');
 
@@ -321,9 +364,9 @@ class EIF4EStructureDiagram {
     }
 }
 
-// Initialize diagram when DOM is ready
+// Initialize diagram
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('eif4e-structure-diagram')) {
-        new EIF4EStructureDiagram('eif4e-structure-diagram');
+        new EIF4ETopologyDiagram('eif4e-structure-diagram');
     }
 });
