@@ -1,0 +1,44 @@
+/**
+ * Search Page Styles
+ */
+
+.search-main {
+    max-width: 100%;
+}
+
+/* Hero - matching other pages */
+.search-hero {
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.search-hero h1 {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.search-hero p {
+    font-size: 1.2rem;
+    opacity: 0.95;
+}
+
+/* Search Section */
+.search-section {
+    padding: 3rem 2rem;
+    background: white;
+}
+
+.search-container-main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-hero h1 {
+        font-size: 2rem;
+    }
+}
