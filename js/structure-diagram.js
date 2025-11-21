@@ -13,6 +13,7 @@ class EIF4ETopologyDiagram {
 
     init() {
         this.createSVG();
+        this.createTooltip();
         this.drawTopology();
         this.addInteractivity();
     }
@@ -289,6 +290,45 @@ class EIF4ETopologyDiagram {
         });
 
         this.svg.appendChild(g);
+    }
+
+    createTooltip() {
+        this.tooltip = document.createElement('div');
+        this.tooltip.className = 'structure-tooltip';
+        this.tooltip.style.position = 'fixed';
+        this.tooltip.style.background = 'rgba(0, 0, 0, 0.8)';
+        this.tooltip.style.color = 'white';
+        this.tooltip.style.padding = '8px 12px';
+        this.tooltip.style.borderRadius = '4px';
+        this.tooltip.style.fontSize = '14px';
+        this.tooltip.style.pointerEvents = 'none';
+        this.tooltip.style.zIndex = '1000';
+        this.tooltip.style.display = 'none';
+        this.tooltip.style.transition = 'opacity 0.2s';
+        document.body.appendChild(this.tooltip);
+    }
+
+    showTooltip(text, svgX, svgY) {
+        if (!this.tooltip) return;
+
+        // Convert SVG coordinates to Screen coordinates
+        const point = this.svg.createSVGPoint();
+        point.x = svgX;
+        point.y = svgY;
+
+        const screenPoint = point.matrixTransform(this.svg.getScreenCTM());
+
+        this.tooltip.textContent = text;
+        this.tooltip.style.display = 'block';
+        this.tooltip.style.left = `${screenPoint.x}px`;
+        this.tooltip.style.top = `${screenPoint.y - 40}px`; // Position above
+        this.tooltip.style.transform = 'translateX(-50%)';
+    }
+
+    hideTooltip() {
+        if (this.tooltip) {
+            this.tooltip.style.display = 'none';
+        }
     }
 
     addLabels() {

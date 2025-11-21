@@ -695,6 +695,17 @@
 
 @media (max-width: 768px) {
     .structure-diagram-wrapper {
-        min-height: 400px;
+        min-height: 300px;
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .structure-diagram-wrapper {
+        min-height: 200px;
+    }
+
+    .diagram-info h3 {
+        font-size: 1.2rem;
     }
 }
