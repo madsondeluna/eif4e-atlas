@@ -48,6 +48,36 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Global text justification for readability */
+p,
+li {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+/* Keep specific elements centered */
+.hero-title,
+.hero-subtitle,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-align: center;
+}
+
+/* Override justify for small text elements */
+.stat-label,
+.search-tags span,
+button,
+.tag-btn {
+    text-align: center;
 }
 
 /* Header */
