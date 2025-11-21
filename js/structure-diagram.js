@@ -25,11 +25,11 @@ class EIF4ETopologyDiagram {
     }
 
     drawTopology() {
-        const startX = 80;
-        const startY = 320;
-        const strandWidth = 40;
-        const strandHeight = 140;
-        const strandSpacing = 75;
+        const startX = 60;
+        const startY = 250;
+        const strandWidth = 30;
+        const strandHeight = 100;
+        const strandSpacing = 60;
 
         // Define the 8 beta strands
         const strands = [
@@ -43,7 +43,7 @@ class EIF4ETopologyDiagram {
             { id: 8, direction: 'down', x: startX + strandSpacing * 7 }
         ];
 
-        // Draw loops first (so they appear behind strands)
+        // Draw loops first
         this.drawLoops(strands, strandWidth, strandHeight, startY);
 
         // Draw beta strands
@@ -62,7 +62,6 @@ class EIF4ETopologyDiagram {
     }
 
     drawLoops(strands, width, height, baseY) {
-        // Loop connecting strands (hairpin loops on top/bottom)
         for (let i = 0; i < strands.length - 1; i++) {
             const current = strands[i];
             const next = strands[i + 1];
@@ -75,11 +74,11 @@ class EIF4ETopologyDiagram {
             if (current.direction === 'up') {
                 y1 = baseY - height;
                 y2 = next.direction === 'down' ? baseY - height : baseY;
-                controlY = baseY - height - 30;
+                controlY = baseY - height - 25;
             } else {
                 y1 = baseY;
                 y2 = next.direction === 'up' ? baseY - height : baseY;
-                controlY = baseY + 30;
+                controlY = baseY + 25;
             }
 
             const midX = (x1 + x2) / 2;
@@ -88,11 +87,9 @@ class EIF4ETopologyDiagram {
             const loopPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             loopPath.setAttribute('d', path);
             loopPath.setAttribute('stroke', '#94a3b8');
-            loopPath.setAttribute('stroke-width', '3');
+            loopPath.setAttribute('stroke-width', '2');
             loopPath.setAttribute('fill', 'none');
             loopPath.setAttribute('class', 'loop-connector');
-            loopPath.setAttribute('data-type', 'loop');
-            loopPath.setAttribute('data-name', `Loop ${i + 1}`);
 
             this.svg.appendChild(loopPath);
         }
@@ -116,51 +113,31 @@ class EIF4ETopologyDiagram {
             y2 = baseY;
         }
 
-        // Draw arrow shape
-        const arrowSize = 15;
+        // Simple Triangle/Arrow shape (DSSP style)
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const arrowHead = 20;
 
+        let d;
         if (strand.direction === 'up') {
-            // Arrow pointing up
-            const d = `
-                M ${x + width / 2 - width / 4},${y1}
-                L ${x + width / 2 - width / 4},${y2 + arrowSize}
-                L ${x},${y2 + arrowSize}
-                L ${x + width / 2},${y2}
-                L ${x + width},${y2 + arrowSize}
-                L ${x + width / 2 + width / 4},${y2 + arrowSize}
-                L ${x + width / 2 + width / 4},${y1}
-                Z
-            `;
-            path.setAttribute('d', d);
+            d = `M ${x},${y1} L ${x},${y2 + arrowHead} L ${x + width / 2},${y2} L ${x + width},${y2 + arrowHead} L ${x + width},${y1} Z`;
         } else {
-            // Arrow pointing down
-            const d = `
-                M ${x + width / 2 - width / 4},${y1}
-                L ${x + width / 2 - width / 4},${y2 - arrowSize}
-                L ${x},${y2 - arrowSize}
-                L ${x + width / 2},${y2}
-                L ${x + width},${y2 - arrowSize}
-                L ${x + width / 2 + width / 4},${y2 - arrowSize}
-                L ${x + width / 2 + width / 4},${y1}
-                Z
-            `;
-            path.setAttribute('d', d);
+            d = `M ${x},${y1} L ${x},${y2 - arrowHead} L ${x + width / 2},${y2} L ${x + width},${y2 - arrowHead} L ${x + width},${y1} Z`;
         }
 
-        path.setAttribute('fill', '#3b82f6');
-        path.setAttribute('stroke', '#1d4ed8');
+        path.setAttribute('d', d);
+        path.setAttribute('fill', '#60a5fa'); // Lighter blue, flat
+        path.setAttribute('stroke', '#2563eb');
         path.setAttribute('stroke-width', '2');
 
-        // Add label
+        // Label inside
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         text.setAttribute('x', x + width / 2);
         text.setAttribute('y', (y1 + y2) / 2 + 5);
         text.setAttribute('text-anchor', 'middle');
         text.setAttribute('fill', 'white');
-        text.setAttribute('font-size', '14');
+        text.setAttribute('font-size', '12');
         text.setAttribute('font-weight', 'bold');
-        text.textContent = `β${strand.id}`;
+        text.textContent = strand.id;
 
         g.appendChild(path);
         g.appendChild(text);
@@ -168,10 +145,11 @@ class EIF4ETopologyDiagram {
     }
 
     drawHelices() {
+        // Positioned between strands or above
         const helices = [
-            { label: 'α1', x: 150, y: 80, length: 60, color: '#f59e0b' },
-            { label: 'α2', x: 400, y: 60, length: 80, color: '#f59e0b' },
-            { label: 'α3', x: 650, y: 90, length: 70, color: '#f59e0b' }
+            { label: 'α1', x: 110, y: 80, length: 50 },
+            { label: 'α2', x: 300, y: 60, length: 70 },
+            { label: 'α3', x: 490, y: 80, length: 60 }
         ];
 
         helices.forEach(helix => {
@@ -180,27 +158,28 @@ class EIF4ETopologyDiagram {
             g.setAttribute('data-type', 'helix');
             g.setAttribute('data-name', helix.label);
 
-            // Draw helix as rounded rectangle
+            // Rectangle box
             const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
             rect.setAttribute('x', helix.x);
             rect.setAttribute('y', helix.y);
             rect.setAttribute('width', helix.length);
-            rect.setAttribute('height', 16);
-            rect.setAttribute('rx', 8);
-            rect.setAttribute('fill', helix.color);
+            rect.setAttribute('height', 24);
+            rect.setAttribute('fill', '#fbbf24'); // Flat yellow/orange
             rect.setAttribute('stroke', '#d97706');
             rect.setAttribute('stroke-width', '2');
+            // Removed rx for a more abstract, sharp-cornered look
 
             const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             text.setAttribute('x', helix.x + helix.length / 2);
-            text.setAttribute('y', helix.y + 12);
+            text.setAttribute('y', helix.y - 5);
             text.setAttribute('text-anchor', 'middle');
-            text.setAttribute('fill', 'white');
+            text.setAttribute('fill', '#d97706');
             text.setAttribute('font-size', '12');
             text.setAttribute('font-weight', 'bold');
             text.textContent = helix.label;
 
             g.appendChild(rect);
+            // Removed wavePath for a cleaner, less detailed representation
             g.appendChild(text);
             this.svg.appendChild(g);
         });
