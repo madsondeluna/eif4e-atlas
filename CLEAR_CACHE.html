@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Clear Cache</title>
+</head>
+
+<body>
+    <h1>Limpando cache...</h1>
+    <script>
+        // Limpa o cache de taxonomia
+        localStorage.removeItem('eif4e_taxonomy_data');
+        document.body.innerHTML += '<p>✅ Cache limpo! Agora abra a página de filogenia.</p>';
+        document.body.innerHTML += '<p><a href="phylogeny.html">Ir para Phylogeny</a></p>';
+    </script>
+</body>
+
+</html>

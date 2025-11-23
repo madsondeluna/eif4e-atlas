@@ -178,3 +178,122 @@ Exemplo de entrada `crontab` para executar toda segunda-feira às 3 da manhã:
 ```bash
 0 3 * * 1 cd /caminho/para/projeto && python3 data_warehouse/etl.py && python3 data_warehouse/export_json.py
 ```
+
+## Resultados da Última Execução
+
+### Estatísticas do Banco de Dados
+
+A última execução do pipeline ETL (Novembro 2024) resultou nos seguintes números:
+
+| Métrica | Valor |
+|---------|-------|
+| **Total de Proteínas** | 3,273 |
+| **Total de Organismos** | 478 |
+| **Total de Genes** | 6,546 |
+| **Tamanho do Banco** | 2.8 MB (`atlas.db`) |
+| **Tamanho do JSON** | 5.9 MB (`assets/data/data.json`) |
+
+### Top 5 Organismos com Mais Proteínas
+
+| Organismo | Número de Proteínas |
+|-----------|---------------------|
+| *Hordeum vulgare* | 59 |
+| *Zea mays* | 53 |
+| *Triticum aestivum* | 50 |
+| *Brassica campestris* | 42 |
+| *Nicotiana tabacum* | 42 |
+
+### Exemplo de Registro no Banco de Dados
+
+#### Tabela `proteins` (primeiras 2 entradas)
+
+```
+accession  | name                                                      | length | mass  | organism_id
+-----------|-----------------------------------------------------------|--------|-------|-------------
+R4HYA4     | Eukaryotic translation initiation factor 4E allele Eva1  | 231    | 26121 | 1
+Q4VQY1     | Eukaryotic translation initiation factor 4E-1             | 231    | 26019 | 2
+```
+
+### Exemplo de Dados JSON (Frontend)
+
+O arquivo `assets/data/data.json` contém um array de objetos no formato:
+
+```json
+{
+  "primaryAccession": "R4HYA4",
+  "proteinDescription": {
+    "recommendedName": {
+      "fullName": {
+        "value": "Eukaryotic translation initiation factor 4E allele Eva1"
+      }
+    }
+  },
+  "genes": [
+    {
+      "geneName": {
+        "value": "eIF4E-eva1"
+      }
+    }
+  ],
+  "organism": {
+    "scientificName": "Solanum etuberosum",
+    "taxonId": 200525
+  },
+  "sequence": {
+    "value": "MAAAEMERTTSFDAAEKLK...",
+    "length": 231,
+    "molWeight": 26121
+  },
+  "uniProtKBCrossReferences": [
+    {
+      "database": "GO",
+      "id": "GO:0005737",
+      "properties": [
+        {
+          "key": "GoTerm",
+          "value": "P:C:cytoplasm"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Log de Execução
+
+```
+Criando banco de dados em atlas.db...
+Buscando dados do UniProt...
+Baixados 500 registros. Total até agora: 500
+Baixados 500 registros. Total até agora: 1000
+Baixados 500 registros. Total até agora: 1500
+Baixados 500 registros. Total até agora: 2000
+Baixados 500 registros. Total até agora: 2500
+Baixados 500 registros. Total até agora: 3000
+Baixados 273 registros. Total até agora: 3273
+Inserindo dados no banco de dados...
+Sucesso! Inseridos 3273 registros.
+Processo ETL concluído.
+
+Exportando dados de atlas.db para assets/data/data.json...
+Buscando anotações...
+Sucesso! Exportados 3273 registros para assets/data/data.json
+```
+
+## Estrutura dos Dados
+
+### Normalização
+
+O banco de dados está normalizado para evitar redundância:
+- **Organismos** são únicos e referenciados por `organism_id`
+- **Genes** são associados a organismos
+- **Proteínas** referenciam tanto genes quanto organismos
+- **Anotações** (termos GO) são armazenadas separadamente
+
+### Integridade Referencial
+
+```sql
+PRAGMA foreign_keys = ON;
+```
+
+Todas as chaves estrangeiras são validadas automaticamente pelo SQLite.

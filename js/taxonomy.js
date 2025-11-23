@@ -1,14 +1,14 @@
 /**
  * Módulo de Dados de Taxonomia
- * Busca proteínas eIF4E do UniProt e constrói estrutura de árvore hierárquica
+ * Busca proteínas eIF4E do arquivo JSON local gerado pelo Data Warehouse
  */
 
-const UNIPROT_API_BASE = 'https://rest.uniprot.org/uniprotkb';
+const LOCAL_DATA_PATH = 'assets/data/data.json';
 const CACHE_KEY = 'eif4e_taxonomy_data';
 const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 horas
 
 /**
- * Busca todas as proteínas eIF4E do UniProt com dados de taxonomia
+ * Busca todas as proteínas eIF4E do arquivo JSON local
  */
 export async function fetchAllEIF4EProteins() {
     // Verifica cache primeiro
@@ -19,30 +19,16 @@ export async function fetchAllEIF4EProteins() {
     }
 
     try {
-        const proteins = [];
-        let cursor = null;
-        const maxPages = 50; // Limite para prevenir loops infinitos (~1000 proteínas)
-        let page = 0;
+        console.log('Carregando dados do arquivo local...');
+        const response = await fetch(LOCAL_DATA_PATH);
 
-        do {
-            const url = cursor
-                ? `${UNIPROT_API_BASE}/search?query=(eif4e OR eif4e1a OR "translation initiation factor 4e") AND taxonomy_name:Viridiplantae&fields=accession,organism_name,lineage,gene_names&format=json&size=25&cursor=${cursor}`
-                : `${UNIPROT_API_BASE}/search?query=(eif4e OR eif4e1a OR "translation initiation factor 4e") AND taxonomy_name:Viridiplantae&fields=accession,organism_name,lineage,gene_names&format=json&size=25`;
+        if (!response.ok) {
+            throw new Error(`Falha ao carregar dados: ${response.status}`);
+        }
 
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('Falha ao buscar dados');
+        const proteins = await response.json();
 
-            const data = await response.json();
-            proteins.push(...data.results);
-
-            // Obtém próximo cursor do cabeçalho Link
-            const linkHeader = response.headers.get('Link');
-            cursor = extractCursor(linkHeader);
-            page++;
-
-        } while (cursor && page < maxPages);
-
-        console.log(`Buscou ${proteins.length} proteínas eIF4E`);
+        console.log(`Carregadas ${proteins.length} proteínas eIF4E do arquivo local`);
 
         // Salva no cache
         saveToCache(proteins);
@@ -132,16 +118,6 @@ function convertToArray(obj) {
             ? convertToArray(node.children)
             : undefined
     }));
-}
-
-/**
- * Extrai cursor do cabeçalho Link
- */
-function extractCursor(linkHeader) {
-    if (!linkHeader) return null;
-
-    const match = linkHeader.match(/cursor=([^&>]+)/);
-    return match ? match[1] : null;
 }
 
 /**
