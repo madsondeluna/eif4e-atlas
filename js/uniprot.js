@@ -31,12 +31,13 @@ async function loadData() {
  */
 export async function searchUniProt(query) {
     const data = await loadData();
-    if (!query) return data.slice(0, 20); // Retorna os primeiros 20 se não houver consulta
+    const proteins = data.proteins || [];
+    if (!query) return proteins.slice(0, 20); // Retorna os primeiros 20 se não houver consulta
 
     const lowerQuery = query.toLowerCase();
 
     // Filtra dados localmente
-    const results = data.filter(entry => {
+    const results = proteins.filter(entry => {
         const accession = entry.primaryAccession.toLowerCase();
         const proteinName = entry.proteinDescription?.recommendedName?.fullName?.value?.toLowerCase() || '';
         const geneName = entry.genes?.[0]?.geneName?.value?.toLowerCase() || '';
@@ -58,14 +59,14 @@ export async function searchUniProt(query) {
  */
 export async function getProteinDetails(accession) {
     const data = await loadData();
-    return data.find(entry => entry.primaryAccession === accession) || null;
+    return data.proteins.find(entry => entry.primaryAccession === accession) || null;
 }
 
 /**
  * Busca estatísticas globais dos dados locais.
- * @returns {Promise<Object>} - Objeto de estatísticas com totalEntries.
+ * @returns {Promise<Object>} - Objeto de estatísticas com totalEntries, topOrganisms, topGOTerms.
  */
 export async function getGlobalStats() {
     const data = await loadData();
-    return { totalEntries: data.length };
+    return data.stats;
 }

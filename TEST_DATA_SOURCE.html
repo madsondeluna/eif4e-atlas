@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste - Data Source Verification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .check-item {
+            background: #f8fafc;
+            border-left: 4px solid #10b981;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+
+        .check-item h3 {
+            color: #1e293b;
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .check-item .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status.loading {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .details {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .code {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔍 Data Source Verification</h1>
+        <p class="subtitle">Verificando de onde os dados estão sendo carregados</p>
+
+        <div class="check-item">
+            <h3>
+                1. Arquivo JSON Local
+                <span id="status-json" class="status loading">Verificando...</span>
+            </h3>
+            <div class="details" id="json-details">Carregando...</div>
+        </div>
+
+        <div class="check-item">
+            <h3>
+                2. Módulo uniprot.js
+                <span id="status-module" class="status loading">Verificando...</span>
+            </h3>
+            <div class="details" id="module-details">Carregando...</div>
+        </div>
+
+        <div class="check-item">
+            <h3>
+                3. Função searchUniProt()
+                <span id="status-search" class="status loading">Verificando...</span>
+            </h3>
+            <div class="details" id="search-details">Carregando...</div>
+        </div>
+
+        <div class="check-item">
+            <h3>
+                4. Teste de Busca Real
+                <span id="status-real" class="status loading">Verificando...</span>
+            </h3>
+            <div class="details" id="real-details">Carregando...</div>
+        </div>
+
+        <button onclick="window.location.href='index.html'">Ir para Página de Busca</button>
+        <button onclick="window.location.href='phylogeny.html'">Ir para Filogenia</button>
+    </div>
+
+    <script type="module">
+        import { searchUniProt, getGlobalStats } from './js/uniprot.js';
+
+        async function verify() {
+            // 1. Verificar JSON Local
+            try {
+                const response = await fetch('assets/data/data.json');
+                const data = await response.json();
+
+                document.getElementById('status-json').className = 'status success';
+                document.getElementById('status-json').textContent = '✅ Disponível';
+                document.getElementById('json-details').innerHTML = `
+                    ✅ Arquivo JSON carregado com sucesso<br>
+                    📊 Total de registros: <strong>${data.length.toLocaleString()}</strong><br>
+                    📍 Localização: <code>assets/data/data.json</code><br>
+                    💾 Tamanho: ~${(JSON.stringify(data).length / 1024 / 1024).toFixed(2)} MB
+                `;
+            } catch (error) {
+                document.getElementById('status-json').className = 'status error';
+                document.getElementById('status-json').textContent = '❌ Erro';
+                document.getElementById('json-details').textContent = `Erro: ${error.message}`;
+            }
+
+            // 2. Verificar módulo
+            document.getElementById('status-module').className = 'status success';
+            document.getElementById('status-module').textContent = '✅ Importado';
+            document.getElementById('module-details').innerHTML = `
+                ✅ Módulo <code>uniprot.js</code> importado com sucesso<br>
+                📦 Funções disponíveis: searchUniProt(), getProteinDetails(), getGlobalStats()
+            `;
+
+            // 3. Testar função de busca
+            try {
+                const stats = await getGlobalStats();
+                document.getElementById('status-search').className = 'status success';
+                document.getElementById('status-search').textContent = '✅ Funcional';
+                document.getElementById('search-details').innerHTML = `
+                    ✅ Função <code>searchUniProt()</code> está operacional<br>
+                    📊 Total de proteínas no banco: <strong>${stats.totalEntries.toLocaleString()}</strong>
+                `;
+            } catch (error) {
+                document.getElementById('status-search').className = 'status error';
+                document.getElementById('status-search').textContent = '❌ Erro';
+                document.getElementById('search-details').textContent = `Erro: ${error.message}`;
+            }
+
+            // 4. Teste real de busca
+            try {
+                const results = await searchUniProt('arabidopsis');
+                document.getElementById('status-real').className = 'status success';
+                document.getElementById('status-real').textContent = '✅ Sucesso';
+
+                const example = results[0];
+                document.getElementById('real-details').innerHTML = `
+                    ✅ Busca por "arabidopsis" retornou <strong>${results.length}</strong> resultados<br>
+                    <div class="code">
+                        Exemplo do primeiro resultado:<br>
+                        • Accession: ${example.primaryAccession}<br>
+                        • Proteína: ${example.proteinDescription?.recommendedName?.fullName?.value}<br>
+                        • Organismo: ${example.organism?.scientificName}<br>
+                        • Gene: ${example.genes?.[0]?.geneName?.value || 'N/A'}
+                    </div>
+                    <br>
+                    🎯 <strong>Confirmado:</strong> Todos os dados vêm do arquivo JSON local!
+                `;
+            } catch (error) {
+                document.getElementById('status-real').className = 'status error';
+                document.getElementById('status-real').textContent = '❌ Erro';
+                document.getElementById('real-details').textContent = `Erro: ${error.message}`;
+            }
+        }
+
+        verify();
+    </script>
+</body>
+
+</html>

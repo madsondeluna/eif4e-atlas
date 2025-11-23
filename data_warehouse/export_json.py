@@ -87,9 +87,27 @@ def export_to_json():
                     "properties": [{"key": "GoTerm", "value": f"P:{term}"}] # Simplificado, assumindo P por enquanto ou apenas passando a string
                 })
 
-    # Escreve no arquivo
+    # ---- ESTATÍSTICAS ----
+    total_entries = len(results)
+    # Contagem dos organismos
+    from collections import Counter
+    org_counter = Counter(r['organism']['scientificName'] for r in results)
+    top5_org = org_counter.most_common(5)
+    # Contagem dos termos GO
+    go_counter = Counter()
+    for r in results:
+        for ref in r.get('uniProtKBCrossReferences', []):
+            if ref['database'] == 'GO':
+                go_counter[ref['id']] += 1
+    top10_go = go_counter.most_common(10)
+    stats = {
+        "totalEntries": total_entries,
+        "topOrganisms": [{"name": name, "count": cnt} for name, cnt in top5_org],
+        "topGOTerms": [{"id": go_id, "count": cnt} for go_id, cnt in top10_go]
+    }
+    # Escreve no arquivo como objeto com stats e proteins
     with open(OUTPUT_FILE, 'w') as f:
-        json.dump(results, f) # Salva como uma lista simples, não encapsulada em {results: ...}
+        json.dump({"stats": stats, "proteins": results}, f)
     
     print(f"Sucesso! Exportados {len(results)} registros para {OUTPUT_FILE}")
     conn.close()

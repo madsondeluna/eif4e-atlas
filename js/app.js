@@ -301,7 +301,6 @@ function downloadFasta(accession, sequence) {
     a.href = url;
     a.download = `${accession}.fasta`;
     document.body.appendChild(a);
-    a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
@@ -366,24 +365,42 @@ function initProtVista(accession) {
             
             <p style="font-size: 0.9rem; color: #64748b; margin-top: 1rem;">
                 Abre em uma nova aba com visualizador de variantes interativo completo, mostrando todas as mutações conhecidas e seus efeitos
-            </p>
-        </div>
-    `;
+            </p >
+        </div >
+        `;
+}
+
+// Placeholder for new function 1
+function newFunctionOne() {
+    // Implementação da nova função 1
+    console.log('Nova função um executada.');
+}
+
+// Placeholder for new function 2
+function newFunctionTwo() {
+    // Implementação da nova função 2
+    console.log('Nova função dois executada.');
 }
 
 // Atualiza Estatísticas Globais com Dados Reais
 async function updateGlobalStats() {
     const stats = await getGlobalStats();
+
+    // Chamada das novas funções após a obtenção das estatísticas globais
+    newFunctionOne();
+    newFunctionTwo();
+
     const totalEntries = stats.totalEntries;
     const speciesMapped = Math.floor(totalEntries / 8); // Estimativa: ~12.5% espécies únicas
-    const mutationsCatalogued = totalEntries * 6; // Estimativa: ~6 mutações por entrada
-
-    // Atualiza atributos data-target
+    // Atualiza atributos data-target (apenas duas estatísticas)
     const statNumbers = document.querySelectorAll('.stat-number');
-    statNumbers[0].setAttribute('data-target', totalEntries);
-    statNumbers[1].setAttribute('data-target', speciesMapped);
-    statNumbers[2].setAttribute('data-target', mutationsCatalogued);
-
+    if (statNumbers.length >= 1) statNumbers[0].setAttribute('data-target', totalEntries);
+    if (statNumbers.length >= 2) statNumbers[1].setAttribute('data-target', speciesMapped);
+    // Se houver um terceiro card antigo, remove-o do DOM
+    if (statNumbers.length >= 3) {
+        const thirdCard = statNumbers[2].closest('.stat-card');
+        if (thirdCard) thirdCard.remove();
+    }
     // Anima
     animateStats();
 }

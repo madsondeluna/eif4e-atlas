@@ -228,8 +228,7 @@
 }
 
 .stat-label {
-    font-weight: 500;
-    opacity: 0.9;
+    color: white;
 }
 
 .stat-value {
