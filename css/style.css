@@ -56,7 +56,7 @@ body {
 .main-header {
     background-color: var(--surface-color);
     border-bottom: 1px solid var(--border-color);
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 2rem);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -88,6 +88,7 @@ body {
 .main-nav {
     display: flex;
     gap: 0.5rem;
+    transition: transform 0.3s ease;
 }
 
 .nav-link {
@@ -743,8 +744,73 @@ protvista-uniprot {
     border-radius: 0.25rem;
 }
 
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 101;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--primary-color);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+
+    .main-nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 280px;
+        background: var(--surface-color);
+        flex-direction: column;
+        padding: 5rem 2rem 2rem;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease;
+        gap: 0;
+    }
+
+    .main-nav.mobile-open {
+        right: 0;
+    }
+
+    .nav-link {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    body.nav-open {
+        overflow: hidden;
+    }
+
     .hero-title {
         font-size: 2.5rem;
     }
@@ -752,5 +818,15 @@ protvista-uniprot {
     .stats-container {
         flex-direction: column;
         gap: var(--spacing-md);
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+        max-height: 95vh;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
     }
 }

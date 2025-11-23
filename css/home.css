@@ -31,7 +31,7 @@
 
 /* Content Sections */
 .content-section {
-    padding: 4rem 2rem;
+    padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 3vw, 2rem);
 }
 
 .content-section.dark-bg {
@@ -61,7 +61,7 @@
 .content-layout {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    gap: 3rem;
+    gap: clamp(1.5rem, 4vw, 3rem);
     margin-top: 2rem;
 }
 
@@ -117,8 +117,8 @@
 /* Importance Grid */
 .importance-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: clamp(1.5rem, 3vw, 2rem);
     margin-top: 2rem;
 }
 
@@ -230,12 +230,12 @@
     flex-shrink: 0;
 }
 
-/* Explore Grid */
+/* Explore Grid - Flexbox for 3-2 layout */
 .explore-grid {
     display: flex;
     flex-wrap: wrap;
+    gap: clamp(1.5rem, 3vw, 2rem);
     justify-content: center;
-    gap: 2rem;
     margin-top: 2rem;
 }
 
@@ -318,12 +318,17 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+    .home-hero {
+        padding: 3rem 1.5rem;
+    }
+
     .home-hero h1 {
         font-size: 2.25rem;
     }
 
     .content-layout {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
     .fact-box {
@@ -337,5 +342,14 @@
 
     .arrow {
         transform: rotate(90deg);
+    }
+
+    .importance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .explore-card {
+        flex: 1 1 100%;
+        max-width: 500px;
     }
 }
