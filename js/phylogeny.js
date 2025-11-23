@@ -363,21 +363,93 @@ function updateTaxonomicChart(proteins) {
             .on('drag', dragged)
             .on('end', dragEnded));
 
-    // Adiciona círculos
+    // Adiciona efeito de brilho externo (outer glow)
+    const defs = svg.append('defs');
+
+    // Filtro para glassmorphism
+    const filter = defs.append('filter')
+        .attr('id', 'glass-effect')
+        .attr('x', '-50%')
+        .attr('y', '-50%')
+        .attr('width', '200%')
+        .attr('height', '200%');
+
+    filter.append('feGaussianBlur')
+        .attr('in', 'SourceGraphic')
+        .attr('stdDeviation', '2')
+        .attr('result', 'blur');
+
+    filter.append('feColorMatrix')
+        .attr('in', 'blur')
+        .attr('mode', 'matrix')
+        .attr('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.7 0')
+        .attr('result', 'glow');
+
+    const feMerge = filter.append('feMerge');
+    feMerge.append('feMergeNode').attr('in', 'glow');
+    feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+
+    // Gradiente para borda elegante
+    bubbleData.forEach((d, i) => {
+        const gradient = defs.append('linearGradient')
+            .attr('id', `border-gradient-${i}`)
+            .attr('x1', '0%')
+            .attr('y1', '0%')
+            .attr('x2', '100%')
+            .attr('y2', '100%');
+
+        gradient.append('stop')
+            .attr('offset', '0%')
+            .attr('style', `stop-color:rgba(255,255,255,0.8);stop-opacity:1`);
+
+        gradient.append('stop')
+            .attr('offset', '50%')
+            .attr('style', `stop-color:rgba(255,255,255,0.3);stop-opacity:1`);
+
+        gradient.append('stop')
+            .attr('offset', '100%')
+            .attr('style', `stop-color:rgba(255,255,255,0.6);stop-opacity:1`);
+    });
+
+    // Adiciona círculo de fundo com blur (frosted glass)
     bubbles.append('circle')
         .attr('r', d => d.radius)
-        .attr('fill', d => d.color)
-        .attr('stroke', 'white')
-        .attr('stroke-width', 3)
-        .style('filter', 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))')
-        .style('transition', 'all 0.3s ease')
+        .attr('fill', 'rgba(255, 255, 255, 0.1)')
+        .attr('stroke', 'none')
+        .style('filter', 'blur(8px)');
+
+    // Adiciona círculo principal com glassmorphism
+    bubbles.append('circle')
+        .attr('r', d => d.radius)
+        .attr('fill', d => {
+            // Cor semi-transparente para efeito de vidro
+            const color = d3.color(d.color);
+            color.opacity = 0.25;
+            return color.toString();
+        })
+        .attr('stroke', (d, i) => `url(#border-gradient-${i})`)
+        .attr('stroke-width', 2.5)
+        .style('backdrop-filter', 'blur(10px)')
+        .style('-webkit-backdrop-filter', 'blur(10px)')
+        .style('filter', 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15))')
+        .style('transition', 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)')
         .on('mouseover', function (event, d) {
+            const color = d3.color(d.color);
+            color.opacity = 0.4;
+
             d3.select(this)
                 .transition()
                 .duration(200)
                 .attr('r', d.radius * 1.15)
-                .attr('stroke-width', 4)
-                .style('filter', 'drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2))');
+                .attr('stroke-width', 3.5)
+                .attr('fill', color.toString())
+                .style('filter', 'drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25))');
+
+            // Também aumenta o blur de fundo
+            d3.select(this.parentNode).select('circle:first-child')
+                .transition()
+                .duration(200)
+                .attr('r', d.radius * 1.15);
 
             tooltip
                 .style('visibility', 'visible')
@@ -389,15 +461,33 @@ function updateTaxonomicChart(proteins) {
                 .style('left', (event.pageX + 10) + 'px');
         })
         .on('mouseout', function (event, d) {
+            const color = d3.color(d.color);
+            color.opacity = 0.25;
+
             d3.select(this)
                 .transition()
                 .duration(200)
                 .attr('r', d.radius)
-                .attr('stroke-width', 3)
-                .style('filter', 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))');
+                .attr('stroke-width', 2.5)
+                .attr('fill', color.toString())
+                .style('filter', 'drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15))');
+
+            // Também restaura o blur de fundo
+            d3.select(this.parentNode).select('circle:first-child')
+                .transition()
+                .duration(200)
+                .attr('r', d.radius);
 
             tooltip.style('visibility', 'hidden');
         });
+
+    // Adiciona brilho interno (inner highlight)
+    bubbles.append('circle')
+        .attr('r', d => d.radius * 0.6)
+        .attr('cy', d => -d.radius * 0.3)
+        .attr('fill', 'rgba(255, 255, 255, 0.3)')
+        .attr('filter', 'blur(10px)')
+        .style('pointer-events', 'none');
 
     // Adiciona texto no centro das bolhas
     bubbles.append('text')
