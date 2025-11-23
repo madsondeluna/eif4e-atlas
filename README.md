@@ -9,14 +9,23 @@ Um Data Warehouse proteômico e genômico abrangente para eIF4E (Fator de Inicia
 -   **Visualização Interativa**:
     -   Cartões de resultados dinâmicos.
     -   **Paisagem de Mutação**: Gráficos de barras visualizando a distribuição de mutações ao longo da sequência da proteína.
+    -   **Distribuição Taxonômica**: Gráfico interativo mostrando diversidade de proteínas através dos níveis taxonômicos (Reino, Filo, Classe, Ordem, Família, Gênero, Espécies).
     -   Visualizações modais detalhadas com informações genômicas e estruturais.
--   **Design Responsivo**: Funciona perfeitamente em desktop e dispositivos móveis.
+-   **Filogenia Interativa**:
+    -   Árvore filogenética interativa com busca dinâmica por organismo.
+    -   Gráfico de distribuição taxonômica com atualizações em tempo real.
+    -   Estatísticas de diversidade (proteínas, espécies, reino).
+-   **Design Responsivo**:
+    -   Interface adaptativa com tipografia responsiva usando `clamp()`.
+    -   Navegação mobile com menu hambúrguer.
+    -   Espaçamentos fluidos que se adaptam ao tamanho da tela.
+    -   Textos justificados para aparência mais elegante.
 
 ## Stack Tecnológico
 
 -   **Backend / ETL**: Python 3, SQLite.
 -   **Frontend**: HTML5, CSS3 (Propriedades Personalizadas), Vanilla JavaScript (ES6+).
--   **Bibliotecas**: Chart.js para visualização de dados.
+-   **Bibliotecas**: Chart.js para visualização de dados (distribuição taxonômica e paisagens de mutação), D3.js para árvores filogenéticas.
 -   **Fonte de Dados**: API REST UniProtKB (processada via ETL).
 -   **Implantação**: GitHub Pages (Client-side com dados JSON estáticos).
 
