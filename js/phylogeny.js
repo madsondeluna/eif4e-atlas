@@ -264,47 +264,44 @@ function updateTaxonomicChart(proteins) {
     // Limpa gráfico anterior
     container.innerHTML = '';
 
-    // Prepara dados para treemap
-    const treemapData = {
-        name: "Taxonomic Distribution",
-        children: [
-            {
-                name: "Species",
-                value: taxonomicData.species,
-                color: 'rgba(139, 92, 246, 0.8)'
-            },
-            {
-                name: "Genera",
-                value: taxonomicData.genus,
-                color: 'rgba(124, 58, 237, 0.8)'
-            },
-            {
-                name: "Families",
-                value: taxonomicData.family,
-                color: 'rgba(109, 40, 217, 0.8)'
-            },
-            {
-                name: "Orders",
-                value: taxonomicData.order,
-                color: 'rgba(91, 33, 182, 0.8)'
-            },
-            {
-                name: "Classes",
-                value: taxonomicData.class,
-                color: 'rgba(76, 29, 149, 0.8)'
-            },
-            {
-                name: "Phyla",
-                value: taxonomicData.phylum,
-                color: 'rgba(59, 7, 100, 0.8)'
-            },
-            {
-                name: "Kingdom",
-                value: 1,
-                color: 'rgba(49, 46, 129, 0.8)'
-            }
-        ]
-    };
+    // Prepara dados para bubble chart
+    const bubbleData = [
+        {
+            name: "Species",
+            value: taxonomicData.species,
+            color: '#8B5CF6'
+        },
+        {
+            name: "Genera",
+            value: taxonomicData.genus,
+            color: '#7C3AED'
+        },
+        {
+            name: "Families",
+            value: taxonomicData.family,
+            color: '#6D28D9'
+        },
+        {
+            name: "Orders",
+            value: taxonomicData.order,
+            color: '#5B21B6'
+        },
+        {
+            name: "Classes",
+            value: taxonomicData.class,
+            color: '#4C1D95'
+        },
+        {
+            name: "Phyla",
+            value: taxonomicData.phylum,
+            color: '#3B0764'
+        },
+        {
+            name: "Kingdom",
+            value: 1,
+            color: '#312E81'
+        }
+    ];
 
     // Dimensões
     const width = container.clientWidth || 800;
@@ -315,95 +312,134 @@ function updateTaxonomicChart(proteins) {
         .append('svg')
         .attr('width', width)
         .attr('height', height)
-        .attr('viewBox', [0, 0, width, height]);
+        .attr('viewBox', [0, 0, width, height])
+        .style('background', 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)')
+        .style('border-radius', '12px');
 
-    // Cria treemap layout
-    const treemap = d3.treemap()
-        .size([width, height])
-        .padding(2)
-        .round(true);
+    // Escala de raio baseada no valor
+    const radiusScale = d3.scaleSqrt()
+        .domain([0, d3.max(bubbleData, d => d.value)])
+        .range([20, 80]);
 
-    // Cria hierarquia
-    const root = d3.hierarchy(treemapData)
-        .sum(d => d.value)
-        .sort((a, b) => b.value - a.value);
-
-    // Calcula layout
-    treemap(root);
+    // Adiciona valores de raio aos dados
+    bubbleData.forEach(d => {
+        d.radius = radiusScale(d.value);
+        d.x = Math.random() * width;
+        d.y = Math.random() * height;
+    });
 
     // Cria tooltip
     const tooltip = d3.select('body')
         .append('div')
-        .attr('class', 'treemap-tooltip')
+        .attr('class', 'bubble-tooltip')
         .style('position', 'absolute')
         .style('visibility', 'hidden')
         .style('background-color', 'rgba(15, 23, 42, 0.95)')
         .style('color', 'white')
-        .style('padding', '12px')
+        .style('padding', '12px 16px')
         .style('border-radius', '8px')
         .style('font-size', '14px')
         .style('font-family', 'Inter, sans-serif')
         .style('pointer-events', 'none')
         .style('z-index', '1000')
-        .style('box-shadow', '0 4px 6px rgba(0, 0, 0, 0.1)');
+        .style('box-shadow', '0 4px 12px rgba(0, 0, 0, 0.15)');
 
-    // Desenha células
-    const cell = svg.selectAll('g')
-        .data(root.leaves())
+    // Cria simulação de força
+    const simulation = d3.forceSimulation(bubbleData)
+        .force('charge', d3.forceManyBody().strength(5))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('collision', d3.forceCollide().radius(d => d.radius + 2))
+        .force('x', d3.forceX(width / 2).strength(0.05))
+        .force('y', d3.forceY(height / 2).strength(0.05));
+
+    // Cria grupos para cada bolha
+    const bubbles = svg.selectAll('g.bubble')
+        .data(bubbleData)
         .join('g')
-        .attr('transform', d => `translate(${d.x0},${d.y0})`);
-
-    // Adiciona retângulos
-    cell.append('rect')
-        .attr('width', d => d.x1 - d.x0)
-        .attr('height', d => d.y1 - d.y0)
-        .attr('fill', d => d.data.color)
-        .attr('stroke', 'white')
-        .attr('stroke-width', 2)
-        .attr('rx', 4)
+        .attr('class', 'bubble')
         .style('cursor', 'pointer')
+        .call(d3.drag()
+            .on('start', dragStarted)
+            .on('drag', dragged)
+            .on('end', dragEnded));
+
+    // Adiciona círculos
+    bubbles.append('circle')
+        .attr('r', d => d.radius)
+        .attr('fill', d => d.color)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 3)
+        .style('filter', 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))')
         .style('transition', 'all 0.3s ease')
         .on('mouseover', function (event, d) {
             d3.select(this)
-                .style('opacity', 0.8)
-                .attr('stroke-width', 3);
+                .transition()
+                .duration(200)
+                .attr('r', d.radius * 1.15)
+                .attr('stroke-width', 4)
+                .style('filter', 'drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2))');
 
             tooltip
                 .style('visibility', 'visible')
-                .html(`<strong>${d.data.name}</strong><br/>${d.data.value} unique`);
+                .html(`<strong>${d.name}</strong><br/>${d.value} unique`);
         })
         .on('mousemove', function (event) {
             tooltip
                 .style('top', (event.pageY - 10) + 'px')
                 .style('left', (event.pageX + 10) + 'px');
         })
-        .on('mouseout', function () {
+        .on('mouseout', function (event, d) {
             d3.select(this)
-                .style('opacity', 1)
-                .attr('stroke-width', 2);
+                .transition()
+                .duration(200)
+                .attr('r', d.radius)
+                .attr('stroke-width', 3)
+                .style('filter', 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))');
 
             tooltip.style('visibility', 'hidden');
         });
 
-    // Adiciona texto
-    cell.append('text')
-        .selectAll('tspan')
-        .data(d => {
-            const width = d.x1 - d.x0;
-            const height = d.y1 - d.y0;
-
-            // Só mostra texto se houver espaço suficiente
-            if (width < 50 || height < 30) return [];
-
-            return [d.data.name, d.data.value];
-        })
-        .join('tspan')
-        .attr('x', 4)
-        .attr('y', (d, i) => 16 + i * 16)
+    // Adiciona texto no centro das bolhas
+    bubbles.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', '-0.3em')
         .attr('fill', 'white')
-        .attr('font-size', (d, i) => i === 0 ? '14px' : '12px')
-        .attr('font-weight', (d, i) => i === 0 ? '600' : '400')
-        .text(d => d);
+        .attr('font-size', d => Math.min(d.radius / 3, 16) + 'px')
+        .attr('font-weight', '600')
+        .attr('pointer-events', 'none')
+        .text(d => d.name);
+
+    bubbles.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', '1em')
+        .attr('fill', 'white')
+        .attr('font-size', d => Math.min(d.radius / 4, 14) + 'px')
+        .attr('font-weight', '400')
+        .attr('pointer-events', 'none')
+        .text(d => d.value);
+
+    // Atualiza posições na simulação
+    simulation.on('tick', () => {
+        bubbles.attr('transform', d => `translate(${d.x},${d.y})`);
+    });
+
+    // Funções de drag
+    function dragStarted(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+
+    function dragged(event, d) {
+        d.fx = event.x;
+        d.fy = event.y;
+    }
+
+    function dragEnded(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
 }
 
 // Extrai dados taxonômicos das proteínas

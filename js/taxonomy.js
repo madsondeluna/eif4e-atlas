@@ -60,7 +60,7 @@ export async function fetchAllEIF4EProteins() {
 export function buildTaxonomyTree(proteins) {
     // Começa com Viridiplantae como raiz
     const tree = {
-        name: 'Viridiplantae (Plantas)',
+        name: 'Viridiplantae (Plants)',
         children: []
     };
 
