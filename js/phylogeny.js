@@ -9,6 +9,7 @@ import { fetchAllEIF4EProteins, buildTaxonomyTree } from './taxonomy.js';
 let treeData = null;
 let svg = null;
 let root = null;
+let allProteins = []; // Armazena todas as proteínas para filtragem
 
 // Inicializa no carregamento da página
 document.addEventListener('DOMContentLoaded', async () => {
@@ -21,20 +22,14 @@ async function initializePhylogeny() {
 
     try {
         // Busca dados
-        const proteins = await fetchAllEIF4EProteins();
-        if (proteins.length === 0) {
+        allProteins = await fetchAllEIF4EProteins();
+        if (allProteins.length === 0) {
             showError();
             return;
         }
 
-        // Constrói árvore
-        treeData = buildTaxonomyTree(proteins);
-
-        // Atualiza estatísticas
-        updateStats(proteins, treeData);
-
-        // Renderiza árvore
-        renderTree(treeData);
+        // Constrói árvore inicial com todos os dados
+        updateTreeVisualization(allProteins);
 
         showLoading(false);
     } catch (error) {
@@ -42,6 +37,19 @@ async function initializePhylogeny() {
         showError();
     }
 }
+
+function updateTreeVisualization(proteins) {
+    // Constrói árvore
+    treeData = buildTaxonomyTree(proteins);
+
+    // Atualiza estatísticas
+    updateStats(proteins, treeData);
+
+    // Renderiza árvore
+    renderTree(treeData);
+}
+
+
 
 function renderTree(data) {
     const container = document.getElementById('tree-container');
@@ -252,8 +260,21 @@ function setupEventListeners() {
     // Busca
     const searchInput = document.getElementById('organism-search');
     searchInput?.addEventListener('input', (e) => {
-        // TODO: Implementar busca/filtro
-        console.log('Busca:', e.target.value);
+        const query = e.target.value.toLowerCase().trim();
+
+        if (!query) {
+            // Se busca vazia, mostra tudo
+            updateTreeVisualization(allProteins);
+            return;
+        }
+
+        // Filtra proteínas
+        const filteredProteins = allProteins.filter(p =>
+            p.organism && p.organism.scientificName.toLowerCase().includes(query)
+        );
+
+        // Atualiza visualização
+        updateTreeVisualization(filteredProteins);
     });
 }
 
