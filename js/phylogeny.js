@@ -255,14 +255,6 @@ function setupEventListeners() {
         // TODO: Implementar busca/filtro
         console.log('Busca:', e.target.value);
     });
-
-    // Filtros de reino
-    document.querySelectorAll('.kingdom-filters input').forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            // TODO: Implementar filtragem
-            console.log('Filtro alterado');
-        });
-    });
 }
 
 // Auxiliares de Carregamento/Erro
