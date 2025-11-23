@@ -246,8 +246,8 @@ function updateStats(proteins, tree) {
     const species = new Set(proteins.map(p => p.organism?.scientificName)).size;
     document.getElementById('total-species').textContent = species;
 
-    const kingdoms = tree.children.length;
-    document.getElementById('total-kingdoms').textContent = kingdoms;
+    // Sempre 1 reino (Viridiplantae) já que trabalhamos apenas com plantas
+    document.getElementById('total-kingdoms').textContent = 1;
 }
 
 // Configura ouvintes de eventos
