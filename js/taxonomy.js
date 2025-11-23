@@ -1,27 +1,27 @@
 /**
- * Taxonomy Data Module
- * Fetches eIF4E proteins from UniProt and builds hierarchical tree structure
+ * Módulo de Dados de Taxonomia
+ * Busca proteínas eIF4E do UniProt e constrói estrutura de árvore hierárquica
  */
 
 const UNIPROT_API_BASE = 'https://rest.uniprot.org/uniprotkb';
 const CACHE_KEY = 'eif4e_taxonomy_data';
-const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
+const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 horas
 
 /**
- * Fetch all eIF4E proteins from UniProt with taxonomy data
+ * Busca todas as proteínas eIF4E do UniProt com dados de taxonomia
  */
 export async function fetchAllEIF4EProteins() {
-    // Check cache first
+    // Verifica cache primeiro
     const cached = getFromCache();
     if (cached) {
-        console.log('Using cached taxonomy data');
+        console.log('Usando dados de taxonomia em cache');
         return cached;
     }
 
     try {
         const proteins = [];
         let cursor = null;
-        const maxPages = 50; // Limit to prevent endless loops (~1000 proteins)
+        const maxPages = 50; // Limite para prevenir loops infinitos (~1000 proteínas)
         let page = 0;
 
         do {
@@ -30,61 +30,61 @@ export async function fetchAllEIF4EProteins() {
                 : `${UNIPROT_API_BASE}/search?query=(eif4e OR eif4e1a OR "translation initiation factor 4e") AND taxonomy_name:Viridiplantae&fields=accession,organism_name,lineage,gene_names&format=json&size=25`;
 
             const response = await fetch(url);
-            if (!response.ok) throw new Error('Failed to fetch data');
+            if (!response.ok) throw new Error('Falha ao buscar dados');
 
             const data = await response.json();
             proteins.push(...data.results);
 
-            // Get next cursor from Link header
+            // Obtém próximo cursor do cabeçalho Link
             const linkHeader = response.headers.get('Link');
             cursor = extractCursor(linkHeader);
             page++;
 
         } while (cursor && page < maxPages);
 
-        console.log(`Fetched ${proteins.length} eIF4E proteins`);
+        console.log(`Buscou ${proteins.length} proteínas eIF4E`);
 
-        // Save to cache
+        // Salva no cache
         saveToCache(proteins);
 
         return proteins;
     } catch (error) {
-        console.error('Error fetching taxonomy data:', error);
+        console.error('Erro ao buscar dados de taxonomia:', error);
         return [];
     }
 }
 
 /**
- * Build hierarchical tree from protein lineage data
+ * Constrói árvore hierárquica a partir de dados de linhagem de proteínas
  */
 export function buildTaxonomyTree(proteins) {
-    // Start with Viridiplantae as root
+    // Começa com Viridiplantae como raiz
     const tree = {
-        name: 'Viridiplantae (Plants)',
+        name: 'Viridiplantae (Plantas)',
         children: []
     };
 
-    // Group by plant taxonomic levels
+    // Agrupa por níveis taxonômicos de plantas
     const plantGroups = {};
 
     proteins.forEach(protein => {
         const lineage = protein.organism?.lineage || [];
-        const organismName = protein.organism?.scientificName || 'Unknown';
+        const organismName = protein.organism?.scientificName || 'Desconhecido';
         const accession = protein.primaryAccession;
 
-        // Verify this is a plant protein
+        // Verifica se é uma proteína de planta
         if (!lineage.includes('Viridiplantae')) {
-            console.warn(`Skipping non-plant protein: ${accession} (${organismName})`);
+            console.warn(`Pulando proteína não vegetal: ${accession} (${organismName})`);
             return;
         }
 
-        // Find index of Viridiplantae in lineage
+        // Encontra índice de Viridiplantae na linhagem
         const plantIndex = lineage.indexOf('Viridiplantae');
 
-        // Get plant-specific lineage (everything after Viridiplantae)
+        // Obtém linhagem específica de planta (tudo após Viridiplantae)
         const plantLineage = lineage.slice(plantIndex + 1);
 
-        // Build path through plant taxonomy
+        // Constrói caminho através da taxonomia de plantas
         let currentNode = plantGroups;
 
         for (let i = 0; i < Math.min(plantLineage.length, 6); i++) {
@@ -101,7 +101,7 @@ export function buildTaxonomyTree(proteins) {
             }
 
             if (i === plantLineage.length - 1 || i === 5) {
-                // Leaf node - add protein
+                // Nó folha - adiciona proteína
                 currentNode[taxonName].proteins.push({
                     accession,
                     organism: organismName
@@ -113,14 +113,14 @@ export function buildTaxonomyTree(proteins) {
         }
     });
 
-    // Convert to D3-friendly format
+    // Converte para formato amigável ao D3
     tree.children = convertToArray(plantGroups);
 
     return tree;
 }
 
 /**
- * Convert nested object to array for D3
+ * Converte objeto aninhado para array para D3
  */
 function convertToArray(obj) {
     return Object.values(obj).map(node => ({
@@ -135,7 +135,7 @@ function convertToArray(obj) {
 }
 
 /**
- * Extract cursor from Link header
+ * Extrai cursor do cabeçalho Link
  */
 function extractCursor(linkHeader) {
     if (!linkHeader) return null;
@@ -145,7 +145,7 @@ function extractCursor(linkHeader) {
 }
 
 /**
- * Cache helpers
+ * Auxiliares de cache
  */
 function getFromCache() {
     try {
@@ -171,12 +171,12 @@ function saveToCache(data) {
             timestamp: Date.now()
         }));
     } catch (e) {
-        console.warn('Failed to cache data:', e);
+        console.warn('Falha ao armazenar dados em cache:', e);
     }
 }
 
 /**
- * Clear cache (useful for debugging)
+ * Limpa cache (útil para depuração)
  */
 export function clearCache() {
     localStorage.removeItem(CACHE_KEY);

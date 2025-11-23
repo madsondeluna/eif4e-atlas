@@ -1,5 +1,5 @@
 /**
- * Clean 2D Topology Diagram for eIF4E - Based on ribbon topology style
+ * Diagrama de Topologia 2D Limpo para eIF4E - Baseado no estilo de topologia de fita
  */
 
 class EIF4ETopologyDiagram {
@@ -26,7 +26,7 @@ class EIF4ETopologyDiagram {
     }
 
     drawTopology() {
-        // Configuration for PSIPRED Style
+        // Configuração para Estilo PSIPRED
         const config = {
             startX: 60,
             startY: 200,
@@ -34,15 +34,15 @@ class EIF4ETopologyDiagram {
             strandHeight: 120,
             spacing: 70,
             colors: {
-                strand: '#ffff00', // Yellow (PSIPRED standard)
-                helix: '#ff9999',  // Pink (PSIPRED standard)
-                loop: '#000000',   // Black lines
-                text: '#000000',   // Black text
-                stroke: '#000000'  // Black borders
+                strand: '#ffff00', // Amarelo (padrão PSIPRED)
+                helix: '#ff9999',  // Rosa (padrão PSIPRED)
+                loop: '#000000',   // Linhas pretas
+                text: '#000000',   // Texto preto
+                stroke: '#000000'  // Bordas pretas
             }
         };
 
-        // Define the 8 beta strands
+        // Define as 8 fitas beta
         const strands = [
             { id: 1, direction: 'up', x: config.startX },
             { id: 2, direction: 'down', x: config.startX + config.spacing },
@@ -54,18 +54,18 @@ class EIF4ETopologyDiagram {
             { id: 8, direction: 'down', x: config.startX + config.spacing * 7 }
         ];
 
-        // Draw loops (background layer)
+        // Desenha loops (camada de fundo)
         this.drawPsipredLoops(strands, config);
 
-        // Draw beta strands (middle layer)
+        // Desenha fitas beta (camada do meio)
         strands.forEach(strand => {
             this.drawPsipredStrand(strand, config);
         });
 
-        // Draw helices (top layer)
+        // Desenha hélices (camada superior)
         this.drawPsipredHelices(config);
 
-        // Draw binding site annotations
+        // Desenha anotações de sítios de ligação
         this.drawPsipredBindingSites(config);
     }
 
@@ -80,7 +80,7 @@ class EIF4ETopologyDiagram {
             const startY = current.direction === 'up' ? config.startY - config.strandHeight : config.startY;
             const endY = next.direction === 'up' ? config.startY : config.startY - config.strandHeight;
 
-            // Control points for smooth Bezier
+            // Pontos de controle para Bezier suave
             const dist = x2 - x1;
             const cp1x = x1 + dist * 0.3;
             const cp2x = x2 - dist * 0.3;
@@ -105,11 +105,11 @@ class EIF4ETopologyDiagram {
             loopPath.setAttribute('stroke', config.colors.loop);
             loopPath.setAttribute('stroke-width', '2');
             loopPath.setAttribute('fill', 'none');
-            loopPath.setAttribute('class', 'loop-connector interactive'); // Keep interactive for selection
+            loopPath.setAttribute('class', 'loop-connector interactive'); // Mantém interativo para seleção
             loopPath.setAttribute('data-type', 'loop');
             loopPath.setAttribute('data-name', `Loop ${i + 1}`);
 
-            // Simple hover effect for loops
+            // Efeito hover simples para loops
             loopPath.addEventListener('mouseenter', () => {
                 loopPath.setAttribute('stroke-width', '3');
                 this.showTooltip(`Loop ${i + 1}`, (x1 + x2) / 2, (startY + endY) / 2);
@@ -152,7 +152,7 @@ class EIF4ETopologyDiagram {
         path.setAttribute('stroke', config.colors.stroke);
         path.setAttribute('stroke-width', '1.5');
 
-        // Label
+        // Rótulo
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         text.setAttribute('x', x + w / 2);
         text.setAttribute('y', yBase - h / 2);
@@ -167,10 +167,10 @@ class EIF4ETopologyDiagram {
         g.appendChild(path);
         g.appendChild(text);
 
-        // Simple hover
+        // Hover simples
         g.addEventListener('mouseenter', () => {
-            path.setAttribute('fill', '#ffff99'); // Lighter yellow
-            this.showTooltip(`Beta Strand ${strand.id}`, x + w, yBase - h / 2);
+            path.setAttribute('fill', '#ffff99'); // Amarelo mais claro
+            this.showTooltip(`Fita Beta ${strand.id}`, x + w, yBase - h / 2);
         });
         g.addEventListener('mouseleave', () => {
             if (this.selectedElement !== g) {
@@ -196,18 +196,18 @@ class EIF4ETopologyDiagram {
             g.setAttribute('data-name', helix.label);
             g.style.cursor = 'pointer';
 
-            // Cylinder shape (Rectangle)
+            // Forma de cilindro (Retângulo)
             const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
             rect.setAttribute('x', helix.x);
             rect.setAttribute('y', helix.y);
             rect.setAttribute('width', helix.width);
             rect.setAttribute('height', 26);
-            rect.setAttribute('rx', 0); // Sharp corners for PSIPRED style
+            rect.setAttribute('rx', 0); // Cantos vivos para estilo PSIPRED
             rect.setAttribute('fill', config.colors.helix);
             rect.setAttribute('stroke', config.colors.stroke);
             rect.setAttribute('stroke-width', '1.5');
 
-            // Label
+            // Rótulo
             const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
             text.setAttribute('x', helix.x + helix.width / 2);
             text.setAttribute('y', helix.y + 13);
@@ -223,8 +223,8 @@ class EIF4ETopologyDiagram {
             g.appendChild(text);
 
             g.addEventListener('mouseenter', () => {
-                rect.setAttribute('fill', '#ffcccc'); // Lighter pink
-                this.showTooltip(`Alpha Helix ${helix.label}`, helix.x + helix.width, helix.y + 13);
+                rect.setAttribute('fill', '#ffcccc'); // Rosa mais claro
+                this.showTooltip(`Hélice Alfa ${helix.label}`, helix.x + helix.width, helix.y + 13);
             });
             g.addEventListener('mouseleave', () => {
                 if (this.selectedElement !== g) {
@@ -238,13 +238,13 @@ class EIF4ETopologyDiagram {
     }
 
     drawPsipredBindingSites(config) {
-        // m7G Cap (near S1/S2 loops)
-        this.drawSimpleMarker(95, 290, 'Cap binding', '#ff0000');
+        // Cap m7G (perto dos loops S1/S2)
+        this.drawSimpleMarker(95, 290, 'Ligação ao Cap', '#ff0000');
 
-        // eIF4G (near S4/S5)
+        // eIF4G (perto de S4/S5)
         this.drawSimpleMarker(375, 290, 'eIF4G', '#00cc00');
 
-        // VPg (near S7/S8)
+        // VPg (perto de S7/S8)
         this.drawSimpleMarker(585, 290, 'VPg', '#0000ff');
     }
 
@@ -255,7 +255,7 @@ class EIF4ETopologyDiagram {
         g.setAttribute('data-name', label);
         g.style.cursor = 'pointer';
 
-        // Simple dot
+        // Ponto simples
         const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         dot.setAttribute('cx', cx);
         dot.setAttribute('cy', cy);
@@ -264,7 +264,7 @@ class EIF4ETopologyDiagram {
         dot.setAttribute('stroke', 'black');
         dot.setAttribute('stroke-width', '1');
 
-        // Label text
+        // Texto do rótulo
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         text.setAttribute('x', cx);
         text.setAttribute('y', cy + 20);
@@ -280,7 +280,7 @@ class EIF4ETopologyDiagram {
 
         g.addEventListener('mouseenter', () => {
             dot.setAttribute('r', 8);
-            this.showTooltip(`Binding Site: ${label}`, cx, cy);
+            this.showTooltip(`Sítio de Ligação: ${label}`, cx, cy);
         });
         g.addEventListener('mouseleave', () => {
             if (this.selectedElement !== g) {
@@ -311,7 +311,7 @@ class EIF4ETopologyDiagram {
     showTooltip(text, svgX, svgY) {
         if (!this.tooltip) return;
 
-        // Convert SVG coordinates to Screen coordinates
+        // Converte coordenadas SVG para coordenadas de tela
         const point = this.svg.createSVGPoint();
         point.x = svgX;
         point.y = svgY;
@@ -321,7 +321,7 @@ class EIF4ETopologyDiagram {
         this.tooltip.textContent = text;
         this.tooltip.style.display = 'block';
         this.tooltip.style.left = `${screenPoint.x}px`;
-        this.tooltip.style.top = `${screenPoint.y - 40}px`; // Position above
+        this.tooltip.style.top = `${screenPoint.y - 40}px`; // Posiciona acima
         this.tooltip.style.transform = 'translateX(-50%)';
     }
 
@@ -332,7 +332,7 @@ class EIF4ETopologyDiagram {
     }
 
     addLabels() {
-        // N' and C' terminal labels
+        // Rótulos terminais N' e C'
         const nTerm = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         nTerm.setAttribute('x', '50');
         nTerm.setAttribute('y', '330');
@@ -399,34 +399,34 @@ class EIF4ETopologyDiagram {
     getDescription(type, name) {
         const descriptions = {
             'beta': {
-                'β1': 'First beta strand - Part of the curved antiparallel β-sheet forming the structural core',
-                'β2': 'Second beta strand - Contributes to the concave cap-binding surface',
-                'β3': 'Third beta strand - Central strand in the β-sheet scaffold',
-                'β4': 'Fourth beta strand - Involved in maintaining sheet curvature',
-                'β5': 'Fifth beta strand - Part of the cap-binding pocket region',
-                'β6': 'Sixth beta strand - Contributes to overall fold stability',
-                'β7': 'Seventh beta strand - Near the C-terminal region',
-                'β8': 'Eighth beta strand - Terminal strand completing the sheet'
+                'β1': 'Primeira fita beta - Parte da folha β antiparalela curva formando o núcleo estrutural',
+                'β2': 'Segunda fita beta - Contribui para a superfície côncava de ligação ao cap',
+                'β3': 'Terceira fita beta - Fita central no esqueleto da folha β',
+                'β4': 'Quarta fita beta - Envolvida na manutenção da curvatura da folha',
+                'β5': 'Quinta fita beta - Parte da região do bolso de ligação ao cap',
+                'β6': 'Sexta fita beta - Contribui para a estabilidade geral do dobramento',
+                'β7': 'Sétima fita beta - Perto da região C-terminal',
+                'β8': 'Oitava fita beta - Fita terminal completando a folha'
             },
             'helix': {
-                'α1': 'Alpha helix 1 - N-terminal helix contacting the β-sheet, provides structural support',
-                'α2': 'Alpha helix 2 - Central helix on convex side, critical for eIF4G binding interactions',
-                'α3': 'Alpha helix 3 - C-terminal helix stabilizing the overall protein architecture'
+                'α1': 'Hélice alfa 1 - Hélice N-terminal contatando a folha β, fornece suporte estrutural',
+                'α2': 'Hélice alfa 2 - Hélice central no lado convexo, crítica para interações de ligação com eIF4G',
+                'α3': 'Hélice alfa 3 - Hélice C-terminal estabilizando a arquitetura geral da proteína'
             },
-            'loop': 'Flexible loop region connecting β-strands - some loops are critical for VPg viral protein binding',
+            'loop': 'Região de loop flexível conectando fitas β - alguns loops são críticos para a ligação da proteína viral VPg',
             'binding': {
-                'Cap binding': 'm⁷G cap-binding pocket - Conserved Trp56 and Trp102 residues sandwich the methylated guanine through π-π stacking',
-                'eIF4G': 'eIF4G binding surface - Lateral region where eIF4G binds via YXXXXLΦ motif to form eIF4F complex',
-                'VPg': 'VPg binding surface - Dorsal surface where viral VPg proteins interact; mutations here confer virus resistance'
+                'Ligação ao Cap': 'Bolso de ligação ao cap m⁷G - Resíduos conservados Trp56 e Trp102 sanduícham a guanina metilada através de empilhamento π-π',
+                'eIF4G': 'Superfície de ligação eIF4G - Região lateral onde eIF4G se liga via motivo YXXXXLΦ para formar o complexo eIF4F',
+                'VPg': 'Superfície de ligação VPg - Superfície dorsal onde proteínas virais VPg interagem; mutações aqui conferem resistência ao vírus'
             }
         };
 
-        if (type === 'beta') return descriptions.beta[name] || 'Beta strand';
-        if (type === 'helix') return descriptions.helix[name] || 'Alpha helix';
+        if (type === 'beta') return descriptions.beta[name] || 'Fita Beta';
+        if (type === 'helix') return descriptions.helix[name] || 'Hélice Alfa';
         if (type === 'loop') return descriptions.loop;
-        if (type === 'binding') return descriptions.binding[name] || 'Binding site';
+        if (type === 'binding') return descriptions.binding[name] || 'Sítio de Ligação';
 
-        return 'Structural element of eIF4E';
+        return 'Elemento estrutural de eIF4E';
     }
 
     showInfo(title, description) {
@@ -440,7 +440,7 @@ class EIF4ETopologyDiagram {
     }
 }
 
-// Initialize diagram
+// Inicializa diagrama
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('eif4e-structure-diagram')) {
         new EIF4ETopologyDiagram('eif4e-structure-diagram');

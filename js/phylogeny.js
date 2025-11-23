@@ -1,16 +1,16 @@
 /**
- * Phylogeny Visualization Module
- * Renders interactive phylogenetic tree using D3.js
+ * Módulo de Visualização de Filogenia
+ * Renderiza árvore filogenética interativa usando D3.js
  */
 
 import { fetchAllEIF4EProteins, buildTaxonomyTree } from './taxonomy.js';
 
-// State
+// Estado
 let treeData = null;
 let svg = null;
 let root = null;
 
-// Initialize on page load
+// Inicializa no carregamento da página
 document.addEventListener('DOMContentLoaded', async () => {
     await initializePhylogeny();
     setupEventListeners();
@@ -20,25 +20,25 @@ async function initializePhylogeny() {
     showLoading(true);
 
     try {
-        // Fetch data
+        // Busca dados
         const proteins = await fetchAllEIF4EProteins();
         if (proteins.length === 0) {
             showError();
             return;
         }
 
-        // Build tree
+        // Constrói árvore
         treeData = buildTaxonomyTree(proteins);
 
-        // Update stats
+        // Atualiza estatísticas
         updateStats(proteins, treeData);
 
-        // Render tree
+        // Renderiza árvore
         renderTree(treeData);
 
         showLoading(false);
     } catch (error) {
-        console.error('Error initializing phylogeny:', error);
+        console.error('Erro ao inicializar filogenia:', error);
         showError();
     }
 }
@@ -50,25 +50,25 @@ function renderTree(data) {
     const width = 1200;
     const height = 800;
 
-    // Create SVG
+    // Cria SVG
     svg = d3.select('#phylogeny-tree')
         .attr('width', width)
         .attr('height', height)
         .attr('viewBox', [0, 0, width, height]);
 
-    // Clear previous content
+    // Limpa conteúdo anterior
     svg.selectAll('*').remove();
 
-    // Create tree layout
+    // Cria layout da árvore
     const treeLayout = d3.tree()
         .size([height - 100, width - 400]);
 
-    // Convert data to hierarchy
+    // Converte dados para hierarquia
     root = d3.hierarchy(data);
     root.x0 = height / 2;
     root.y0 = 0;
 
-    // Collapse all children initially
+    // Colapsa todos os filhos inicialmente
     root.children.forEach(collapse);
 
     update(root);
@@ -79,18 +79,18 @@ function update(source) {
     const width = 1200;
     const height = 800;
 
-    // Compute new tree layout
+    // Calcula novo layout da árvore
     const treeLayout = d3.tree().size([height - 100, width - 400]);
     const nodes = root.descendants();
     const links = root.links();
 
     treeLayout(root);
 
-    // Update nodes
+    // Atualiza nós
     const node = svg.selectAll('g.node')
         .data(nodes, d => d.id || (d.id = ++i));
 
-    // Enter new nodes
+    // Insere novos nós
     const nodeEnter = node.enter().append('g')
         .attr('class', 'node')
         .attr('transform', d => `translate(${source.y0},${source.x0})`)
@@ -110,7 +110,7 @@ function update(source) {
         .attr('stroke', 'white')
         .attr('stroke-width', 3);
 
-    // Transition nodes to their new position
+    // Transiciona nós para sua nova posição
     const nodeUpdate = nodeEnter.merge(node)
         .transition().duration(duration)
         .attr('transform', d => `translate(${d.y},${d.x})`);
@@ -119,12 +119,12 @@ function update(source) {
         .attr('r', 6)
         .style('fill', d => d._children ? 'lightsteelblue' : '#fff');
 
-    // Remove exiting nodes
+    // Remove nós que estão saindo
     node.exit().transition().duration(duration)
         .attr('transform', d => `translate(${source.y},${source.x})`)
         .remove();
 
-    // Update links
+    // Atualiza links
     const link = svg.selectAll('path.link')
         .data(links, d => d.target.id);
 
@@ -145,17 +145,17 @@ function update(source) {
         })
         .remove();
 
-    // Store old positions
+    // Armazena posições antigas
     nodes.forEach(d => {
         d.x0 = d.x;
         d.y0 = d.y;
     });
 }
 
-// Node counter
+// Contador de nós
 let i = 0;
 
-// Click handler
+// Manipulador de clique
 function clicked(event, d) {
     if (d.children) {
         d._children = d.children;
@@ -166,13 +166,13 @@ function clicked(event, d) {
     }
     update(d);
 
-    // Show info panel if leaf node with proteins
+    // Mostra painel de informações se for nó folha com proteínas
     if (d.data.proteins && d.data.proteins.length > 0) {
         showInfoPanel(d.data);
     }
 }
 
-// Collapse function
+// Função de colapso
 function collapse(d) {
     if (d.children) {
         d._children = d.children;
@@ -181,7 +181,7 @@ function collapse(d) {
     }
 }
 
-// Diagonal path generator
+// Gerador de caminho diagonal
 function diagonal(s, d) {
     return `M ${s.y} ${s.x}
             C ${(s.y + d.y) / 2} ${s.x},
@@ -189,13 +189,13 @@ function diagonal(s, d) {
               ${d.y} ${d.x}`;
 }
 
-// Get kingdom class for coloring
+// Obtém classe de reino para coloração
 function getKingdomClass(d) {
     const data = d.data;
     if (data.type === 'kingdom') {
         return data.name.toLowerCase();
     }
-    // Traverse up to find kingdom
+    // Percorre para cima para encontrar o reino
     let current = d;
     while (current.parent) {
         if (current.data.type === 'kingdom') {
@@ -206,7 +206,7 @@ function getKingdomClass(d) {
     return 'other';
 }
 
-// Show info panel
+// Mostra painel de informações
 function showInfoPanel(data) {
     const panel = document.getElementById('info-panel');
     const content = document.getElementById('panel-content');
@@ -231,7 +231,7 @@ function showInfoPanel(data) {
     panel.classList.remove('hidden');
 }
 
-// Update stats
+// Atualiza estatísticas
 function updateStats(proteins, tree) {
     document.getElementById('total-proteins').textContent = proteins.length;
 
@@ -242,30 +242,30 @@ function updateStats(proteins, tree) {
     document.getElementById('total-kingdoms').textContent = kingdoms;
 }
 
-// Setup event listeners
+// Configura ouvintes de eventos
 function setupEventListeners() {
-    // Close panel
+    // Fecha painel
     document.querySelector('.close-panel')?.addEventListener('click', () => {
         document.getElementById('info-panel').classList.add('hidden');
     });
 
-    // Search
+    // Busca
     const searchInput = document.getElementById('organism-search');
     searchInput?.addEventListener('input', (e) => {
-        // TODO: Implement search/filter
-        console.log('Search:', e.target.value);
+        // TODO: Implementar busca/filtro
+        console.log('Busca:', e.target.value);
     });
 
-    // Kingdom filters
+    // Filtros de reino
     document.querySelectorAll('.kingdom-filters input').forEach(checkbox => {
         checkbox.addEventListener('change', () => {
-            // TODO: Implement filtering
-            console.log('Filter changed');
+            // TODO: Implementar filtragem
+            console.log('Filtro alterado');
         });
     });
 }
 
-// Loading/Error helpers
+// Auxiliares de Carregamento/Erro
 function showLoading(show) {
     document.getElementById('loading-tree').classList.toggle('hidden', !show);
 }

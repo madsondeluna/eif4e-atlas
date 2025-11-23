@@ -1,6 +1,6 @@
 /**
- * Charts Module
- * Handles visualization of protein data using Chart.js
+ * Módulo de Gráficos
+ * Lida com a visualização de dados de proteínas usando Chart.js
  */
 
 let mutationChartInstance = null;
@@ -8,32 +8,32 @@ let mutationChartInstance = null;
 export function renderMutationChart(features, sequenceLength) {
     const canvas = document.getElementById('mutationChart');
     if (!canvas) {
-        console.error('Chart canvas not found');
+        console.error('Canvas do gráfico não encontrado');
         return;
     }
 
     const ctx = canvas.getContext('2d');
 
-    // Filter for variants/mutations
+    // Filtra por variantes/mutações
     const variants = features.filter(f => f.type === 'Variant');
 
-    // If no sequence length, use a default or skip
+    // Se não houver comprimento da sequência, usa um padrão ou pula
     if (!sequenceLength || sequenceLength === 0) {
-        console.warn('No sequence length provided for chart');
-        sequenceLength = 500; // Default fallback
+        console.warn('Nenhum comprimento de sequência fornecido para o gráfico');
+        sequenceLength = 500; // Fallback padrão
     }
 
-    // Decide what to visualize
+    // Decide o que visualizar
     if (variants.length > 0) {
-        // Show variant distribution
+        // Mostra distribuição de variantes
         renderVariantDistribution(ctx, variants, sequenceLength);
     } else {
-        // Show domain/region distribution instead
+        // Mostra distribuição de domínios/regiões em vez disso
         const domains = features.filter(f => f.type === 'Domain' || f.type === 'Region' || f.type === 'Motif');
         if (domains.length > 0) {
             renderDomainDistribution(ctx, domains, sequenceLength);
         } else {
-            // No useful data available
+            // Nenhum dado útil disponível
             renderNoDataMessage(canvas);
         }
     }
@@ -62,7 +62,7 @@ function renderVariantDistribution(ctx, variants, sequenceLength) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Variant Frequency',
+                label: 'Frequência de Variantes',
                 data: bins,
                 backgroundColor: 'rgba(59, 130, 246, 0.6)',
                 borderColor: 'rgba(59, 130, 246, 1)',
@@ -75,16 +75,16 @@ function renderVariantDistribution(ctx, variants, sequenceLength) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    title: { display: true, text: 'Count' }
+                    title: { display: true, text: 'Contagem' }
                 },
                 x: {
-                    title: { display: true, text: 'Residue Position' }
+                    title: { display: true, text: 'Posição do Resíduo' }
                 }
             },
             plugins: {
                 title: {
                     display: true,
-                    text: `Variant Distribution (Total: ${variants.length})`
+                    text: `Distribuição de Variantes (Total: ${variants.length})`
                 }
             }
         }
@@ -92,10 +92,10 @@ function renderVariantDistribution(ctx, variants, sequenceLength) {
 }
 
 function renderDomainDistribution(ctx, domains, sequenceLength) {
-    // Count feature types
+    // Conta tipos de características
     const typeCounts = {};
     domains.forEach(d => {
-        const type = d.type || 'Unknown';
+        const type = d.type || 'Desconhecido';
         typeCounts[type] = (typeCounts[type] || 0) + 1;
     });
 
@@ -112,7 +112,7 @@ function renderDomainDistribution(ctx, domains, sequenceLength) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Feature Count',
+                label: 'Contagem de Características',
                 data: data,
                 backgroundColor: colors,
                 borderWidth: 1
@@ -124,7 +124,7 @@ function renderDomainDistribution(ctx, domains, sequenceLength) {
             plugins: {
                 title: {
                     display: true,
-                    text: `Protein Features (Total: ${domains.length})`
+                    text: `Características da Proteína (Total: ${domains.length})`
                 },
                 legend: {
                     position: 'right'
@@ -146,8 +146,8 @@ function renderNoDataMessage(canvas) {
             <svg style="width: 64px; height: 64px; margin: 0 auto 1rem; opacity: 0.5;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
             </svg>
-            <p style="font-weight: 500; margin-bottom: 0.5rem;">No Feature Data Available</p>
-            <p style="font-size: 0.9rem;">This protein entry has limited annotation in UniProt.</p>
+            <p style="font-weight: 500; margin-bottom: 0.5rem;">Nenhum Dado de Característica Disponível</p>
+            <p style="font-size: 0.9rem;">Esta entrada de proteína tem anotações limitadas no UniProt.</p>
             <canvas id="mutationChart" style="display: none;"></canvas>
         </div>
     `;
@@ -155,12 +155,12 @@ function renderNoDataMessage(canvas) {
 
 function generateColors(count) {
     const colors = [
-        'rgba(59, 130, 246, 0.6)',   // Blue
-        'rgba(16, 185, 129, 0.6)',   // Green
-        'rgba(245, 158, 11, 0.6)',   // Orange
-        'rgba(139, 92, 246, 0.6)',   // Purple
-        'rgba(236, 72, 153, 0.6)',   // Pink
-        'rgba(239, 68, 68, 0.6)',    // Red
+        'rgba(59, 130, 246, 0.6)',   // Azul
+        'rgba(16, 185, 129, 0.6)',   // Verde
+        'rgba(245, 158, 11, 0.6)',   // Laranja
+        'rgba(139, 92, 246, 0.6)',   // Roxo
+        'rgba(236, 72, 153, 0.6)',   // Rosa
+        'rgba(239, 68, 68, 0.6)',    // Vermelho
     ];
     return colors.slice(0, count);
 }

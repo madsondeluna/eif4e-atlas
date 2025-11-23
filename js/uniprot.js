@@ -1,83 +1,71 @@
 /**
- * UniProt API Integration Module
- * Handles fetching data from the UniProt REST API.
+ * Módulo de Integração de Dados Locais
+ * Lida com a busca de dados do Data Warehouse JSON local.
  */
 
-const UNIPROT_API_BASE = 'https://rest.uniprot.org/uniprotkb';
+const DATA_URL = 'assets/data/data.json';
+let cachedData = null;
 
 /**
- * Search UniProt for eIF4E related entries.
- * @param {string} query - The search query (e.g., "human", "P06730").
- * @returns {Promise<Array>} - List of protein entries.
+ * Carrega dados do arquivo JSON local.
+ * @returns {Promise<Array>} - O conjunto de dados completo.
  */
-export async function searchUniProt(query) {
+async function loadData() {
+    if (cachedData) return cachedData;
+
     try {
-        let searchQuery = '';
-
-        // Simple heuristic: if it looks like an accession (e.g. P06730), search directly
-        if (/^[A-Z0-9]{6,10}$/i.test(query)) {
-            searchQuery = `accession:${query}`;
-        } else {
-            // ALWAYS search for eIF4E and its variants (eif4e1a, etc.)
-            // AND filter to plants only (Viridiplantae)
-            // This guarantees we only get plant eIF4E-related proteins
-            searchQuery = `(eif4e OR eif4e1a OR "translation initiation factor 4e") AND ${query} AND taxonomy_name:Viridiplantae`;
-        }
-
-        const url = `${UNIPROT_API_BASE}/search?query=${encodeURIComponent(searchQuery)}&fields=accession,id,protein_name,gene_names,organism_name,length,sequence&format=json&size=20`;
-
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error(`UniProt API Error: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        return data.results || [];
+        const response = await fetch(DATA_URL);
+        if (!response.ok) throw new Error('Falha ao carregar dados locais');
+        cachedData = await response.json();
+        return cachedData;
     } catch (error) {
-        console.error('Error fetching from UniProt:', error);
+        console.error('Erro ao carregar dados:', error);
         return [];
     }
 }
 
 /**
- * Fetch detailed information for a specific accession.
- * @param {string} accession - The UniProt accession ID.
- * @returns {Promise<Object>} - Detailed protein data.
+ * Busca dados locais para entradas relacionadas a eIF4E.
+ * @param {string} query - A consulta de busca.
+ * @returns {Promise<Array>} - Lista de entradas de proteínas correspondentes.
  */
-export async function getProteinDetails(accession) {
-    try {
-        const url = `${UNIPROT_API_BASE}/${accession}.json`;
-        const response = await fetch(url);
+export async function searchUniProt(query) {
+    const data = await loadData();
+    if (!query) return data.slice(0, 20); // Retorna os primeiros 20 se não houver consulta
 
-        if (!response.ok) {
-            throw new Error(`Failed to fetch details for ${accession}`);
-        }
+    const lowerQuery = query.toLowerCase();
 
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching details:', error);
-        return null;
-    }
+    // Filtra dados localmente
+    const results = data.filter(entry => {
+        const accession = entry.primaryAccession.toLowerCase();
+        const proteinName = entry.proteinDescription?.recommendedName?.fullName?.value?.toLowerCase() || '';
+        const geneName = entry.genes?.[0]?.geneName?.value?.toLowerCase() || '';
+        const organism = entry.organism?.scientificName?.toLowerCase() || '';
+
+        return accession.includes(lowerQuery) ||
+            proteinName.includes(lowerQuery) ||
+            geneName.includes(lowerQuery) ||
+            organism.includes(lowerQuery);
+    });
+
+    return results.slice(0, 50); // Limita resultados para desempenho
 }
 
 /**
- * Fetch global statistics for eIF4E across UniProt.
- * @returns {Promise<Object>} - Stats object with totalEntries.
+ * Busca informações detalhadas para um accession específico dos dados locais.
+ * @param {string} accession - O ID de acesso UniProt.
+ * @returns {Promise<Object>} - Dados detalhados da proteína.
+ */
+export async function getProteinDetails(accession) {
+    const data = await loadData();
+    return data.find(entry => entry.primaryAccession === accession) || null;
+}
+
+/**
+ * Busca estatísticas globais dos dados locais.
+ * @returns {Promise<Object>} - Objeto de estatísticas com totalEntries.
  */
 export async function getGlobalStats() {
-    try {
-        const url = `${UNIPROT_API_BASE}/search?query=(gene:EIF4E OR protein_name:eIF4E) AND taxonomy_name:Viridiplantae&size=0`;
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            return { totalEntries: 1500 }; // fallback
-        }
-
-        const total = response.headers.get('x-total-results');
-        return { totalEntries: parseInt(total) || 1500 };
-    } catch (error) {
-        console.error('Error fetching global stats:', error);
-        return { totalEntries: 3500 }; // Fallback
-    }
+    const data = await loadData();
+    return { totalEntries: data.length };
 }

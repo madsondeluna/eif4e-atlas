@@ -1,16 +1,16 @@
 import { searchUniProt, getProteinDetails, getGlobalStats } from './uniprot.js';
 import { renderMutationChart } from './charts.js';
 
-// State
+// Estado da aplicação
 let currentResults = [];
 
-// DOM Elements (Global Scope)
+// Elementos do DOM (Escopo Global)
 let searchInput, searchBtn, tagBtns, resultsSection, resultsContainer, loadingIndicator, clearResultsBtn;
 let modal, closeModalBtn, modalTitle, modalSubtitle, modalInfoList;
 
-// Initialize
+// Inicialização
 document.addEventListener('DOMContentLoaded', async () => {
-    // Initialize DOM references
+    // Inicializa referências do DOM
     searchInput = document.getElementById('main-search-input');
     searchBtn = document.getElementById('search-btn');
     tagBtns = document.querySelectorAll('.tag-btn');
@@ -30,15 +30,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function setupEventListeners() {
-    // Search Button
+    // Botão de Busca
     searchBtn.addEventListener('click', handleSearch);
 
-    // Enter key in search input
+    // Tecla Enter no campo de busca
     searchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') handleSearch();
     });
 
-    // Tag buttons
+    // Botões de tag (sugestões)
     tagBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             searchInput.value = btn.dataset.query;
@@ -46,14 +46,14 @@ function setupEventListeners() {
         });
     });
 
-    // Clear results
+    // Limpar resultados
     clearResultsBtn.addEventListener('click', () => {
         resultsSection.classList.add('hidden');
         searchInput.value = '';
         currentResults = [];
     });
 
-    // Close Modal
+    // Fechar Modal
     closeModalBtn.addEventListener('click', () => {
         modal.classList.add('hidden');
     });
@@ -69,12 +69,12 @@ async function handleSearch() {
     const query = searchInput.value.trim();
     if (!query) return;
 
-    // UI Updates
+    // Atualizações de UI
     resultsSection.classList.remove('hidden');
     resultsContainer.innerHTML = '';
     loadingIndicator.classList.remove('hidden');
 
-    // Scroll to results
+    // Rola a página até os resultados
     resultsSection.scrollIntoView({ behavior: 'smooth' });
 
     try {
@@ -82,8 +82,8 @@ async function handleSearch() {
         currentResults = results;
         displayResults(results);
     } catch (error) {
-        console.error('Search failed:', error);
-        resultsContainer.innerHTML = '<p class="error-msg">An error occurred while fetching data. Please try again.</p>';
+        console.error('Falha na busca:', error);
+        resultsContainer.innerHTML = '<p class="error-msg">Ocorreu um erro ao buscar os dados. Por favor, tente novamente.</p>';
     } finally {
         loadingIndicator.classList.add('hidden');
     }
@@ -91,13 +91,13 @@ async function handleSearch() {
 
 function displayResults(results) {
     if (results.length === 0) {
-        resultsContainer.innerHTML = '<p class="no-results">No entries found. Try a different search term.</p>';
+        resultsContainer.innerHTML = '<p class="no-results">Nenhum registro encontrado. Tente um termo de busca diferente.</p>';
         return;
     }
 
     resultsContainer.innerHTML = results.map(entry => createResultCard(entry)).join('');
 
-    // Add event listeners to new buttons
+    // Adiciona ouvintes de evento aos novos botões
     document.querySelectorAll('.view-details-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const accession = e.target.dataset.accession;
@@ -107,11 +107,11 @@ function displayResults(results) {
 }
 
 function createResultCard(entry) {
-    // Extract useful data safely
+    // Extrai dados úteis com segurança
     const accession = entry.primaryAccession;
-    const proteinName = entry.proteinDescription?.recommendedName?.fullName?.value || 'Unknown Protein';
+    const proteinName = entry.proteinDescription?.recommendedName?.fullName?.value || 'Proteína Desconhecida';
     const geneName = entry.genes?.[0]?.geneName?.value || 'N/A';
-    const organism = entry.organism?.scientificName || 'Unknown Species';
+    const organism = entry.organism?.scientificName || 'Espécie Desconhecida';
     const length = entry.sequence?.length || 0;
 
     return `
@@ -123,37 +123,37 @@ function createResultCard(entry) {
             <h3 class="protein-name">${proteinName}</h3>
             <p class="organism-name"><em>${organism}</em></p>
             <div class="card-stats">
-                <span>Length: ${length} aa</span>
+                <span>Comprimento: ${length} aa</span>
             </div>
-            <button class="view-details-btn" data-accession="${accession}">View Details</button>
+            <button class="view-details-btn" data-accession="${accession}">Ver Detalhes</button>
         </div>
     `;
 }
 
 async function openDetails(accession) {
-    // Reset Tabs
+    // Reseta as Abas
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.querySelector('[data-tab="overview"]').classList.add('active');
     document.getElementById('tab-overview').classList.add('active');
 
-    // Show modal with loading state
+    // Mostra o modal com estado de carregamento
     modal.classList.remove('hidden');
-    modalTitle.innerText = 'Loading...';
+    modalTitle.innerText = 'Carregando...';
     modalSubtitle.innerText = '';
     modalInfoList.innerHTML = '';
 
-    // Clear previous viewers
+    // Limpa visualizadores anteriores
     document.getElementById('molstar-container').innerHTML = '';
     document.getElementById('protvista-container').innerHTML = '';
 
     try {
         const data = await getProteinDetails(accession);
-        if (!data) throw new Error('No data found');
+        if (!data) throw new Error('Nenhum dado encontrado');
 
-        // Populate Header
-        const proteinName = data.proteinDescription?.recommendedName?.fullName?.value || 'Unknown';
-        const organism = data.organism?.scientificName || 'Unknown';
+        // Preenche o Cabeçalho
+        const proteinName = data.proteinDescription?.recommendedName?.fullName?.value || 'Desconhecido';
+        const organism = data.organism?.scientificName || 'Desconhecido';
         const geneName = data.genes?.[0]?.geneName?.value || 'N/A';
         const length = data.sequence?.length || 0;
         const mass = data.sequence?.molWeight || 'N/A';
@@ -162,27 +162,27 @@ async function openDetails(accession) {
         modalTitle.innerText = proteinName;
         modalSubtitle.innerText = `${organism} (Gene: ${geneName})`;
 
-        // Setup FASTA Download
+        // Configura Download FASTA
         const downloadBtn = document.getElementById('download-fasta-btn');
         downloadBtn.onclick = () => downloadFasta(accession, sequence);
 
-        // Populate Overview
+        // Preenche Visão Geral
         modalInfoList.innerHTML = `
             <li><strong>Accession:</strong> ${data.primaryAccession}</li>
-            <li><strong>Length:</strong> ${length} amino acids</li>
-            <li><strong>Mass:</strong> ${mass} Da</li>
-            <li><strong>Function:</strong> ${data.comments?.find(c => c.commentType === 'FUNCTION')?.texts?.[0]?.value || 'Not available'}</li>
+            <li><strong>Comprimento:</strong> ${length} aminoácidos</li>
+            <li><strong>Massa:</strong> ${mass} Da</li>
+            <li><strong>Função:</strong> ${data.comments?.find(c => c.commentType === 'FUNCTION')?.texts?.[0]?.value || 'Não disponível'}</li>
         `;
 
-        // Display GO Terms and Cellular Location
+        // Exibe Termos GO e Localização Celular
         displayGOAndLocation(data);
 
-        // Setup Tabs Logic
+        // Configura Lógica das Abas
         setupTabs(accession);
 
     } catch (error) {
-        console.error('Error loading details:', error);
-        modalTitle.innerText = 'Error loading details';
+        console.error('Erro ao carregar detalhes:', error);
+        modalTitle.innerText = 'Erro ao carregar detalhes';
     }
 }
 
@@ -192,13 +192,13 @@ function setupTabs(accession) {
 
     tabBtns.forEach(btn => {
         btn.onclick = () => {
-            // UI Toggle
+            // Alternância de UI
             tabBtns.forEach(b => b.classList.remove('active'));
             tabContents.forEach(c => c.classList.remove('active'));
             btn.classList.add('active');
             document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
 
-            // Lazy Load Viewers
+            // Carregamento Preguiçoso (Lazy Load) dos Visualizadores
             if (btn.dataset.tab === 'structure') {
                 initMolstar(accession);
             } else if (btn.dataset.tab === 'variants') {
@@ -209,12 +209,12 @@ function setupTabs(accession) {
 }
 
 function displayGOAndLocation(data) {
-    // Cellular Location
+    // Localização Celular
     const locationDiv = document.getElementById('cellular-location');
     const subcellLocations = data.comments?.filter(c => c.commentType === 'SUBCELLULAR LOCATION') || [];
 
     if (subcellLocations.length > 0) {
-        // Flatten all subcellular locations from all comments
+        // Achata todas as localizações subcelulares de todos os comentários
         const allLocations = [];
         subcellLocations.forEach(comment => {
             if (comment.subcellularLocations) {
@@ -229,22 +229,22 @@ function displayGOAndLocation(data) {
         if (allLocations.length > 0) {
             locationDiv.innerHTML = `<ul>${allLocations.map(l => `<li>${l}</li>`).join('')}</ul>`;
         } else {
-            locationDiv.innerHTML = '<p class="no-data">No cellular location data available</p>';
+            locationDiv.innerHTML = '<p class="no-data">Nenhum dado de localização celular disponível</p>';
         }
     } else {
-        locationDiv.innerHTML = '<p class="no-data">No cellular location data available</p>';
+        locationDiv.innerHTML = '<p class="no-data">Nenhum dado de localização celular disponível</p>';
     }
 
-    // GO Terms
+    // Termos GO
     const goDiv = document.getElementById('go-terms');
     const goReferences = data.uniProtKBCrossReferences?.filter(ref => ref.database === 'GO') || [];
 
     if (goReferences.length > 0) {
-        // Group by GO category (P, F, C)
+        // Agrupa por categoria GO (P, F, C)
         const goByCategory = {
-            'P': { label: 'Biological Process', terms: [] },
-            'F': { label: 'Molecular Function', terms: [] },
-            'C': { label: 'Cellular Component', terms: [] }
+            'P': { label: 'Processo Biológico', terms: [] },
+            'F': { label: 'Função Molecular', terms: [] },
+            'C': { label: 'Componente Celular', terms: [] }
         };
 
         goReferences.forEach(ref => {
@@ -254,7 +254,7 @@ function displayGOAndLocation(data) {
             const categoryProp = props.find(p => p.key === 'GoEvidenceType');
 
             if (termProp) {
-                // Extract category from term (P:, F:, C:)
+                // Extrai categoria do termo (P:, F:, C:)
                 const termValue = termProp.value;
                 const category = termValue.charAt(0);
                 const termName = termValue.substring(2); // Remove "P:", "F:", etc.
@@ -287,9 +287,9 @@ function displayGOAndLocation(data) {
             }
         });
 
-        goDiv.innerHTML = goHTML || '<p class="no-data">No GO term data available</p>';
+        goDiv.innerHTML = goHTML || '<p class="no-data">Nenhum dado de termo GO disponível</p>';
     } else {
-        goDiv.innerHTML = '<p class="no-data">No GO term data available</p>';
+        goDiv.innerHTML = '<p class="no-data">Nenhum dado de termo GO disponível</p>';
     }
 }
 
@@ -309,31 +309,31 @@ function downloadFasta(accession, sequence) {
 let molstarPlugin = null;
 function initMolstar(accession) {
     const container = document.getElementById('molstar-container');
-    if (container.childElementCount > 0) return; // Already initialized
+    if (container.childElementCount > 0) return; // Já inicializado
 
-    // Show elegant card with external link instead of iframe
+    // Mostra cartão elegante com link externo em vez de iframe
     container.innerHTML = `
         <div style="max-width: 600px; margin: 2rem auto; text-align: center;">
             <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 3rem 2rem; border-radius: 1rem; color: white; margin-bottom: 1.5rem;">
                 <svg style="width: 80px; height: 80px; margin-bottom: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
                 </svg>
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 600;">AlphaFold 3D Structure</h3>
-                <p style="opacity: 0.9; font-size: 1rem; margin-bottom: 0;">View high-quality protein structure prediction</p>
+                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 600;">Estrutura 3D AlphaFold</h3>
+                <p style="opacity: 0.9; font-size: 1rem; margin-bottom: 0;">Visualize a predição de estrutura de proteína de alta qualidade</p>
             </div>
             
             <a href="https://alphafold.ebi.ac.uk/entry/${accession}" 
                target="_blank" 
                class="action-btn"
                style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 1rem 2rem; font-size: 1.1rem;">
-                <span>Open in AlphaFold Database</span>
+                <span>Abrir no Banco de Dados AlphaFold</span>
                 <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                 </svg>
             </a>
             
             <p style="font-size: 0.9rem; color: #64748b; margin-top: 1rem;">
-                Opens in a new tab with full interactive 3D viewer, download options, and detailed structural information
+                Abre em uma nova aba com visualizador 3D interativo completo, opções de download e informações estruturais detalhadas
             </p>
         </div>
     `;
@@ -341,54 +341,54 @@ function initMolstar(accession) {
 
 function initProtVista(accession) {
     const container = document.getElementById('protvista-container');
-    if (container.childElementCount > 0) return; // Already initialized
+    if (container.childElementCount > 0) return; // Já inicializado
 
-    // Show elegant card with external link
+    // Mostra cartão elegante com link externo
     container.innerHTML = `
         <div style="max-width: 600px; margin: 2rem auto; text-align: center;">
             <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 3rem 2rem; border-radius: 1rem; color: white; margin-bottom: 1.5rem;">
                 <svg style="width: 80px; height: 80px; margin-bottom: 1rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                 </svg>
-                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 600;">Protein Variants</h3>
-                <p style="opacity: 0.9; font-size: 1rem; margin-bottom: 0;">Explore natural variants and mutations</p>
+                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 600;">Variantes da Proteína</h3>
+                <p style="opacity: 0.9; font-size: 1rem; margin-bottom: 0;">Explore variantes naturais e mutações</p>
             </div>
             
             <a href="https://www.uniprot.org/uniprotkb/${accession}/variant-viewer" 
                target="_blank" 
                class="action-btn"
                style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 1rem 2rem; font-size: 1.1rem;">
-                <span>Open Variant Viewer on UniProt</span>
+                <span>Abrir Visualizador de Variantes no UniProt</span>
                 <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                 </svg>
             </a>
             
             <p style="font-size: 0.9rem; color: #64748b; margin-top: 1rem;">
-                Opens in a new tab with full interactive variant viewer, showing all known mutations and their effects
+                Abre em uma nova aba com visualizador de variantes interativo completo, mostrando todas as mutações conhecidas e seus efeitos
             </p>
         </div>
     `;
 }
 
-// Update Global Stats with Real Data
+// Atualiza Estatísticas Globais com Dados Reais
 async function updateGlobalStats() {
     const stats = await getGlobalStats();
     const totalEntries = stats.totalEntries;
-    const speciesMapped = Math.floor(totalEntries / 8); // Estimate: ~12.5% unique species
-    const mutationsCatalogued = totalEntries * 6; // Estimate: ~6 mutations per entry
+    const speciesMapped = Math.floor(totalEntries / 8); // Estimativa: ~12.5% espécies únicas
+    const mutationsCatalogued = totalEntries * 6; // Estimativa: ~6 mutações por entrada
 
-    // Update data-target attributes
+    // Atualiza atributos data-target
     const statNumbers = document.querySelectorAll('.stat-number');
     statNumbers[0].setAttribute('data-target', totalEntries);
     statNumbers[1].setAttribute('data-target', speciesMapped);
     statNumbers[2].setAttribute('data-target', mutationsCatalogued);
 
-    // Animate
+    // Anima
     animateStats();
 }
 
-// Stats Animation
+// Animação das Estatísticas
 function animateStats() {
     const statNumbers = document.querySelectorAll('.stat-number');
     statNumbers.forEach(stat => {
