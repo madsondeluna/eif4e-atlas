@@ -17,6 +17,9 @@
     <!-- D3.js for tree visualization -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
+    <!-- Chart.js for taxonomic distribution -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/phylogeny.css">
@@ -71,6 +74,17 @@
                         <span class="stat-label">Kingdoms</span>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Taxonomic Distribution Chart -->
+        <section class="taxonomic-chart-section">
+            <div class="chart-header">
+                <h2>Distribuição Taxonômica</h2>
+                <p class="chart-description">Diversidade de proteínas eIF4E através dos níveis taxonômicos</p>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="taxonomic-chart"></canvas>
             </div>
         </section>
 

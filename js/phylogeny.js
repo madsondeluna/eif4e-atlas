@@ -10,6 +10,7 @@ let treeData = null;
 let svg = null;
 let root = null;
 let allProteins = []; // Armazena todas as proteínas para filtragem
+let taxonomicChart = null; // Gráfico de distribuição taxonômica
 
 // Inicializa no carregamento da página
 document.addEventListener('DOMContentLoaded', async () => {
@@ -44,6 +45,9 @@ function updateTreeVisualization(proteins) {
 
     // Atualiza estatísticas
     updateStats(proteins, treeData);
+
+    // Atualiza/cria gráfico taxonômico
+    updateTaxonomicChart(proteins);
 
     // Renderiza árvore
     renderTree(treeData);
@@ -248,6 +252,151 @@ function updateStats(proteins, tree) {
 
     // Sempre 1 reino (Viridiplantae) já que trabalhamos apenas com plantas
     document.getElementById('total-kingdoms').textContent = 1;
+}
+
+// Atualiza gráfico de distribuição taxonômica
+function updateTaxonomicChart(proteins) {
+    const ctx = document.getElementById('taxonomic-chart');
+    if (!ctx) return;
+
+    // Extrai contagens taxonômicas
+    const taxonomicData = extractTaxonomicData(proteins);
+
+    // Destrói gráfico anterior se existir
+    if (taxonomicChart) {
+        taxonomicChart.destroy();
+    }
+
+    // Cria novo gráfico
+    taxonomicChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Espécies', 'Gêneros', 'Famílias', 'Ordens', 'Classes', 'Filos', 'Reino'],
+            datasets: [{
+                label: 'Diversidade Taxonômica',
+                data: [
+                    taxonomicData.species,
+                    taxonomicData.genus,
+                    taxonomicData.family,
+                    taxonomicData.order,
+                    taxonomicData.class,
+                    taxonomicData.phylum,
+                    1 // Sempre 1 reino (Viridiplantae)
+                ],
+                backgroundColor: [
+                    'rgba(139, 92, 246, 0.8)',   // Species - purple
+                    'rgba(124, 58, 237, 0.8)',   // Genus
+                    'rgba(109, 40, 217, 0.8)',   // Family
+                    'rgba(91, 33, 182, 0.8)',    // Order
+                    'rgba(76, 29, 149, 0.8)',    // Class
+                    'rgba(59, 7, 100, 0.8)',     // Phylum
+                    'rgba(49, 46, 129, 0.8)'     // Kingdom
+                ],
+                borderColor: [
+                    'rgba(139, 92, 246, 1)',
+                    'rgba(124, 58, 237, 1)',
+                    'rgba(109, 40, 217, 1)',
+                    'rgba(91, 33, 182, 1)',
+                    'rgba(76, 29, 149, 1)',
+                    'rgba(59, 7, 100, 1)',
+                    'rgba(49, 46, 129, 1)'
+                ],
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleFont: { size: 14, weight: 'bold' },
+                    bodyFont: { size: 13 },
+                    padding: 12,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    callbacks: {
+                        label: function (context) {
+                            return `${context.parsed.x} únicos`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    },
+                    ticks: {
+                        font: { size: 12 }
+                    }
+                },
+                y: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: { size: 13, weight: '500' }
+                    }
+                }
+            },
+            animation: {
+                duration: 750,
+                easing: 'easeInOutQuart'
+            }
+        }
+    });
+}
+
+// Extrai dados taxonômicos das proteínas
+function extractTaxonomicData(proteins) {
+    const species = new Set();
+    const genus = new Set();
+    const family = new Set();
+    const order = new Set();
+    const classSet = new Set();
+    const phylum = new Set();
+
+    proteins.forEach(protein => {
+        const lineage = protein.organism?.lineage || [];
+        const scientificName = protein.organism?.scientificName;
+
+        if (scientificName) species.add(scientificName);
+
+        // Extrai níveis taxonômicos da linhagem
+        // Ordem típica: Eukaryota, Viridiplantae, Streptophyta, ...
+        lineage.forEach((taxon, index) => {
+            // Phylum (logo após Viridiplantae)
+            if (index > 0 && lineage[index - 1] === 'Viridiplantae') {
+                phylum.add(taxon);
+            }
+            // Heurística simples baseada em padrões comuns
+            if (taxon.endsWith('idae') || taxon.endsWith('ales')) order.add(taxon);
+            if (taxon.endsWith('aceae')) family.add(taxon);
+            if (taxon.endsWith('opsida') || taxon.endsWith('phyceae')) classSet.add(taxon);
+        });
+
+        // Para gênero, pega a primeira parte do nome científico
+        if (scientificName && scientificName.includes(' ')) {
+            const genusName = scientificName.split(' ')[0];
+            genus.add(genusName);
+        }
+    });
+
+    return {
+        species: species.size,
+        genus: genus.size,
+        family: family.size,
+        order: order.size,
+        class: classSet.size,
+        phylum: phylum.size
+    };
 }
 
 // Configura ouvintes de eventos
