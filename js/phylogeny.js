@@ -10,7 +10,6 @@ let treeData = null;
 let svg = null;
 let root = null;
 let allProteins = []; // Armazena todas as proteínas para filtragem
-let taxonomicChart = null; // Gráfico de distribuição taxonômica
 
 // Inicializa no carregamento da página
 document.addEventListener('DOMContentLoaded', async () => {
@@ -256,102 +255,155 @@ function updateStats(proteins, tree) {
 
 // Atualiza gráfico de distribuição taxonômica
 function updateTaxonomicChart(proteins) {
-    const ctx = document.getElementById('taxonomic-chart');
-    if (!ctx) return;
+    const container = document.getElementById('taxonomic-chart');
+    if (!container) return;
 
     // Extrai contagens taxonômicas
     const taxonomicData = extractTaxonomicData(proteins);
 
-    // Destrói gráfico anterior se existir
-    if (taxonomicChart) {
-        taxonomicChart.destroy();
-    }
+    // Limpa gráfico anterior
+    container.innerHTML = '';
 
-    // Cria novo gráfico
-    taxonomicChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Espécies', 'Gêneros', 'Famílias', 'Ordens', 'Classes', 'Filos', 'Reino'],
-            datasets: [{
-                label: 'Diversidade Taxonômica',
-                data: [
-                    taxonomicData.species,
-                    taxonomicData.genus,
-                    taxonomicData.family,
-                    taxonomicData.order,
-                    taxonomicData.class,
-                    taxonomicData.phylum,
-                    1 // Sempre 1 reino (Viridiplantae)
-                ],
-                backgroundColor: [
-                    'rgba(139, 92, 246, 0.8)',   // Species - purple
-                    'rgba(124, 58, 237, 0.8)',   // Genus
-                    'rgba(109, 40, 217, 0.8)',   // Family
-                    'rgba(91, 33, 182, 0.8)',    // Order
-                    'rgba(76, 29, 149, 0.8)',    // Class
-                    'rgba(59, 7, 100, 0.8)',     // Phylum
-                    'rgba(49, 46, 129, 0.8)'     // Kingdom
-                ],
-                borderColor: [
-                    'rgba(139, 92, 246, 1)',
-                    'rgba(124, 58, 237, 1)',
-                    'rgba(109, 40, 217, 1)',
-                    'rgba(91, 33, 182, 1)',
-                    'rgba(76, 29, 149, 1)',
-                    'rgba(59, 7, 100, 1)',
-                    'rgba(49, 46, 129, 1)'
-                ],
-                borderWidth: 2,
-                borderRadius: 8
-            }]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                    titleFont: { size: 14, weight: 'bold' },
-                    bodyFont: { size: 13 },
-                    padding: 12,
-                    cornerRadius: 8,
-                    displayColors: false,
-                    callbacks: {
-                        label: function (context) {
-                            return `${context.parsed.x} únicos`;
-                        }
-                    }
-                }
+    // Prepara dados para treemap
+    const treemapData = {
+        name: "Taxonomic Distribution",
+        children: [
+            {
+                name: "Species",
+                value: taxonomicData.species,
+                color: 'rgba(139, 92, 246, 0.8)'
             },
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    },
-                    ticks: {
-                        font: { size: 12 }
-                    }
-                },
-                y: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        font: { size: 13, weight: '500' }
-                    }
-                }
+            {
+                name: "Genera",
+                value: taxonomicData.genus,
+                color: 'rgba(124, 58, 237, 0.8)'
             },
-            animation: {
-                duration: 750,
-                easing: 'easeInOutQuart'
+            {
+                name: "Families",
+                value: taxonomicData.family,
+                color: 'rgba(109, 40, 217, 0.8)'
+            },
+            {
+                name: "Orders",
+                value: taxonomicData.order,
+                color: 'rgba(91, 33, 182, 0.8)'
+            },
+            {
+                name: "Classes",
+                value: taxonomicData.class,
+                color: 'rgba(76, 29, 149, 0.8)'
+            },
+            {
+                name: "Phyla",
+                value: taxonomicData.phylum,
+                color: 'rgba(59, 7, 100, 0.8)'
+            },
+            {
+                name: "Kingdom",
+                value: 1,
+                color: 'rgba(49, 46, 129, 0.8)'
             }
-        }
-    });
+        ]
+    };
+
+    // Dimensões
+    const width = container.clientWidth || 800;
+    const height = 400;
+
+    // Cria SVG
+    const svg = d3.select(container)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .attr('viewBox', [0, 0, width, height]);
+
+    // Cria treemap layout
+    const treemap = d3.treemap()
+        .size([width, height])
+        .padding(2)
+        .round(true);
+
+    // Cria hierarquia
+    const root = d3.hierarchy(treemapData)
+        .sum(d => d.value)
+        .sort((a, b) => b.value - a.value);
+
+    // Calcula layout
+    treemap(root);
+
+    // Cria tooltip
+    const tooltip = d3.select('body')
+        .append('div')
+        .attr('class', 'treemap-tooltip')
+        .style('position', 'absolute')
+        .style('visibility', 'hidden')
+        .style('background-color', 'rgba(15, 23, 42, 0.95)')
+        .style('color', 'white')
+        .style('padding', '12px')
+        .style('border-radius', '8px')
+        .style('font-size', '14px')
+        .style('font-family', 'Inter, sans-serif')
+        .style('pointer-events', 'none')
+        .style('z-index', '1000')
+        .style('box-shadow', '0 4px 6px rgba(0, 0, 0, 0.1)');
+
+    // Desenha células
+    const cell = svg.selectAll('g')
+        .data(root.leaves())
+        .join('g')
+        .attr('transform', d => `translate(${d.x0},${d.y0})`);
+
+    // Adiciona retângulos
+    cell.append('rect')
+        .attr('width', d => d.x1 - d.x0)
+        .attr('height', d => d.y1 - d.y0)
+        .attr('fill', d => d.data.color)
+        .attr('stroke', 'white')
+        .attr('stroke-width', 2)
+        .attr('rx', 4)
+        .style('cursor', 'pointer')
+        .style('transition', 'all 0.3s ease')
+        .on('mouseover', function (event, d) {
+            d3.select(this)
+                .style('opacity', 0.8)
+                .attr('stroke-width', 3);
+
+            tooltip
+                .style('visibility', 'visible')
+                .html(`<strong>${d.data.name}</strong><br/>${d.data.value} unique`);
+        })
+        .on('mousemove', function (event) {
+            tooltip
+                .style('top', (event.pageY - 10) + 'px')
+                .style('left', (event.pageX + 10) + 'px');
+        })
+        .on('mouseout', function () {
+            d3.select(this)
+                .style('opacity', 1)
+                .attr('stroke-width', 2);
+
+            tooltip.style('visibility', 'hidden');
+        });
+
+    // Adiciona texto
+    cell.append('text')
+        .selectAll('tspan')
+        .data(d => {
+            const width = d.x1 - d.x0;
+            const height = d.y1 - d.y0;
+
+            // Só mostra texto se houver espaço suficiente
+            if (width < 50 || height < 30) return [];
+
+            return [d.data.name, d.data.value];
+        })
+        .join('tspan')
+        .attr('x', 4)
+        .attr('y', (d, i) => 16 + i * 16)
+        .attr('fill', 'white')
+        .attr('font-size', (d, i) => i === 0 ? '14px' : '12px')
+        .attr('font-weight', (d, i) => i === 0 ? '600' : '400')
+        .text(d => d);
 }
 
 // Extrai dados taxonômicos das proteínas

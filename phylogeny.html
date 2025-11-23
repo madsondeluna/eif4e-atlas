@@ -77,17 +77,6 @@
             </div>
         </section>
 
-        <!-- Taxonomic Distribution Chart -->
-        <section class="taxonomic-chart-section">
-            <div class="chart-header">
-                <h2>Distribuição Taxonômica</h2>
-                <p class="chart-description">Diversidade de proteínas eIF4E através dos níveis taxonômicos</p>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="taxonomic-chart"></canvas>
-            </div>
-        </section>
-
         <!-- Tree Visualization -->
         <section class="phylogeny-tree-section">
             <div id="loading-tree" class="loading-indicator">
@@ -99,6 +88,17 @@
             </div>
             <div id="tree-error" class="error-message hidden">
                 <p>Failed to load phylogenetic data. Please refresh the page.</p>
+            </div>
+        </section>
+
+        <!-- Taxonomic Distribution Chart -->
+        <section class="taxonomic-chart-section">
+            <div class="chart-header">
+                <h2>Taxonomic Distribution</h2>
+                <p class="chart-description">Diversity of eIF4E proteins across taxonomic levels</p>
+            </div>
+            <div class="chart-wrapper">
+                <div id="taxonomic-chart"></div>
             </div>
         </section>
 
