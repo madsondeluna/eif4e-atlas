@@ -474,7 +474,7 @@ function renderBubbleChart(data, containerId, colorScheme) {
     container.innerHTML = '';
 
     const width = container.clientWidth || 600;
-    const height = 400;
+    const height = container.clientHeight || 600;
 
     const svg = d3.select(container)
         .append('svg')
