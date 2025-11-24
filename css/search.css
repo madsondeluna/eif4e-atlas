@@ -36,9 +36,45 @@
     margin: 0 auto;
 }
 
+/* Top Data Section */
+.top-data-section {
+    padding: 3rem 2rem;
+    background: #f8fafc;
+}
+
+.top-data-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+}
+
+.top-organisms-card,
+.top-go-terms-card {
+    flex: 1;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    min-width: 0; /* Prevents flex items from overflowing */
+}
+
+.top-organisms-card h2,
+.top-go-terms-card h2 {
+    font-size: 1.25rem;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .search-hero h1 {
         font-size: 2rem;
+    }
+
+    .top-data-container {
+        flex-direction: column;
     }
 }

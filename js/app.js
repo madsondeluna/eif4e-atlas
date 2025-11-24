@@ -410,82 +410,15 @@ async function updateGlobalStats() {
 }
 
 function renderCharts(stats) {
-    // Top Organisms Chart (TreeMap)
-    renderTreeMap(stats.topOrganisms);
+    // Top Organisms Chart (Frozen Glass Bubbles)
+    renderBubbleChart(stats.topOrganisms, 'topOrganismsChart', d3.schemeSet2);
 
     // Top GO Terms Chart (Frozen Glass Bubbles)
-    renderBubbleChart(stats.topGOTerms);
+    renderBubbleChart(stats.topGOTerms, 'topGoTermsChart', d3.schemeTableau10);
 }
 
-function renderTreeMap(data) {
-    const container = document.getElementById('topOrganismsChart');
-    if (!container) return;
-    container.innerHTML = ''; // Clear previous
-
-    const width = container.clientWidth || 600;
-    const height = 400;
-
-    // Prepare data for hierarchy
-    const rootData = {
-        name: "Organisms",
-        children: data.map(d => ({ name: d.label, value: d.value }))
-    };
-
-    const root = d3.hierarchy(rootData)
-        .sum(d => d.value)
-        .sort((a, b) => b.value - a.value);
-
-    d3.treemap()
-        .size([width, height])
-        .padding(2)
-        .round(true)
-        (root);
-
-    const svg = d3.select(container)
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .style("font-family", "'Inter', sans-serif");
-
-    const color = d3.scaleOrdinal()
-        .domain(root.leaves().map(d => d.data.name))
-        .range(['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899']);
-
-    const leaf = svg.selectAll("g")
-        .data(root.leaves())
-        .join("g")
-        .attr("transform", d => `translate(${d.x0},${d.y0})`);
-
-    // Rectangles
-    leaf.append("rect")
-        .attr("width", d => d.x1 - d.x0)
-        .attr("height", d => d.y1 - d.y0)
-        .attr("fill", d => color(d.data.name))
-        .attr("rx", 4)
-        .attr("ry", 4)
-        .style("opacity", 0.8)
-        .on("mouseover", function () { d3.select(this).style("opacity", 1); })
-        .on("mouseout", function () { d3.select(this).style("opacity", 0.8); });
-
-    // Text Labels
-    leaf.append("text")
-        .selectAll("tspan")
-        .data(d => d.data.name.split(/(?=[A-Z][a-z])|\s+/g).concat(d.data.value))
-        .join("tspan")
-        .attr("x", 4)
-        .attr("y", (d, i, nodes) => 13 + (i === nodes.length - 1 ? 4 : 0) + i * 12) // Value slightly separated
-        .text(d => d)
-        .attr("font-size", "11px")
-        .attr("fill", "white")
-        .attr("font-weight", (d, i, nodes) => i === nodes.length - 1 ? "bold" : "normal");
-
-    // Tooltip (simple title attribute for now)
-    leaf.append("title")
-        .text(d => `${d.data.name}\n${d.data.value} entries`);
-}
-
-function renderBubbleChart(data) {
-    const container = document.getElementById('topGoTermsChart');
+function renderBubbleChart(data, containerId, colorScheme) {
+    const container = document.getElementById(containerId);
     if (!container) return;
     container.innerHTML = '';
 
@@ -504,7 +437,7 @@ function renderBubbleChart(data) {
     const bubbleData = data.map((d, i) => ({
         name: d.label,
         value: d.value,
-        color: d3.schemeTableau10[i % 10]
+        color: colorScheme[i % colorScheme.length]
     }));
 
     // Scale
@@ -553,7 +486,7 @@ function renderBubbleChart(data) {
 
     // Glass Filter
     const filter = defs.append('filter')
-        .attr('id', 'glass-effect-search')
+        .attr('id', `glass-effect-${containerId}`)
         .attr('x', '-50%').attr('y', '-50%').attr('width', '200%').attr('height', '200%');
     filter.append('feGaussianBlur').attr('in', 'SourceGraphic').attr('stdDeviation', '2').attr('result', 'blur');
     filter.append('feColorMatrix').attr('in', 'blur').attr('mode', 'matrix').attr('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.7 0').attr('result', 'glow');
@@ -564,7 +497,7 @@ function renderBubbleChart(data) {
     // Border Gradients
     bubbleData.forEach((d, i) => {
         const gradient = defs.append('linearGradient')
-            .attr('id', `border-gradient-search-${i}`)
+            .attr('id', `border-gradient-${containerId}-${i}`)
             .attr('x1', '0%').attr('y1', '0%').attr('x2', '100%').attr('y2', '100%');
         gradient.append('stop').attr('offset', '0%').attr('style', `stop-color:rgba(255,255,255,0.8);stop-opacity:1`);
         gradient.append('stop').attr('offset', '100%').attr('style', `stop-color:rgba(255,255,255,0.6);stop-opacity:1`);
@@ -584,7 +517,7 @@ function renderBubbleChart(data) {
             c.opacity = 0.25;
             return c.toString();
         })
-        .attr('stroke', (d, i) => `url(#border-gradient-search-${i})`)
+        .attr('stroke', (d, i) => `url(#border-gradient-${containerId}-${i})`)
         .attr('stroke-width', 2)
         .style('filter', 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))')
         .on('mouseover', function (event, d) {
