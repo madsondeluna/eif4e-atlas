@@ -14,9 +14,30 @@ async function loadData() {
     if (cachedData) return cachedData;
 
     try {
+        // Tenta usar o cache da taxonomia (Phylogeny page) para consistência
+        const taxonomyCache = localStorage.getItem('eif4e_taxonomy_data');
+        if (taxonomyCache) {
+            const { data } = JSON.parse(taxonomyCache);
+            if (data && data.length > 0) {
+                console.log('Usando dados em cache da taxonomia para consistência');
+                cachedData = data;
+                return cachedData;
+            }
+        }
+
+        // Fallback para fetch normal
         const response = await fetch(DATA_URL);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        cachedData = await response.json();
+        const allData = await response.json();
+
+        // Tenta filtrar para plantas se houver linhagem
+        const plantData = allData.filter(entry =>
+            (entry.organism?.lineage || []).includes('Viridiplantae')
+        );
+
+        // Se o filtro funcionar (tiver dados), usa ele. Se não (linhagem faltando), usa tudo.
+        cachedData = plantData.length > 0 ? plantData : allData;
+
         return cachedData;
     } catch (error) {
         console.error("Erro ao carregar dados:", error);
