@@ -410,78 +410,221 @@ async function updateGlobalStats() {
 }
 
 function renderCharts(stats) {
-    // Top Organisms Chart
-    const orgCanvas = document.getElementById('topOrganismsChart');
-    if (orgCanvas) {
-        const orgCtx = orgCanvas.getContext('2d');
-        new Chart(orgCtx, {
-            type: 'doughnut',
-            data: {
-                labels: stats.topOrganisms.map(o => o.label),
-                datasets: [{
-                    data: stats.topOrganisms.map(o => o.value),
-                    backgroundColor: [
-                        '#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            font: {
-                                family: "'Inter', sans-serif"
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
+    // Top Organisms Chart (TreeMap)
+    renderTreeMap(stats.topOrganisms);
 
-    // Top GO Terms Chart
-    const goCanvas = document.getElementById('topGoTermsChart');
-    if (goCanvas) {
-        const goCtx = goCanvas.getContext('2d');
-        new Chart(goCtx, {
-            type: 'bar',
-            data: {
-                labels: stats.topGOTerms.map(g => g.label),
-                datasets: [{
-                    label: 'Frequency',
-                    data: stats.topGOTerms.map(g => g.value),
-                    backgroundColor: '#3b82f6',
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        grid: { display: false }
-                    },
-                    y: {
-                        grid: { display: false },
-                        ticks: {
-                            font: {
-                                family: "'Inter', sans-serif",
-                                size: 11
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: false }
-                }
-            }
+    // Top GO Terms Chart (Frozen Glass Bubbles)
+    renderBubbleChart(stats.topGOTerms);
+}
+
+function renderTreeMap(data) {
+    const container = document.getElementById('topOrganismsChart');
+    if (!container) return;
+    container.innerHTML = ''; // Clear previous
+
+    const width = container.clientWidth || 600;
+    const height = 400;
+
+    // Prepare data for hierarchy
+    const rootData = {
+        name: "Organisms",
+        children: data.map(d => ({ name: d.label, value: d.value }))
+    };
+
+    const root = d3.hierarchy(rootData)
+        .sum(d => d.value)
+        .sort((a, b) => b.value - a.value);
+
+    d3.treemap()
+        .size([width, height])
+        .padding(2)
+        .round(true)
+        (root);
+
+    const svg = d3.select(container)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .style("font-family", "'Inter', sans-serif");
+
+    const color = d3.scaleOrdinal()
+        .domain(root.leaves().map(d => d.data.name))
+        .range(['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899']);
+
+    const leaf = svg.selectAll("g")
+        .data(root.leaves())
+        .join("g")
+        .attr("transform", d => `translate(${d.x0},${d.y0})`);
+
+    // Rectangles
+    leaf.append("rect")
+        .attr("width", d => d.x1 - d.x0)
+        .attr("height", d => d.y1 - d.y0)
+        .attr("fill", d => color(d.data.name))
+        .attr("rx", 4)
+        .attr("ry", 4)
+        .style("opacity", 0.8)
+        .on("mouseover", function () { d3.select(this).style("opacity", 1); })
+        .on("mouseout", function () { d3.select(this).style("opacity", 0.8); });
+
+    // Text Labels
+    leaf.append("text")
+        .selectAll("tspan")
+        .data(d => d.data.name.split(/(?=[A-Z][a-z])|\s+/g).concat(d.data.value))
+        .join("tspan")
+        .attr("x", 4)
+        .attr("y", (d, i, nodes) => 13 + (i === nodes.length - 1 ? 4 : 0) + i * 12) // Value slightly separated
+        .text(d => d)
+        .attr("font-size", "11px")
+        .attr("fill", "white")
+        .attr("font-weight", (d, i, nodes) => i === nodes.length - 1 ? "bold" : "normal");
+
+    // Tooltip (simple title attribute for now)
+    leaf.append("title")
+        .text(d => `${d.data.name}\n${d.data.value} entries`);
+}
+
+function renderBubbleChart(data) {
+    const container = document.getElementById('topGoTermsChart');
+    if (!container) return;
+    container.innerHTML = '';
+
+    const width = container.clientWidth || 600;
+    const height = 400;
+
+    const svg = d3.select(container)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .attr('viewBox', [0, 0, width, height])
+        .style('background', 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)')
+        .style('border-radius', '12px');
+
+    // Prepare data
+    const bubbleData = data.map((d, i) => ({
+        name: d.label,
+        value: d.value,
+        color: d3.schemeTableau10[i % 10]
+    }));
+
+    // Scale
+    const radiusScale = d3.scaleSqrt()
+        .domain([0, d3.max(bubbleData, d => d.value)])
+        .range([20, 70]);
+
+    bubbleData.forEach(d => {
+        d.radius = radiusScale(d.value);
+        d.x = Math.random() * width;
+        d.y = Math.random() * height;
+    });
+
+    // Simulation
+    const simulation = d3.forceSimulation(bubbleData)
+        .force('charge', d3.forceManyBody().strength(5))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('collision', d3.forceCollide().radius(d => d.radius + 2))
+        .force('x', d3.forceX(width / 2).strength(0.05))
+        .force('y', d3.forceY(height / 2).strength(0.05));
+
+    // Bubbles Group
+    const bubbles = svg.selectAll('g.bubble')
+        .data(bubbleData)
+        .join('g')
+        .attr('class', 'bubble')
+        .style('cursor', 'pointer')
+        .call(d3.drag()
+            .on('start', (event, d) => {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            })
+            .on('drag', (event, d) => {
+                d.fx = event.x;
+                d.fy = event.y;
+            })
+            .on('end', (event, d) => {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }));
+
+    // Definitions for filters/gradients
+    const defs = svg.append('defs');
+
+    // Glass Filter
+    const filter = defs.append('filter')
+        .attr('id', 'glass-effect-search')
+        .attr('x', '-50%').attr('y', '-50%').attr('width', '200%').attr('height', '200%');
+    filter.append('feGaussianBlur').attr('in', 'SourceGraphic').attr('stdDeviation', '2').attr('result', 'blur');
+    filter.append('feColorMatrix').attr('in', 'blur').attr('mode', 'matrix').attr('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.7 0').attr('result', 'glow');
+    const feMerge = filter.append('feMerge');
+    feMerge.append('feMergeNode').attr('in', 'glow');
+    feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+
+    // Border Gradients
+    bubbleData.forEach((d, i) => {
+        const gradient = defs.append('linearGradient')
+            .attr('id', `border-gradient-search-${i}`)
+            .attr('x1', '0%').attr('y1', '0%').attr('x2', '100%').attr('y2', '100%');
+        gradient.append('stop').attr('offset', '0%').attr('style', `stop-color:rgba(255,255,255,0.8);stop-opacity:1`);
+        gradient.append('stop').attr('offset', '100%').attr('style', `stop-color:rgba(255,255,255,0.6);stop-opacity:1`);
+    });
+
+    // Background Blur Circle
+    bubbles.append('circle')
+        .attr('r', d => d.radius)
+        .attr('fill', 'rgba(255, 255, 255, 0.1)')
+        .style('filter', 'blur(8px)');
+
+    // Main Glass Circle
+    bubbles.append('circle')
+        .attr('r', d => d.radius)
+        .attr('fill', d => {
+            const c = d3.color(d.color);
+            c.opacity = 0.25;
+            return c.toString();
+        })
+        .attr('stroke', (d, i) => `url(#border-gradient-search-${i})`)
+        .attr('stroke-width', 2)
+        .style('filter', 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))')
+        .on('mouseover', function (event, d) {
+            d3.select(this).transition().duration(200).attr('r', d.radius * 1.1).attr('fill', d3.color(d.color).copy({ opacity: 0.4 }));
+        })
+        .on('mouseout', function (event, d) {
+            d3.select(this).transition().duration(200).attr('r', d.radius).attr('fill', d3.color(d.color).copy({ opacity: 0.25 }));
         });
-    }
+
+    // Inner Highlight
+    bubbles.append('circle')
+        .attr('r', d => d.radius * 0.6)
+        .attr('cy', d => -d.radius * 0.3)
+        .attr('fill', 'rgba(255, 255, 255, 0.3)')
+        .attr('filter', 'blur(5px)')
+        .style('pointer-events', 'none');
+
+    // Text Label (Name)
+    bubbles.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', '-0.2em')
+        .attr('fill', '#1e293b')
+        .attr('font-size', d => Math.min(d.radius / 3, 12) + 'px')
+        .attr('font-weight', '600')
+        .style('pointer-events', 'none')
+        .text(d => d.name.length > 15 ? d.name.substring(0, 12) + '...' : d.name);
+
+    // Text Label (Value)
+    bubbles.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', '1.2em')
+        .attr('fill', '#475569')
+        .attr('font-size', d => Math.min(d.radius / 4, 10) + 'px')
+        .style('pointer-events', 'none')
+        .text(d => d.value);
+
+    // Update positions
+    simulation.on('tick', () => {
+        bubbles.attr('transform', d => `translate(${d.x},${d.y})`);
+    });
 }
 
 // Animação das Estatísticas
