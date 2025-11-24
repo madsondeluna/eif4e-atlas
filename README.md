@@ -52,6 +52,20 @@ Um Data Warehouse proteômico e genômico abrangente para eIF4E (Fator de Inicia
 5.  Clique em **Save**.
 6.  Seu site estará no ar em: `https://madsondeluna.github.io/eif4e-atlas/`
 
+## Customização e Manutenção
+
+### Filtro de Dados (Plantas)
+Para garantir que o Atlas exiba apenas dados de plantas, um filtro é aplicado no carregamento dos dados.
+- **Arquivo**: `js/uniprot.js`
+- **Função**: `loadData()`
+- **Lógica**: O código filtra entradas onde `organism.lineage` inclui `'Viridiplantae'`. Para remover esse filtro ou alterar para outro grupo taxonômico, edite esta função.
+
+### Gráficos da Página de Busca
+Os gráficos de "Top Organisms" e "Top GO Terms" utilizam D3.js e possuem formatação específica de rótulos.
+- **Arquivo**: `js/app.js`
+- **Abreviação de Nomes**: A função `abbreviateOrganism` abrevia o gênero (ex: "Vigna unguiculata" -> "V. unguiculata").
+- **Dicionário de Termos GO**: A função `shortenGoTerm` utiliza um dicionário para mapear termos longos para versões curtas (ex: "translation initiation" -> "Transl. Init."). Adicione novos termos a este dicionário conforme necessário para ajustar a exibição nas bolhas.
+
 ## Licença
 
 Esta aplicação é open source e está disponível sob a Licença MIT.
