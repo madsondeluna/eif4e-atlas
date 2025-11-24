@@ -66,7 +66,9 @@ Para garantir que o Atlas exiba apenas dados de plantas, um filtro é aplicado n
     - **Hover:** Realça a bolha e mostra tooltip.
     - **Clique:** Expande a bolha para revelar o nome completo (científico ou termo GO).
 - **Layout:** Disposição vertical para melhor visualização dos Top 10 Organismos e Top 10 Termos GO.
-- **Sincronização de Dados:** A página de busca tenta utilizar o cache da página de Filogenia para garantir que os números totais (ex: ~1.250 entradas) sejam consistentes em toda a aplicação. Se o cache não existir, ela carrega os dados locais com um mecanismo de fallback para evitar erros.
+- **Sincronização de Dados:** A página de busca carrega os dados estritamente do arquivo local `assets/data/data.json`.
+    - O código tenta filtrar por `Viridiplantae` para consistência.
+    - **Nota:** Se o arquivo local não contiver informações de linhagem (o que ocorre atualmente), o filtro retorna 0. O sistema então exibe **todas as entradas** do arquivo (~3.273) para garantir que os dados sejam visualizados. Para restringir a ~1.250, o arquivo `data.json` precisaria ser atualizado com metadados de linhagem completos.
 - **Abreviação de Nomes**: A função `abbreviateOrganism` abrevia o gênero (ex: "Vigna unguiculata" -> "V. unguiculata").
 - **Dicionário de Termos GO**: A função `shortenGoTerm` utiliza um dicionário para mapear termos longos para versões curtas (ex: "translation initiation" -> "Transl. Init."). Adicione novos termos a este dicionário conforme necessário para ajustar a exibição nas bolhas.
 
