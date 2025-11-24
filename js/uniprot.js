@@ -16,13 +16,7 @@ async function loadData() {
     try {
         const response = await fetch(DATA_URL);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const allData = await response.json();
-
-        // Filter for Plants (Viridiplantae) to match Phylogeny page
-        cachedData = allData.filter(entry =>
-            entry.organism?.lineage?.includes('Viridiplantae')
-        );
-
+        cachedData = await response.json();
         return cachedData;
     } catch (error) {
         console.error("Erro ao carregar dados:", error);
