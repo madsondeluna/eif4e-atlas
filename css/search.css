@@ -57,7 +57,8 @@
     padding: 1.5rem;
     border-radius: 1rem;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-    min-width: 0; /* Prevents flex items from overflowing */
+    min-width: 0;
+    /* Prevents flex items from overflowing */
 }
 
 .top-organisms-card h2,
@@ -66,6 +67,10 @@
     color: #1e293b;
     margin-bottom: 1rem;
     font-weight: 600;
+}
+
+.top-data-section .chart-container {
+    height: 500px;
 }
 
 /* Responsive */

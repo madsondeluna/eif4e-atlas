@@ -15,11 +15,17 @@ async function loadData() {
 
     try {
         const response = await fetch(DATA_URL);
-        if (!response.ok) throw new Error('Falha ao carregar dados locais');
-        cachedData = await response.json();
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const allData = await response.json();
+
+        // Filter for Plants (Viridiplantae) to match Phylogeny page
+        cachedData = allData.filter(entry =>
+            entry.organism?.lineage?.includes('Viridiplantae')
+        );
+
         return cachedData;
     } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        console.error("Erro ao carregar dados:", error);
         return [];
     }
 }
@@ -67,7 +73,7 @@ export async function getProteinDetails(accession) {
  */
 export async function getGlobalStats() {
     const proteins = await loadData();
-    
+
     // Total Entries
     const totalEntries = proteins.length;
 
@@ -77,7 +83,7 @@ export async function getGlobalStats() {
         const org = p.organism?.scientificName || 'Unknown';
         organismCounts[org] = (organismCounts[org] || 0) + 1;
     });
-    
+
     const topOrganisms = Object.entries(organismCounts)
         .map(([label, value]) => ({ label, value }))
         .sort((a, b) => b.value - a.value)

@@ -410,11 +410,60 @@ async function updateGlobalStats() {
 }
 
 function renderCharts(stats) {
+    // Format Organism Labels (e.g., "Vigna unguiculata" -> "V. unguiculata")
+    const formattedOrganisms = stats.topOrganisms.map(o => ({
+        ...o,
+        label: abbreviateOrganism(o.label)
+    }));
+
+    // Format GO Term Labels (e.g., "translation initiation" -> "Transl. Init.")
+    const formattedGOTerms = stats.topGOTerms.map(g => ({
+        ...g,
+        label: shortenGoTerm(g.label)
+    }));
+
     // Top Organisms Chart (Frozen Glass Bubbles)
-    renderBubbleChart(stats.topOrganisms, 'topOrganismsChart', d3.schemeSet2);
+    renderBubbleChart(formattedOrganisms, 'topOrganismsChart', d3.schemeSet2);
 
     // Top GO Terms Chart (Frozen Glass Bubbles)
-    renderBubbleChart(stats.topGOTerms, 'topGoTermsChart', d3.schemeTableau10);
+    renderBubbleChart(formattedGOTerms, 'topGoTermsChart', d3.schemeTableau10);
+}
+
+function abbreviateOrganism(name) {
+    if (!name.includes(' ')) return name;
+    const parts = name.split(' ');
+    return `${parts[0].charAt(0)}. ${parts.slice(1).join(' ')}`;
+}
+
+function shortenGoTerm(term) {
+    const dictionary = {
+        'translation initiation': 'Transl. Init.',
+        'translation elongation': 'Transl. Elong.',
+        'cytoplasm': 'Cytoplasm',
+        'cytosol': 'Cytosol',
+        'nucleus': 'Nucleus',
+        'RNA binding': 'RNA Binding',
+        'mRNA binding': 'mRNA Binding',
+        'eukaryotic translation initiation factor 4E complex': 'eIF4E Complex',
+        'cap-dependent translation initiation': 'Cap-Dep. Transl.',
+        'viral life cycle': 'Viral Life Cycle',
+        'host-virus interaction': 'Host-Virus',
+        'defense response to virus': 'Virus Defense',
+        'protein binding': 'Protein Binding',
+        'ATP binding': 'ATP Binding'
+    };
+
+    // Check exact match first
+    if (dictionary[term]) return dictionary[term];
+
+    // Check case-insensitive match
+    const lowerTerm = term.toLowerCase();
+    for (const [key, value] of Object.entries(dictionary)) {
+        if (key.toLowerCase() === lowerTerm) return value;
+    }
+
+    // Fallback: Truncate if too long
+    return term.length > 15 ? term.substring(0, 12) + '...' : term;
 }
 
 function renderBubbleChart(data, containerId, colorScheme) {
