@@ -47,23 +47,21 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 3rem;
 }
 
 .top-organisms-card,
 .top-go-terms-card {
-    background: white;
-    padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+    background: transparent;
+    padding: 0;
     margin: 0;
-    border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .top-organisms-card h2,
 .top-go-terms-card h2 {
     font-size: clamp(1.75rem, 3vw, 2.25rem);
     color: var(--primary-color);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     font-weight: 600;
     text-align: center;
 }
@@ -71,6 +69,9 @@
 .chart-wrapper {
     height: 400px;
     position: relative;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .top-data-section .chart-container {
