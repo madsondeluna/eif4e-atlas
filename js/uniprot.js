@@ -30,8 +30,7 @@ async function loadData() {
  * @returns {Promise<Array>} - Lista de entradas de proteínas correspondentes.
  */
 export async function searchUniProt(query) {
-    const data = await loadData();
-    const proteins = data.proteins || [];
+    const proteins = await loadData();
     if (!query) return proteins.slice(0, 20); // Retorna os primeiros 20 se não houver consulta
 
     const lowerQuery = query.toLowerCase();
@@ -58,8 +57,8 @@ export async function searchUniProt(query) {
  * @returns {Promise<Object>} - Dados detalhados da proteína.
  */
 export async function getProteinDetails(accession) {
-    const data = await loadData();
-    return data.proteins.find(entry => entry.primaryAccession === accession) || null;
+    const proteins = await loadData();
+    return proteins.find(entry => entry.primaryAccession === accession) || null;
 }
 
 /**
@@ -67,6 +66,48 @@ export async function getProteinDetails(accession) {
  * @returns {Promise<Object>} - Objeto de estatísticas com totalEntries, topOrganisms, topGOTerms.
  */
 export async function getGlobalStats() {
-    const data = await loadData();
-    return data.stats;
+    const proteins = await loadData();
+    
+    // Total Entries
+    const totalEntries = proteins.length;
+
+    // Top Organisms
+    const organismCounts = {};
+    proteins.forEach(p => {
+        const org = p.organism?.scientificName || 'Unknown';
+        organismCounts[org] = (organismCounts[org] || 0) + 1;
+    });
+    
+    const topOrganisms = Object.entries(organismCounts)
+        .map(([label, value]) => ({ label, value }))
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 5);
+
+    // Top GO Terms
+    const goCounts = {};
+    proteins.forEach(p => {
+        if (p.uniProtKBCrossReferences) {
+            p.uniProtKBCrossReferences.forEach(ref => {
+                if (ref.database === 'GO') {
+                    const termProp = ref.properties?.find(prop => prop.key === 'GoTerm');
+                    if (termProp) {
+                        // Remove prefix like "P:F:"
+                        const term = termProp.value.split(':').slice(2).join(':') || termProp.value;
+                        goCounts[term] = (goCounts[term] || 0) + 1;
+                    }
+                }
+            });
+        }
+    });
+
+    const topGOTerms = Object.entries(goCounts)
+        .map(([label, value]) => ({ label, value }))
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 10);
+
+    return {
+        totalEntries,
+        topOrganisms,
+        topGOTerms
+    };
 }

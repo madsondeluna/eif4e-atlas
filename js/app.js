@@ -401,8 +401,87 @@ async function updateGlobalStats() {
         const thirdCard = statNumbers[2].closest('.stat-card');
         if (thirdCard) thirdCard.remove();
     }
+
+    // Render Charts
+    renderCharts(stats);
+
     // Anima
     animateStats();
+}
+
+function renderCharts(stats) {
+    // Top Organisms Chart
+    const orgCanvas = document.getElementById('topOrganismsChart');
+    if (orgCanvas) {
+        const orgCtx = orgCanvas.getContext('2d');
+        new Chart(orgCtx, {
+            type: 'doughnut',
+            data: {
+                labels: stats.topOrganisms.map(o => o.label),
+                datasets: [{
+                    data: stats.topOrganisms.map(o => o.value),
+                    backgroundColor: [
+                        '#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            font: {
+                                family: "'Inter', sans-serif"
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Top GO Terms Chart
+    const goCanvas = document.getElementById('topGoTermsChart');
+    if (goCanvas) {
+        const goCtx = goCanvas.getContext('2d');
+        new Chart(goCtx, {
+            type: 'bar',
+            data: {
+                labels: stats.topGOTerms.map(g => g.label),
+                datasets: [{
+                    label: 'Frequency',
+                    data: stats.topGOTerms.map(g => g.value),
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        grid: { display: false }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: {
+                            font: {
+                                family: "'Inter', sans-serif",
+                                size: 11
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
 }
 
 // Animação das Estatísticas
