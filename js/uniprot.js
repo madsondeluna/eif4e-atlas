@@ -92,7 +92,7 @@ export async function getGlobalStats() {
     const topOrganisms = Object.entries(organismCounts)
         .map(([label, value]) => ({ label, value }))
         .sort((a, b) => b.value - a.value)
-        .slice(0, 10);
+        .slice(0, 20);
 
     // Top GO Terms
     const goCounts = {};
@@ -114,7 +114,7 @@ export async function getGlobalStats() {
     const topGOTerms = Object.entries(goCounts)
         .map(([label, value]) => ({ label, value }))
         .sort((a, b) => b.value - a.value)
-        .slice(0, 10);
+        .slice(0, 20);
 
     return {
         totalEntries,
