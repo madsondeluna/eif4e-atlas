@@ -68,7 +68,9 @@
 }
 
 .top-data-section .chart-container {
-    height: 500px;
+    position: relative;
+    height: 600px;
+    width: 100%;
 }
 
 /* Responsive */

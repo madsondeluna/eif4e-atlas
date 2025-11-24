@@ -81,7 +81,7 @@ export async function getGlobalStats() {
     const topOrganisms = Object.entries(organismCounts)
         .map(([label, value]) => ({ label, value }))
         .sort((a, b) => b.value - a.value)
-        .slice(0, 5);
+        .slice(0, 10);
 
     // Top GO Terms
     const goCounts = {};
