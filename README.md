@@ -61,8 +61,12 @@ Para garantir que o Atlas exiba apenas dados de plantas, um filtro é aplicado n
 - **Lógica**: O código filtra entradas onde `organism.lineage` inclui `'Viridiplantae'`. Para remover esse filtro ou alterar para outro grupo taxonômico, edite esta função.
 
 ### Gráficos da Página de Busca
-Os gráficos de "Top Organisms" e "Top GO Terms" utilizam D3.js e possuem formatação específica de rótulos.
-- **Arquivo**: `js/app.js`
+- **Estilo:** "Frozen Glass Bubbles" (Bolhas de Vidro Fosco) com animação suave.
+- **Interatividade:**
+    - **Hover:** Realça a bolha e mostra tooltip.
+    - **Clique:** Expande a bolha para revelar o nome completo (científico ou termo GO).
+- **Layout:** Disposição vertical para melhor visualização dos Top 10 Organismos e Top 10 Termos GO.
+- **Sincronização de Dados:** A página de busca tenta utilizar o cache da página de Filogenia para garantir que os números totais (ex: ~1.250 entradas) sejam consistentes em toda a aplicação. Se o cache não existir, ela carrega os dados locais com um mecanismo de fallback para evitar erros.
 - **Abreviação de Nomes**: A função `abbreviateOrganism` abrevia o gênero (ex: "Vigna unguiculata" -> "V. unguiculata").
 - **Dicionário de Termos GO**: A função `shortenGoTerm` utiliza um dicionário para mapear termos longos para versões curtas (ex: "translation initiation" -> "Transl. Init."). Adicione novos termos a este dicionário conforme necessário para ajustar a exibição nas bolhas.
 
