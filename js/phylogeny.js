@@ -350,7 +350,14 @@ function updateTaxonomicChart(proteins) {
         .force('center', d3.forceCenter(width / 2, height / 2))
         .force('collision', d3.forceCollide().radius(d => d.radius + 2))
         .force('x', d3.forceX(width / 2).strength(0.05))
-        .force('y', d3.forceY(height / 2).strength(0.05));
+        .force('y', d3.forceY(height / 2).strength(0.05))
+        .force('wander', alpha => {
+            bubbleData.forEach(d => {
+                d.vx += (Math.random() - 0.5) * 0.5 * alpha;
+                d.vy += (Math.random() - 0.5) * 0.5 * alpha;
+            });
+        })
+        .alphaTarget(0.05); // Keep simulation active
 
     // Cria grupos para cada bolha
     const bubbles = svg.selectAll('g.bubble')

@@ -413,12 +413,14 @@ function renderCharts(stats) {
     // Format Organism Labels (e.g., "Vigna unguiculata" -> "V. unguiculata")
     const formattedOrganisms = stats.topOrganisms.map(o => ({
         ...o,
+        fullName: o.label,
         label: abbreviateOrganism(o.label)
     }));
 
     // Format GO Term Labels (e.g., "translation initiation" -> "Transl. Init.")
     const formattedGOTerms = stats.topGOTerms.map(g => ({
         ...g,
+        fullName: g.label,
         label: shortenGoTerm(g.label)
     }));
 
@@ -485,6 +487,7 @@ function renderBubbleChart(data, containerId, colorScheme) {
     // Prepare data
     const bubbleData = data.map((d, i) => ({
         name: d.label,
+        fullName: d.fullName,
         value: d.value,
         color: colorScheme[i % colorScheme.length]
     }));
@@ -506,7 +509,14 @@ function renderBubbleChart(data, containerId, colorScheme) {
         .force('center', d3.forceCenter(width / 2, height / 2))
         .force('collision', d3.forceCollide().radius(d => d.radius + 2))
         .force('x', d3.forceX(width / 2).strength(0.05))
-        .force('y', d3.forceY(height / 2).strength(0.05));
+        .force('y', d3.forceY(height / 2).strength(0.05))
+        .force('wander', alpha => {
+            bubbleData.forEach(d => {
+                d.vx += (Math.random() - 0.5) * 0.5 * alpha;
+                d.vy += (Math.random() - 0.5) * 0.5 * alpha;
+            });
+        })
+        .alphaTarget(0.05); // Keep simulation active
 
     // Bubbles Group
     const bubbles = svg.selectAll('g.bubble')
@@ -554,12 +564,14 @@ function renderBubbleChart(data, containerId, colorScheme) {
 
     // Background Blur Circle
     bubbles.append('circle')
+        .attr('class', 'bg-circle')
         .attr('r', d => d.radius)
         .attr('fill', 'rgba(255, 255, 255, 0.1)')
         .style('filter', 'blur(8px)');
 
     // Main Glass Circle
     bubbles.append('circle')
+        .attr('class', 'main-circle')
         .attr('r', d => d.radius)
         .attr('fill', d => {
             const c = d3.color(d.color);
@@ -570,14 +582,17 @@ function renderBubbleChart(data, containerId, colorScheme) {
         .attr('stroke-width', 2)
         .style('filter', 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))')
         .on('mouseover', function (event, d) {
+            if (d.expanded) return;
             d3.select(this).transition().duration(200).attr('r', d.radius * 1.1).attr('fill', d3.color(d.color).copy({ opacity: 0.4 }));
         })
         .on('mouseout', function (event, d) {
+            if (d.expanded) return;
             d3.select(this).transition().duration(200).attr('r', d.radius).attr('fill', d3.color(d.color).copy({ opacity: 0.25 }));
         });
 
     // Inner Highlight
     bubbles.append('circle')
+        .attr('class', 'inner-highlight')
         .attr('r', d => d.radius * 0.6)
         .attr('cy', d => -d.radius * 0.3)
         .attr('fill', 'rgba(255, 255, 255, 0.3)')
@@ -586,6 +601,7 @@ function renderBubbleChart(data, containerId, colorScheme) {
 
     // Text Label (Name)
     bubbles.append('text')
+        .attr('class', 'label-text')
         .attr('text-anchor', 'middle')
         .attr('dy', '-0.2em')
         .attr('fill', '#1e293b')
@@ -596,12 +612,93 @@ function renderBubbleChart(data, containerId, colorScheme) {
 
     // Text Label (Value)
     bubbles.append('text')
+        .attr('class', 'value-text')
         .attr('text-anchor', 'middle')
         .attr('dy', '1.2em')
         .attr('fill', '#475569')
         .attr('font-size', d => Math.min(d.radius / 4, 10) + 'px')
         .style('pointer-events', 'none')
         .text(d => d.value);
+
+    // Click Interaction
+    bubbles.on('click', function (event, d) {
+        event.stopPropagation();
+        const isExpanded = d.expanded;
+
+        // Reset all bubbles
+        bubbles.each(function (b) {
+            b.expanded = false;
+            d3.select(this).select('.main-circle')
+                .transition().duration(300)
+                .attr('r', b.radius)
+                .attr('fill', d3.color(b.color).copy({ opacity: 0.25 }));
+            d3.select(this).select('.bg-circle')
+                .transition().duration(300)
+                .attr('r', b.radius);
+            d3.select(this).select('.inner-highlight')
+                .transition().duration(300)
+                .attr('r', b.radius * 0.6)
+                .attr('cy', -b.radius * 0.3);
+            d3.select(this).select('.label-text')
+                .text(b.name.length > 15 ? b.name.substring(0, 12) + '...' : b.name)
+                .attr('font-size', Math.min(b.radius / 3, 12) + 'px');
+            d3.select(this).select('.value-text')
+                .attr('dy', '1.2em');
+        });
+
+        if (!isExpanded) {
+            // Expand clicked bubble
+            d.expanded = true;
+            const expandedRadius = Math.max(d.radius * 1.5, 60);
+
+            // Bring to front
+            this.parentNode.appendChild(this);
+
+            const group = d3.select(this);
+            group.select('.main-circle')
+                .transition().duration(300)
+                .attr('r', expandedRadius)
+                .attr('fill', d3.color(d.color).copy({ opacity: 0.6 }));
+            group.select('.bg-circle')
+                .transition().duration(300)
+                .attr('r', expandedRadius);
+            group.select('.inner-highlight')
+                .transition().duration(300)
+                .attr('r', expandedRadius * 0.6)
+                .attr('cy', -expandedRadius * 0.3);
+
+            // Show full name
+            group.select('.label-text')
+                .text(d.fullName)
+                .attr('font-size', '14px');
+
+            group.select('.value-text')
+                .attr('dy', '2.5em'); // Move value down
+        }
+    });
+
+    // Click background to reset
+    svg.on('click', () => {
+        bubbles.each(function (b) {
+            b.expanded = false;
+            d3.select(this).select('.main-circle')
+                .transition().duration(300)
+                .attr('r', b.radius)
+                .attr('fill', d3.color(b.color).copy({ opacity: 0.25 }));
+            d3.select(this).select('.bg-circle')
+                .transition().duration(300)
+                .attr('r', b.radius);
+            d3.select(this).select('.inner-highlight')
+                .transition().duration(300)
+                .attr('r', b.radius * 0.6)
+                .attr('cy', -b.radius * 0.3);
+            d3.select(this).select('.label-text')
+                .text(b.name.length > 15 ? b.name.substring(0, 12) + '...' : b.name)
+                .attr('font-size', Math.min(b.radius / 3, 12) + 'px');
+            d3.select(this).select('.value-text')
+                .attr('dy', '1.2em');
+        });
+    });
 
     // Update positions
     simulation.on('tick', () => {
