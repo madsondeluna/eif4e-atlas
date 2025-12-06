@@ -8,7 +8,7 @@
 
 /* Hero - Dark Green Theme for Viruses */
 .virus-hero {
-    background: linear-gradient(135deg, #1b4332 0%, #0d2818 100%);
+    background: linear-gradient(135deg, #52796f 0%, #2d6a4f 100%);
     color: white;
     text-align: center;
     padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 4vw, 2rem);

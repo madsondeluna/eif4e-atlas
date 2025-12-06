@@ -8,7 +8,7 @@
 
 /* Hero - Botanical Theme */
 .home-hero {
-    background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
+    background: linear-gradient(135deg, #52796f 0%, #2d6a4f 100%);
     color: white;
     text-align: center;
     padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 4vw, 2rem);
