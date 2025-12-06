@@ -159,10 +159,11 @@
 }
 
 .importance-card {
-    background: white;
+    background: linear-gradient(135deg, #f8fcfa 0%, #ffffff 100%);
     border-radius: 1rem;
     padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(45, 106, 79, 0.12);
+    border: 1px solid rgba(74, 157, 95, 0.1);
 }
 
 .icon-wrapper {
@@ -179,18 +180,18 @@
 }
 
 .icon-wrapper.green {
-    background: linear-gradient(135deg, #6fbf73, #4a9d5f);
-    box-shadow: 0 4px 12px rgba(111, 191, 115, 0.3);
+    background: linear-gradient(135deg, #95d5b2, #6fbf73);
+    box-shadow: 0 4px 12px rgba(111, 191, 115, 0.25);
 }
 
 .icon-wrapper.blue {
-    background: linear-gradient(135deg, #52796f, #2d6a4f);
-    box-shadow: 0 4px 12px rgba(82, 121, 111, 0.3);
+    background: linear-gradient(135deg, #7a9a8d, #52796f);
+    box-shadow: 0 4px 12px rgba(82, 121, 111, 0.25);
 }
 
 .icon-wrapper.purple {
-    background: linear-gradient(135deg, #95d5b2, #52796f);
-    box-shadow: 0 4px 12px rgba(149, 213, 178, 0.3);
+    background: linear-gradient(135deg, #b8e6d5, #95d5b2);
+    box-shadow: 0 4px 12px rgba(149, 213, 178, 0.25);
 }
 
 .importance-card h3 {
@@ -230,18 +231,19 @@
 }
 
 .step-card {
-    background: white;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fcfa 100%);
     border-radius: 0.75rem;
     padding: 2rem;
     min-width: 250px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.1);
+    border: 1px solid rgba(74, 157, 95, 0.15);
     border-top: 4px solid var(--accent-color);
 }
 
 .step-number {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+    background: linear-gradient(135deg, #6fbf73, #4a9d5f);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -250,6 +252,7 @@
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(74, 157, 95, 0.3);
 }
 
 .step-card h3 {
@@ -279,17 +282,18 @@
 }
 
 .explore-card {
-    background: white;
+    background: linear-gradient(135deg, #ffffff 0%, #f8fcfa 100%);
     border-radius: 1rem;
     padding: 2.5rem 2rem;
     text-decoration: none;
     color: inherit;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.08);
     transition: all 0.3s ease;
-    border-left: 4px solid;
     text-align: center;
     flex: 1 1 300px;
     max-width: 350px;
+    border: 1px solid rgba(74, 157, 95, 0.1);
+    border-left: 4px solid;
 }
 
 .explore-card:hover {

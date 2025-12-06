@@ -158,8 +158,8 @@ body {
 }
 
 .nav-viruses::before {
-    background: linear-gradient(135deg, #d4a574, #b8860b);
-    /* Warm Earth Tones for Contrast */
+    background: linear-gradient(135deg, #3d8350, #1a3a2e);
+    /* Deep Leaf to Forest Green */
 }
 
 .nav-link:hover {
@@ -208,7 +208,7 @@ body {
 
 .nav-viruses:hover,
 .nav-viruses.active {
-    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.4);
+    box-shadow: 0 4px 12px rgba(61, 131, 80, 0.4);
 }
 
 /* Hero Section - Botanical Theme */
