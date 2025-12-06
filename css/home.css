@@ -6,12 +6,25 @@
     max-width: 100%;
 }
 
-/* Hero */
+/* Hero - Botanical Theme */
 .home-hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
     color: white;
     text-align: center;
-    padding: 5rem 2rem;
+    padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 4vw, 2rem);
+    position: relative;
+    overflow: hidden;
+}
+
+.home-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(111, 191, 115, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
 }
 
 .home-hero h1 {
@@ -35,7 +48,29 @@
 }
 
 .content-section.dark-bg {
-    background: #f8fafc;
+    background: var(--background-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.content-section.dark-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(74, 157, 95, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(149, 213, 178, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(82, 121, 111, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.content-section.dark-bg>* {
+    position: relative;
+    z-index: 1;
 }
 
 .section-container {
@@ -85,12 +120,13 @@
 }
 
 .fact-box {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    background: linear-gradient(135deg, #4a9d5f 0%, #2d6a4f 100%);
     color: white;
-    padding: 2rem;
+    padding: clamp(1.5rem, 4vw, 2rem);
     border-radius: 1rem;
     position: sticky;
     top: 100px;
+    box-shadow: 0 8px 24px rgba(45, 106, 79, 0.2);
 }
 
 .fact-box h4 {
@@ -143,15 +179,18 @@
 }
 
 .icon-wrapper.green {
-    background: linear-gradient(135deg, #10b981, #059669);
+    background: linear-gradient(135deg, #6fbf73, #4a9d5f);
+    box-shadow: 0 4px 12px rgba(111, 191, 115, 0.3);
 }
 
 .icon-wrapper.blue {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    background: linear-gradient(135deg, #52796f, #2d6a4f);
+    box-shadow: 0 4px 12px rgba(82, 121, 111, 0.3);
 }
 
 .icon-wrapper.purple {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    background: linear-gradient(135deg, #95d5b2, #52796f);
+    box-shadow: 0 4px 12px rgba(149, 213, 178, 0.3);
 }
 
 .importance-card h3 {
@@ -259,23 +298,23 @@
 }
 
 .card-search {
-    border-color: #3b82f6;
+    border-color: #4a9d5f;
 }
 
 .card-structure {
-    border-color: #10b981;
+    border-color: #6fbf73;
 }
 
 .card-msa {
-    border-color: #f59e0b;
+    border-color: #95d5b2;
 }
 
 .card-phylogeny {
-    border-color: #8b5cf6;
+    border-color: #2d6a4f;
 }
 
 .card-viruses {
-    border-color: #ef4444;
+    border-color: #d4a574;
 }
 
 .card-icon {
@@ -286,23 +325,23 @@
 }
 
 .card-search .card-icon {
-    color: #3b82f6;
+    color: #4a9d5f;
 }
 
 .card-structure .card-icon {
-    color: #10b981;
+    color: #6fbf73;
 }
 
 .card-msa .card-icon {
-    color: #f59e0b;
+    color: #95d5b2;
 }
 
 .card-phylogeny .card-icon {
-    color: #8b5cf6;
+    color: #2d6a4f;
 }
 
 .card-viruses .card-icon {
-    color: #ef4444;
+    color: #d4a574;
 }
 
 .explore-card h3 {

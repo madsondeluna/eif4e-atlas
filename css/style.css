@@ -1,22 +1,36 @@
 :root {
-    /* Colors */
-    --primary-color: #0f172a;
-    /* Slate 900 */
-    --secondary-color: #334155;
-    /* Slate 700 */
-    --accent-color: #3b82f6;
-    /* Blue 500 */
-    --accent-hover: #2563eb;
-    /* Blue 600 */
-    --background-color: #f8fafc;
-    /* Slate 50 */
+    /* Plant-Inspired Color Palette */
+    --primary-color: #1a3a2e;
+    /* Deep Forest Green */
+    --secondary-color: #2d5a4a;
+    /* Rich Moss Green */
+    --accent-color: #4a9d5f;
+    /* Vibrant Leaf Green */
+    --accent-hover: #3d8350;
+    /* Deep Leaf Green */
+    --accent-light: #6fbf73;
+    /* Light Spring Green */
+    --background-color: #f5f9f7;
+    /* Soft Mint Background */
     --surface-color: #ffffff;
-    --text-primary: #1e293b;
-    /* Slate 800 */
-    --text-secondary: #64748b;
-    /* Slate 500 */
-    --border-color: #e2e8f0;
-    /* Slate 200 */
+    --text-primary: #1f3a31;
+    /* Dark Forest Text */
+    --text-secondary: #5a7a6d;
+    /* Muted Sage */
+    --border-color: #d4e8df;
+    /* Pale Mint Border */
+
+    /* Additional Plant Colors */
+    --botanical-green: #2d6a4f;
+    /* Botanical Green */
+    --sage-green: #52796f;
+    /* Sage */
+    --mint-cream: #e8f5e9;
+    /* Mint Cream */
+    --forest-shadow: #1b4332;
+    /* Forest Shadow */
+    --spring-bud: #95d5b2;
+    /* Spring Bud */
 
     /* Typography */
     --font-main: 'Inter', sans-serif;
@@ -28,10 +42,11 @@
     --spacing-md: 2rem;
     --spacing-lg: 4rem;
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    /* Shadows with Green Tint */
+    --shadow-sm: 0 1px 2px 0 rgba(26, 58, 46, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(26, 58, 46, 0.1), 0 2px 4px -2px rgba(26, 58, 46, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(26, 58, 46, 0.1), 0 4px 6px -4px rgba(26, 58, 46, 0.1);
+    --shadow-glow: 0 0 20px rgba(74, 157, 95, 0.15);
 }
 
 * {
@@ -116,29 +131,35 @@ body {
     border-radius: 0.5rem;
 }
 
-/* Page-specific gradient colors */
+/* Page-specific gradient colors - Plant Theme */
 .nav-home::before {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #52796f, #2d6a4f);
+    /* Sage to Botanical */
 }
 
 .nav-search::before {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    background: linear-gradient(135deg, #4a9d5f, #2d6a4f);
+    /* Leaf Green to Botanical */
 }
 
 .nav-structure::before {
-    background: linear-gradient(135deg, #10b981, #059669);
+    background: linear-gradient(135deg, #6fbf73, #4a9d5f);
+    /* Spring to Vibrant Leaf */
 }
 
 .nav-msa::before {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
+    background: linear-gradient(135deg, #95d5b2, #52796f);
+    /* Spring Bud to Sage */
 }
 
 .nav-phylogeny::before {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    background: linear-gradient(135deg, #2d6a4f, #1b4332);
+    /* Botanical to Forest Shadow */
 }
 
 .nav-viruses::before {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
+    background: linear-gradient(135deg, #d4a574, #b8860b);
+    /* Warm Earth Tones for Contrast */
 }
 
 .nav-link:hover {
@@ -162,43 +183,69 @@ body {
 /* Specific shadow colors on hover for better visual feedback */
 .nav-home:hover,
 .nav-home.active {
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 12px rgba(82, 121, 111, 0.4);
 }
 
 .nav-search:hover,
 .nav-search.active {
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 4px 12px rgba(74, 157, 95, 0.4);
 }
 
 .nav-structure:hover,
 .nav-structure.active {
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 4px 12px rgba(111, 191, 115, 0.4);
 }
 
 .nav-msa:hover,
 .nav-msa.active {
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    box-shadow: 0 4px 12px rgba(149, 213, 178, 0.4);
 }
 
 .nav-phylogeny:hover,
 .nav-phylogeny.active {
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.4);
 }
 
 .nav-viruses:hover,
 .nav-viruses.active {
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.4);
 }
 
-/* Hero Section */
+/* Hero Section - Botanical Theme */
 .hero-section {
-    padding: var(--spacing-lg) var(--spacing-md);
+    padding: clamp(2rem, 8vw, 4rem) clamp(1rem, 4vw, 2rem);
     text-align: center;
-    background: radial-gradient(circle at center, #e0f2fe 0%, #f8fafc 70%);
+    background: radial-gradient(circle at center, var(--mint-cream) 0%, var(--background-color) 70%);
     min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(74, 157, 95, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(149, 213, 178, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
 }
 
 .hero-content {
@@ -370,15 +417,35 @@ body {
     background: var(--surface-color);
     border: 1px solid var(--border-color);
     border-radius: 0.75rem;
-    padding: var(--spacing-sm);
-    transition: transform 0.2s, box-shadow 0.2s;
+    padding: clamp(0.75rem, 2vw, 1rem);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-color), var(--spring-bud));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.result-card:hover::before {
+    transform: scaleX(1);
 }
 
 .result-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-color: var(--accent-light);
 }
 
 .card-header {
@@ -389,13 +456,14 @@ body {
 }
 
 .accession-badge {
-    background: #e0f2fe;
-    color: var(--accent-color);
+    background: var(--mint-cream);
+    color: var(--botanical-green);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.75rem;
     font-weight: 600;
     font-family: var(--font-display);
+    border: 1px solid var(--spring-bud);
 }
 
 .gene-name {
@@ -776,8 +844,43 @@ protvista-uniprot {
     transform: rotate(-45deg) translate(7px, -7px);
 }
 
-/* Responsive */
+/* Responsive Design - Enhanced */
+
+/* Tablets and Small Laptops */
+@media (max-width: 1024px) {
+    .hero-section {
+        min-height: 50vh;
+        padding: clamp(1.5rem, 6vw, 3rem) clamp(1rem, 3vw, 1.5rem);
+    }
+
+    .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    .stats-container {
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+
+    .stat-card {
+        flex: 1 1 calc(50% - var(--spacing-sm));
+        min-width: 200px;
+    }
+
+    .modal-content {
+        width: 92%;
+        max-height: 92vh;
+    }
+}
+
+/* Mobile Devices */
 @media (max-width: 768px) {
+    :root {
+        --spacing-md: 1.5rem;
+        --spacing-lg: 2.5rem;
+    }
+
     .hamburger {
         display: flex;
     }
@@ -791,9 +894,10 @@ protvista-uniprot {
         background: var(--surface-color);
         flex-direction: column;
         padding: 5rem 2rem 2rem;
-        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+        box-shadow: -4px 0 20px rgba(26, 58, 46, 0.15);
         transition: right 0.3s ease;
         gap: 0;
+        z-index: 100;
     }
 
     .main-nav.mobile-open {
@@ -812,12 +916,24 @@ protvista-uniprot {
     }
 
     .hero-title {
-        font-size: 2.5rem;
+        font-size: clamp(1.75rem, 6vw, 2.5rem);
+    }
+
+    .hero-subtitle {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
     }
 
     .stats-container {
         flex-direction: column;
         gap: var(--spacing-md);
+    }
+
+    .stat-card {
+        flex: 1 1 100%;
+    }
+
+    .stat-number {
+        font-size: clamp(2rem, 8vw, 2.5rem);
     }
 
     .modal-content {
@@ -828,5 +944,96 @@ protvista-uniprot {
 
     .results-grid {
         grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-btn {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .search-tags {
+        flex-wrap: wrap;
+    }
+
+    .hero-section::before,
+    .hero-section::after {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+    .main-header {
+        padding: clamp(0.5rem, 2vw, 0.75rem) clamp(0.75rem, 3vw, 1rem);
+    }
+
+    .logo {
+        font-size: clamp(1rem, 4vw, 1.25rem);
+    }
+
+    .hero-section {
+        min-height: 40vh;
+        padding: clamp(1.5rem, 5vw, 2rem) clamp(0.75rem, 3vw, 1rem);
+    }
+
+    .stat-number {
+        font-size: 1.75rem;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+    }
+
+    .modal-content {
+        width: 98%;
+        padding: 1rem;
+        border-radius: 0.75rem;
+    }
+
+    .close-modal {
+        top: 0.75rem;
+        right: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .modal-header {
+        padding-right: 2.5rem;
+    }
+
+    .nav-link {
+        padding: 0.875rem;
+        font-size: 0.95rem;
+    }
+
+    .result-card {
+        padding: 0.875rem;
+    }
+
+    .hero-section::before,
+    .hero-section::after {
+        display: none;
+    }
+}
+
+/* Large Screens */
+@media (min-width: 1440px) {
+    .hero-section::before {
+        width: 700px;
+        height: 700px;
+    }
+
+    .hero-section::after {
+        width: 600px;
+        height: 600px;
+    }
+
+    .results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     }
 }
