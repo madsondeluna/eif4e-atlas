@@ -284,10 +284,10 @@ input[type="search"]:focus {
 
 /* ===== GO TERMS GLASS ===== */
 .go-list li {
-    background: rgba(248, 250, 252, 0.7);
+    background: rgba(250, 252, 251, 0.7);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(226, 232, 240, 0.5);
+    border: 1px solid rgba(227, 240, 232, 0.5);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
