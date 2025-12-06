@@ -8,23 +8,41 @@
     padding: 0;
 }
 
-/* Hero Section */
+/* Hero Section - Botanical Theme */
 .structural-hero {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #6fbf73 0%, #4a9d5f 100%);
     color: white;
     text-align: center;
-    padding: 4rem 2rem;
+    padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 4vw, 2rem);
+    position: relative;
+    overflow: hidden;
+}
+
+.structural-hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(149, 213, 178, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
 }
 
 .structural-hero h1 {
     font-family: var(--font-display);
-    font-size: 3rem;
+    font-size: clamp(2rem, 5vw, 3rem);
     margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
 }
 
 .structural-hero p {
-    font-size: 1.3rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
     opacity: 0.95;
+    position: relative;
+    z-index: 1;
 }
 
 /* Content Sections */
@@ -66,9 +84,35 @@
 .architecture-card {
     background: white;
     border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow-md);
     border-top: 4px solid var(--accent-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.architecture-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), var(--spring-bud));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.architecture-card:hover::before {
+    transform: scaleX(1);
+}
+
+.architecture-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-top-color: var(--accent-light);
 }
 
 .architecture-card h3 {
@@ -98,15 +142,15 @@
 }
 
 .structure-element.beta {
-    border-top: 4px solid #3b82f6;
+    border-top: 4px solid var(--botanical-green);
 }
 
 .structure-element.alpha {
-    border-top: 4px solid #f59e0b;
+    border-top: 4px solid var(--accent-light);
 }
 
 .structure-element.loops {
-    border-top: 4px solid #8b5cf6;
+    border-top: 4px solid var(--spring-bud);
 }
 
 .element-icon {
@@ -123,15 +167,18 @@
 }
 
 .structure-element.beta .element-icon {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    background: linear-gradient(135deg, #4a9d5f, #2d6a4f);
+    box-shadow: 0 4px 12px rgba(74, 157, 95, 0.3);
 }
 
 .structure-element.alpha .element-icon {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
+    background: linear-gradient(135deg, #6fbf73, #4a9d5f);
+    box-shadow: 0 4px 12px rgba(111, 191, 115, 0.3);
 }
 
 .structure-element.loops .element-icon {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    background: linear-gradient(135deg, #95d5b2, #52796f);
+    box-shadow: 0 4px 12px rgba(149, 213, 178, 0.3);
 }
 
 .structure-element h3 {
@@ -202,11 +249,17 @@
 
 /* Info Card */
 .info-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
     color: white;
-    padding: 2rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
     border-radius: 1rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(45, 106, 79, 0.3);
+    transform: translateY(-2px);
 }
 
 .info-card h4 {
@@ -373,7 +426,7 @@
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 1fr;
     gap: 0;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #2d6a4f, #1b4332);
     color: white;
 }
 
@@ -472,7 +525,7 @@
 
 .motif-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
 .motif-icon {
@@ -520,7 +573,8 @@
 
 .resource-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-left-color: var(--accent-light);
 }
 
 .resource-card h3 {

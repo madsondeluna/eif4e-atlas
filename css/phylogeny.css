@@ -11,20 +11,37 @@
 
 .phylogeny-header {
     text-align: center;
-    padding: 3rem 2rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: clamp(2.5rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2rem);
+    background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
     color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.phylogeny-header::before {
+    content: '';
+    position: absolute;
+    bottom: -40%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(149, 213, 178, 0.12) 0%, transparent 70%);
+    border-radius: 50%;
 }
 
 .phylogeny-header h1 {
     font-family: var(--font-display);
-    font-size: 3rem;
+    font-size: clamp(2rem, 5vw, 3rem);
     margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
 }
 
 .phylogeny-header .subtitle {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
     opacity: 0.9;
+    position: relative;
+    z-index: 1;
 }
 
 /* Controls */
@@ -94,9 +111,15 @@
 }
 
 .stat-value {
-    font-size: 2rem;
+    font-size: clamp(1.75rem, 4vw, 2rem);
     font-weight: 700;
+    color: var(--botanical-green);
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover .stat-value {
     color: var(--accent-color);
+    transform: scale(1.05);
 }
 
 .stat-label {
@@ -113,7 +136,14 @@
     margin: 2rem auto;
     max-width: 1200px;
     border-radius: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-color);
+}
+
+.taxonomic-chart-section:hover {
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-color: var(--accent-light);
 }
 
 .chart-header {
@@ -158,13 +188,16 @@
 /* Tree Nodes */
 .node circle {
     fill: #fff;
-    stroke: steelblue;
+    stroke: var(--botanical-green);
     stroke-width: 3px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .node circle:hover {
     stroke-width: 5px;
+    stroke: var(--accent-color);
+    filter: drop-shadow(0 0 6px rgba(74, 157, 95, 0.4));
 }
 
 .node text {
@@ -180,21 +213,45 @@
     fill: var(--accent-color);
 }
 
-/* Kingdom Colors */
+/* Kingdom Colors - Plant-Focused */
 .kingdom-viridiplantae circle {
-    fill: #10b981 !important;
+    fill: #4a9d5f !important;
+    transition: all 0.3s ease;
+}
+
+.kingdom-viridiplantae circle:hover {
+    fill: #6fbf73 !important;
+    filter: drop-shadow(0 0 8px rgba(74, 157, 95, 0.5));
 }
 
 .kingdom-metazoa circle {
-    fill: #3b82f6 !important;
+    fill: #52796f !important;
+    transition: all 0.3s ease;
+}
+
+.kingdom-metazoa circle:hover {
+    fill: #6b9080 !important;
+    filter: drop-shadow(0 0 8px rgba(82, 121, 111, 0.5));
 }
 
 .kingdom-fungi circle {
-    fill: #8b5cf6 !important;
+    fill: #95d5b2 !important;
+    transition: all 0.3s ease;
+}
+
+.kingdom-fungi circle:hover {
+    fill: #b7e4c7 !important;
+    filter: drop-shadow(0 0 8px rgba(149, 213, 178, 0.5));
 }
 
 .kingdom-other circle {
-    fill: #f59e0b !important;
+    fill: #d4a574 !important;
+    transition: all 0.3s ease;
+}
+
+.kingdom-other circle:hover {
+    fill: #e0b589 !important;
+    filter: drop-shadow(0 0 8px rgba(212, 165, 116, 0.5));
 }
 
 /* Links */

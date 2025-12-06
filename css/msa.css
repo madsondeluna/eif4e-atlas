@@ -7,21 +7,38 @@
 }
 
 .msa-hero {
-    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    background: linear-gradient(135deg, #95d5b2 0%, #52796f 100%);
     color: white;
     text-align: center;
-    padding: 4rem 2rem;
+    padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 4vw, 2rem);
+    position: relative;
+    overflow: hidden;
+}
+
+.msa-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -15%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(183, 228, 199, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
 }
 
 .msa-hero h1 {
     font-family: var(--font-display);
-    font-size: 3rem;
+    font-size: clamp(2rem, 5vw, 3rem);
     margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
 }
 
 .msa-hero p {
-    font-size: 1.3rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
     opacity: 0.95;
+    position: relative;
+    z-index: 1;
 }
 
 .msa-section {
@@ -108,8 +125,9 @@
 
 .resource-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
     border-color: var(--accent-color);
+    background: var(--mint-cream);
 }
 
 .resource-btn.primary {
@@ -119,6 +137,7 @@
 }
 
 .resource-btn.primary:hover {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
+    background: var(--botanical-green);
+    border-color: var(--botanical-green);
+    box-shadow: var(--shadow-glow);
 }

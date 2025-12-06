@@ -6,23 +6,40 @@
     max-width: 100%;
 }
 
-/* Hero */
+/* Hero - Earth Tones for Contrast */
 .virus-hero {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%);
     color: white;
     text-align: center;
-    padding: 4rem 2rem;
+    padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 4vw, 2rem);
+    position: relative;
+    overflow: hidden;
+}
+
+.virus-hero::before {
+    content: '';
+    position: absolute;
+    bottom: -40%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(224, 181, 137, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
 }
 
 .virus-hero h1 {
     font-family: var(--font-display);
-    font-size: 3rem;
+    font-size: clamp(2rem, 5vw, 3rem);
     margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
 }
 
 .virus-hero p {
-    font-size: 1.3rem;
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
     opacity: 0.95;
+    position: relative;
+    z-index: 1;
 }
 
 /* Content Sections */
@@ -77,9 +94,16 @@
 .mechanism-card {
     background: white;
     border-radius: 0.75rem;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow-md);
     border-top: 4px solid var(--accent-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mechanism-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-top-color: var(--accent-light);
 }
 
 .mech-number {
@@ -124,6 +148,7 @@
 
 .virus-family-card:hover {
     transform: translateY(-5px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
 .family-header {
@@ -170,10 +195,17 @@
 .publication-card {
     background: white;
     border-radius: 0.75rem;
-    padding: 2rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
     margin-bottom: 2rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--shadow-md);
     border-left: 4px solid var(--accent-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.publication-card:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-left-color: var(--accent-light);
 }
 
 .publication-card h3 {
@@ -237,7 +269,8 @@
 
 .resource-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-left-color: var(--accent-light);
 }
 
 .resource-card h3 {
