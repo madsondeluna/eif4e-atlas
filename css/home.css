@@ -164,6 +164,13 @@
     padding: 2rem;
     box-shadow: 0 4px 20px rgba(45, 106, 79, 0.12);
     border: 1px solid rgba(74, 157, 95, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.importance-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(45, 106, 79, 0.2);
+    border-color: rgba(74, 157, 95, 0.25);
 }
 
 .icon-wrapper {
@@ -238,6 +245,13 @@
     box-shadow: 0 4px 12px rgba(45, 106, 79, 0.1);
     border: 1px solid rgba(74, 157, 95, 0.15);
     border-top: 4px solid var(--accent-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(45, 106, 79, 0.2);
+    border-color: rgba(74, 157, 95, 0.3);
 }
 
 .step-number {
