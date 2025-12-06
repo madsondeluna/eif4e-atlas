@@ -10,15 +10,15 @@
     /* Deep Leaf Green */
     --accent-light: #6fbf73;
     /* Light Spring Green */
-    --background-color: #f5f9f7;
-    /* Soft Mint Background */
+    --background-color: #f8fcfa;
+    /* Ultra Soft Mint Background - Mais claro */
     --surface-color: #ffffff;
     --text-primary: #1f3a31;
     /* Dark Forest Text */
-    --text-secondary: #5a7a6d;
-    /* Muted Sage */
-    --border-color: #d4e8df;
-    /* Pale Mint Border */
+    --text-secondary: #7a9a8d;
+    /* Lighter Muted Sage - Mais claro */
+    --border-color: #e3f0e8;
+    /* Lighter Pale Mint Border - Mais claro */
 
     /* Additional Plant Colors */
     --botanical-green: #2d6a4f;
@@ -720,7 +720,7 @@ protvista-uniprot {
 .chart-container {
     height: 300px;
     width: 100%;
-    background: #f8fafc;
+    background: #fafcfb;
     border-radius: 0.5rem;
     padding: 1rem;
 }
@@ -745,7 +745,7 @@ protvista-uniprot {
     color: var(--text-secondary);
     font-style: italic;
     padding: 1rem;
-    background: #f8fafc;
+    background: #fafcfb;
     border-radius: 0.5rem;
     text-align: center;
 }
@@ -770,7 +770,7 @@ protvista-uniprot {
 .go-list li {
     padding: 0.75rem;
     margin-bottom: 0.5rem;
-    background: #f8fafc;
+    background: #fafcfb;
     border-left: 3px solid var(--accent-color);
     border-radius: 0.25rem;
     display: flex;
