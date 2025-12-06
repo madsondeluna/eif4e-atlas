@@ -314,7 +314,8 @@
 }
 
 .card-viruses {
-    border-color: #d4a574;
+    border-color: #1b4332;
+    /* Forest Shadow - Verde escuro para distinção */
 }
 
 .card-icon {
@@ -341,7 +342,8 @@
 }
 
 .card-viruses .card-icon {
-    color: #d4a574;
+    color: #1b4332;
+    /* Forest Shadow */
 }
 
 .explore-card h3 {

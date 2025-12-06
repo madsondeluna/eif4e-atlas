@@ -6,9 +6,9 @@
     max-width: 100%;
 }
 
-/* Hero - Earth Tones for Contrast */
+/* Hero - Dark Green Theme for Viruses */
 .virus-hero {
-    background: linear-gradient(135deg, #d4a574 0%, #b8860b 100%);
+    background: linear-gradient(135deg, #1b4332 0%, #0d2818 100%);
     color: white;
     text-align: center;
     padding: clamp(3rem, 6vw, 4rem) clamp(1.5rem, 4vw, 2rem);
@@ -23,7 +23,7 @@
     left: -10%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(224, 181, 137, 0.15) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(45, 106, 79, 0.15) 0%, transparent 70%);
     border-radius: 50%;
 }
 
