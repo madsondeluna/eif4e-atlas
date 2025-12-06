@@ -120,13 +120,29 @@
 }
 
 .fact-box {
-    background: linear-gradient(135deg, #4a9d5f 0%, #2d6a4f 100%);
+    background: linear-gradient(135deg, #6fbf73 0%, #4a9d5f 100%);
     color: white;
     padding: clamp(1.5rem, 4vw, 2rem);
     border-radius: 1rem;
     position: sticky;
     top: 100px;
-    box-shadow: 0 8px 24px rgba(45, 106, 79, 0.2);
+    box-shadow: 0 8px 24px rgba(111, 191, 115, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fact-box:hover {
+    background: #ffffff;
+    color: var(--primary-color);
+    box-shadow: 0 12px 32px rgba(45, 106, 79, 0.25);
+}
+
+.fact-box:hover h4 {
+    color: var(--primary-color);
+    border-bottom-color: var(--accent-color);
+}
+
+.fact-box:hover li {
+    border-bottom-color: var(--border-color);
 }
 
 .fact-box h4 {
@@ -159,20 +175,63 @@
 }
 
 .importance-card {
-    background: linear-gradient(135deg, #f8fcfa 0%, #ffffff 100%);
+    background: linear-gradient(135deg, #95d5b2 0%, #6fbf73 100%);
     border-radius: 1rem;
     padding: 2rem;
-    box-shadow: 0 4px 20px rgba(45, 106, 79, 0.12);
-    border: 1px solid rgba(74, 157, 95, 0.1);
+    box-shadow: 0 4px 20px rgba(111, 191, 115, 0.3);
+    border: 1px solid rgba(111, 191, 115, 0.2);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: white;
 }
 
 .importance-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(45, 106, 79, 0.2);
-    border-color: rgba(74, 157, 95, 0.25);
+    box-shadow: 0 12px 32px rgba(45, 106, 79, 0.3);
+    border-color: var(--accent-color);
     background: #ffffff;
+    color: var(--text-primary);
 }
+
+.importance-card h3 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.importance-card:hover h3 {
+    color: var(--primary-color);
+}
+
+.importance-card li {
+    padding: 0.75rem 0;
+    line-height: 1.6;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.importance-card:hover li {
+    color: var(--text-primary);
+    border-bottom-color: var(--border-color);
+}
+
+.importance-card strong {
+    color: white;
+    font-weight: 700;
+}
+
+.importance-card:hover strong {
+    color: var(--accent-color);
+}
+
+.importance-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.importance-card li:last-child {
+    border-bottom: none;
+}
+
 
 .icon-wrapper {
     width: 80px;
@@ -202,31 +261,8 @@
     box-shadow: 0 4px 12px rgba(149, 213, 178, 0.25);
 }
 
-.importance-card h3 {
-    color: var(--primary-color);
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-}
 
-.importance-card ul {
-    list-style: none;
-    padding: 0;
-}
 
-.importance-card li {
-    padding: 0.75rem 0;
-    line-height: 1.6;
-    color: var(--text-primary);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.importance-card li:last-child {
-    border-bottom: none;
-}
-
-.importance-card strong {
-    color: var(--accent-color);
-}
 
 /* Mechanism Flow */
 .mechanism-flow {
@@ -239,27 +275,29 @@
 }
 
 .step-card {
-    background: linear-gradient(135deg, #ffffff 0%, #f8fcfa 100%);
+    background: linear-gradient(135deg, #6fbf73 0%, #52796f 100%);
     border-radius: 0.75rem;
     padding: 2rem;
     min-width: 250px;
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.1);
-    border: 1px solid rgba(74, 157, 95, 0.15);
-    border-top: 4px solid var(--accent-color);
+    box-shadow: 0 4px 12px rgba(111, 191, 115, 0.3);
+    border: 1px solid rgba(111, 191, 115, 0.2);
+    border-top: 4px solid #95d5b2;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: white;
 }
 
 .step-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(45, 106, 79, 0.2);
-    border-color: rgba(74, 157, 95, 0.3);
+    box-shadow: 0 12px 32px rgba(45, 106, 79, 0.3);
+    border-color: var(--accent-color);
     background: #ffffff;
+    color: var(--text-primary);
 }
 
 .step-number {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #6fbf73, #4a9d5f);
+    background: linear-gradient(135deg, #95d5b2, #6fbf73);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -268,18 +306,31 @@
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    box-shadow: 0 2px 8px rgba(74, 157, 95, 0.3);
+    box-shadow: 0 2px 8px rgba(149, 213, 178, 0.4);
+    transition: all 0.3s ease;
+}
+
+.step-card:hover .step-number {
+    background: linear-gradient(135deg, #4a9d5f, #2d6a4f);
 }
 
 .step-card h3 {
-    color: var(--primary-color);
+    color: white;
     margin-bottom: 0.75rem;
 }
 
+.step-card:hover h3 {
+    color: var(--primary-color);
+}
+
 .step-card p {
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.95);
     line-height: 1.6;
     font-size: 0.95rem;
+}
+
+.step-card:hover p {
+    color: var(--text-secondary);
 }
 
 .arrow {
@@ -298,23 +349,44 @@
 }
 
 .explore-card {
-    background: linear-gradient(135deg, #ffffff 0%, #f8fcfa 100%);
+    background: linear-gradient(135deg, #95d5b2 0%, #6fbf73 100%);
     border-radius: 1rem;
     padding: 2.5rem 2rem;
     text-decoration: none;
-    color: inherit;
-    box-shadow: 0 4px 12px rgba(45, 106, 79, 0.08);
+    color: white;
+    box-shadow: 0 4px 12px rgba(111, 191, 115, 0.3);
     transition: all 0.3s ease;
     text-align: center;
     flex: 1 1 300px;
     max-width: 350px;
-    border: 1px solid rgba(74, 157, 95, 0.1);
+    border: 1px solid rgba(111, 191, 115, 0.2);
     border-left: 4px solid;
 }
 
 .explore-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 32px rgba(45, 106, 79, 0.3);
+    background: #ffffff;
+    color: var(--text-primary);
+}
+
+.explore-card h3 {
+    color: white;
+    margin-bottom: 0.75rem;
+    font-size: 1.3rem;
+}
+
+.explore-card:hover h3 {
+    color: var(--primary-color);
+}
+
+.explore-card p {
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.6;
+}
+
+.explore-card:hover p {
+    color: var(--text-secondary);
 }
 
 .card-search {
@@ -342,40 +414,50 @@
     font-size: 3rem;
     margin-bottom: 1rem;
     font-weight: 700;
-    /* Color defined by specific card class below */
+    color: white;
+    transition: color 0.3s ease;
 }
 
 .card-search .card-icon {
+    color: white;
+}
+
+.explore-card:hover.card-search .card-icon {
     color: #4a9d5f;
 }
 
 .card-structure .card-icon {
+    color: white;
+}
+
+.explore-card:hover.card-structure .card-icon {
     color: #6fbf73;
 }
 
 .card-msa .card-icon {
+    color: white;
+}
+
+.explore-card:hover.card-msa .card-icon {
     color: #95d5b2;
 }
 
 .card-phylogeny .card-icon {
+    color: white;
+}
+
+.explore-card:hover.card-phylogeny .card-icon {
     color: #2d6a4f;
 }
 
 .card-viruses .card-icon {
+    color: white;
+}
+
+.explore-card:hover.card-viruses .card-icon {
     color: #1b4332;
-    /* Forest Shadow */
 }
 
-.explore-card h3 {
-    color: var(--primary-color);
-    margin-bottom: 0.75rem;
-    font-size: 1.3rem;
-}
-
-.explore-card p {
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
 
 /* Responsive */
 @media (max-width: 768px) {
