@@ -727,28 +727,20 @@ protvista-uniprot {
 
 /* Footer */
 .main-footer {
-    background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 50%, #2d6a4f 100%);
-    background-size: 200% 200%;
+    background: linear-gradient(135deg, #2d6a4f 0%, #1b4332 100%);
     border-top: 3px solid var(--accent-color);
     padding: var(--spacing-md);
     text-align: center;
     color: white;
     margin-top: auto;
     position: relative;
-    overflow: hidden;
-    animation: gradientShift 8s ease infinite;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.main-footer::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(111, 191, 115, 0.15) 0%, transparent 70%);
-    animation: rotateGlow 15s linear infinite;
-    pointer-events: none;
+.main-footer:hover {
+    background: linear-gradient(135deg, #4a9d5f 0%, #2d6a4f 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 -4px 20px rgba(74, 157, 95, 0.3);
 }
 
 .main-footer a {
@@ -764,32 +756,8 @@ protvista-uniprot {
 
 .main-footer a:hover {
     color: var(--spring-bud);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     transform: translateY(-2px);
-}
-
-@keyframes gradientShift {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-@keyframes rotateGlow {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
 }
 
 /* GO Terms and Cellular Location Styles */
