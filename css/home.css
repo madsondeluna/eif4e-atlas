@@ -86,10 +86,13 @@
 }
 
 .section-intro {
-    text-align: center;
     color: var(--text-secondary);
     font-size: 1.1rem;
     margin-bottom: 3rem;
+    text-align: justify;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Content Layout */
@@ -105,12 +108,14 @@
     line-height: 1.8;
     color: var(--text-primary);
     margin-bottom: 2rem;
+    text-align: justify;
 }
 
 .content-main p {
     line-height: 1.8;
     color: var(--text-primary);
     margin-bottom: 1.5rem;
+    text-align: justify;
 }
 
 .content-main h3 {
