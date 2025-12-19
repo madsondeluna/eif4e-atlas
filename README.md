@@ -16,7 +16,7 @@ Além de sua função canônica na tradução, eIF4E desempenha papel crucial na
 
 **Como a diversidade molecular e evolutiva de proteínas eIF4E em plantas se relaciona com sua distribuição taxonômica, conservação funcional e potencial para resistência viral?**
 
-### Perguntas de Pesquisa
+### Perguntas Condutoras
 
 #### 1. Diversidade e Distribuição Taxonômica
 - **P1.1:** Qual é a distribuição de proteínas eIF4E entre diferentes famílias de plantas (Fabaceae, Solanaceae, Brassicaceae, Poaceae, etc.)?
@@ -100,27 +100,12 @@ Para este projeto, foram coletadas proteínas que atendem aos critérios:
 #### Termos de Uso
 Conforme documentado em https://www.uniprot.org/help/license:
 
-**Permitido:**
-- Compartilhar: copiar e redistribuir os dados
-- Adaptar: remixar, transformar e construir sobre os dados
-- Uso comercial e não-comercial
+#### Citação da Base de Dados
 
-**Obrigações:**
-- **Atribuição:** Deve-se creditar o UniProt adequadamente
-- **Indicar mudanças:** Transformações aplicadas devem ser documentadas
-- **Sem restrições adicionais:** Não pode aplicar termos legais ou medidas tecnológicas que restrinjam legalmente outros de fazer qualquer coisa que a licença permita
-
-#### Citação Requerida
 ```
 The UniProt Consortium. UniProt: the Universal Protein Knowledgebase in 2023. 
 Nucleic Acids Research 51: D523–D531 (2023)
 ```
-
-#### Conformidade neste Projeto
- Atribuição clara ao UniProt em todas as páginas (rodapé)  
- Link direto para a fonte original dos dados  
- Documentação completa das transformações no pipeline ETL  
- Código-fonte aberto (MIT License) permitindo auditoria  
 
 ---
 

@@ -162,6 +162,11 @@ body {
     /* Deep Leaf to Forest Green */
 }
 
+.nav-mvp::before {
+    background: linear-gradient(135deg, #4a9d5f, #1a3a2e);
+    /* Vibrant Leaf to Deep Forest */
+}
+
 .nav-link:hover {
     color: white;
     transform: translateY(-2px);
@@ -194,6 +199,11 @@ body {
 .nav-structure:hover,
 .nav-structure.active {
     box-shadow: 0 4px 12px rgba(111, 191, 115, 0.4);
+}
+
+.nav-mvp:hover,
+.nav-mvp.active {
+    box-shadow: 0 4px 12px rgba(74, 157, 95, 0.4);
 }
 
 .nav-msa:hover,
