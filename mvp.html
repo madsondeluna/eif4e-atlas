@@ -81,86 +81,58 @@
                         <h3>Visão Geral da Arquitetura</h3>
                         <p>O projeto implementa uma arquitetura em três camadas (Three-Tier Architecture) composta por:</p>
                         
-                        <div class="importance-grid" style="margin-top: 2rem;">
-                            <div class="importance-card">
-                                <div class="icon-wrapper green">1</div>
-                                <h3>Camada de Apresentação</h3>
-                                <p><strong>Frontend Web Client</strong></p>
-                                <ul>
-                                    <li><strong>HTML5:</strong> Estrutura semântica das páginas</li>
-                                    <li><strong>CSS3:</strong> Estilização responsiva e moderna</li>
-                                    <li><strong>JavaScript ES6+:</strong> Lógica de aplicação</li>
-                                    <li><strong>Chart.js + D3.js:</strong> Visualizações de dados</li>
-                                    <li><strong>JSON Export:</strong> Comunicação com camada de dados</li>
-                                </ul>
-                            </div>
+                        <h4><strong>1. Camada de Apresentação - Frontend Web Client</strong></h4>
+                        <ul>
+                            <li><strong>HTML5:</strong> Estrutura semântica das páginas</li>
+                            <li><strong>CSS3:</strong> Estilização responsiva e moderna</li>
+                            <li><strong>JavaScript ES6+:</strong> Lógica de aplicação</li>
+                            <li><strong>Chart.js + D3.js:</strong> Visualizações de dados</li>
+                            <li><strong>JSON Export:</strong> Comunicação com camada de dados</li>
+                        </ul>
 
-                            <div class="importance-card">
-                                <div class="icon-wrapper blue">2</div>
-                                <h3>Camada de Lógica</h3>
-                                <p><strong>ETL Pipeline - Python</strong></p>
-                                <ul>
-                                    <li><strong>Extract:</strong> API REST UniProtKB com paginação</li>
-                                    <li><strong>Transform:</strong> Normalização e validação de dados</li>
-                                    <li><strong>Load:</strong> Inserção no warehouse SQLite</li>
-                                    <li><strong>Rate Limiting:</strong> Respeito às políticas da API</li>
-                                    <li><strong>Error Handling:</strong> Retry logic e logging</li>
-                                </ul>
-                            </div>
+                        <h4><strong>2. Camada de Lógica - ETL Pipeline Python</strong></h4>
+                        <ul>
+                            <li><strong>Extract:</strong> API REST UniProtKB com paginação</li>
+                            <li><strong>Transform:</strong> Normalização e validação de dados</li>
+                            <li><strong>Load:</strong> Inserção no warehouse SQLite</li>
+                            <li><strong>Rate Limiting:</strong> Respeito às políticas da API</li>
+                            <li><strong>Error Handling:</strong> Retry logic e logging</li>
+                        </ul>
 
-                            <div class="importance-card">
-                                <div class="icon-wrapper purple">3</div>
-                                <h3>Camada de Dados</h3>
-                                <p><strong>Data Warehouse - SQLite</strong></p>
-                                <ul>
-                                    <li><strong>Star Schema:</strong> 4 dimensões + 3 fatos</li>
-                                    <li><strong>Dimensões:</strong> organism, gene, function, location</li>
-                                    <li><strong>Fatos:</strong> protein, variant, domain</li>
-                                    <li><strong>Associações:</strong> 2 tabelas many-to-many</li>
-                                    <li><strong>Total:</strong> 9 tabelas com integridade referencial</li>
-                                </ul>
-                            </div>
-                        </div>
+                        <h4><strong>3. Camada de Dados - Data Warehouse SQLite</strong></h4>
+                        <ul>
+                            <li><strong>Star Schema:</strong> 4 dimensões + 3 fatos</li>
+                            <li><strong>Dimensões:</strong> organism, gene, function, location</li>
+                            <li><strong>Fatos:</strong> protein, variant, domain</li>
+                            <li><strong>Associações:</strong> 2 tabelas many-to-many</li>
+                            <li><strong>Total:</strong> 9 tabelas com integridade referencial</li>
+                        </ul>
 
                         <h3>Decisões Arquiteturais</h3>
                         
-                        <div class="mechanism-flow">
-                            <div class="step-card">
-                                <div class="step-number">1</div>
-                                <h3>SQLite</h3>
-                                <p><strong>Zero Configuration e ACID Compliant</strong></p>
-                                <ul style="text-align: left; list-style: none; padding: 0;">
-                                    <li>Portabilidade em arquivo único</li>
-                                    <li>Performance adequada até 100k registros</li>
-                                    <li>Transações atômicas garantidas</li>
-                                    <li>Ideal para reprodutibilidade</li>
-                                </ul>
-                            </div>
-                            <div class="arrow">→</div>
-                            <div class="step-card">
-                                <div class="step-number">2</div>
-                                <h3>Star Schema</h3>
-                                <p><strong>Otimização para Análise</strong></p>
-                                <ul style="text-align: left; list-style: none; padding: 0;">
-                                    <li>Queries analíticas eficientes</li>
-                                    <li>Estrutura intuitiva</li>
-                                    <li>JOINs de um nível apenas</li>
-                                    <li>Escalável para novas dimensões</li>
-                                </ul>
-                            </div>
-                            <div class="arrow">→</div>
-                            <div class="step-card">
-                                <div class="step-number">3</div>
-                                <h3>Python ETL</h3>
-                                <p><strong>Ecossistema Científico</strong></p>
-                                <ul style="text-align: left; list-style: none; padding: 0;">
-                                    <li>BioPython para dados biológicos</li>
-                                    <li>Pandas para transformações</li>
-                                    <li>Requests para APIs REST</li>
-                                    <li>Código versionado e reprodutível</li>
-                                </ul>
-                            </div>
-                        </div>
+                        <h4><strong>SQLite - Zero Configuration e ACID Compliant</strong></h4>
+                        <ul>
+                            <li>Portabilidade em arquivo único</li>
+                            <li>Performance adequada até 100k registros</li>
+                            <li>Transações atômicas garantidas</li>
+                            <li>Ideal para reprodutibilidade</li>
+                        </ul>
+
+                        <h4><strong>Star Schema - Otimização para Análise</strong></h4>
+                        <ul>
+                            <li>Queries analíticas eficientes</li>
+                            <li>Estrutura intuitiva</li>
+                            <li>JOINs de um nível apenas</li>
+                            <li>Escalável para novas dimensões</li>
+                        </ul>
+
+                        <h4><strong>Python ETL - Ecossistema Científico</strong></h4>
+                        <ul>
+                            <li>BioPython para dados biológicos</li>
+                            <li>Pandas para transformações</li>
+                            <li>Requests para APIs REST</li>
+                            <li>Código versionado e reprodutível</li>
+                        </ul>
                     </div>
 
                     <div class="content-sidebar">
@@ -184,70 +156,66 @@
             <div class="section-container">
                 <h2>Componentes Detalhados do Sistema</h2>
 
-                <div class="importance-grid">
-                    <div class="importance-card">
-                        <div class="icon-wrapper green">D</div>
-                        <h3>1. Camada de Dados</h3>
-                        <h4>Tabelas Dimensão</h4>
-                        <ul>
-                            <li><strong>dim_organism:</strong> Taxonomia completa (espécie, família, ordem, classe, reino)</li>
-                            <li><strong>dim_gene:</strong> Informações gênicas e sinônimos</li>
-                            <li><strong>dim_function:</strong> Anotações Gene Ontology (GO terms)</li>
-                            <li><strong>dim_location:</strong> Localização subcelular</li>
-                        </ul>
-                        <h4>Tabelas Fato</h4>
-                        <ul>
-                            <li><strong>fact_protein:</strong> Dados centrais (sequência, peso molecular, pI)</li>
-                            <li><strong>fact_variant:</strong> Mutações e significância clínica</li>
-                            <li><strong>fact_domain:</strong> Domínios proteicos conservados</li>
-                        </ul>
-                    </div>
+                <h3>1. Camada de Dados</h3>
+                
+                <h4>Tabelas Dimensão</h4>
+                <ul>
+                    <li><strong>dim_organism:</strong> Taxonomia completa (espécie, família, ordem, classe, reino)</li>
+                    <li><strong>dim_gene:</strong> Informações gênicas e sinônimos</li>
+                    <li><strong>dim_function:</strong> Anotações Gene Ontology (GO terms)</li>
+                    <li><strong>dim_location:</strong> Localização subcelular</li>
+                </ul>
+                
+                <h4>Tabelas Fato</h4>
+                <ul>
+                    <li><strong>fact_protein:</strong> Dados centrais (sequência, peso molecular, pI)</li>
+                    <li><strong>fact_variant:</strong> Mutações e significância clínica</li>
+                    <li><strong>fact_domain:</strong> Domínios proteicos conservados</li>
+                </ul>
 
-                    <div class="importance-card">
-                        <div class="icon-wrapper blue">E</div>
-                        <h3>2. Pipeline ETL</h3>
-                        <h4>Extract (Extração)</h4>
-                        <ul>
-                            <li><strong>Fonte:</strong> UniProtKB REST API</li>
-                            <li><strong>Query:</strong> eIF4E + Viridiplantae</li>
-                            <li><strong>Paginação:</strong> 500 registros por página</li>
-                            <li><strong>Rate Limiting:</strong> 1 req/segundo</li>
-                        </ul>
-                        <h4>Transform</h4>
-                        <ul>
-                            <li><strong>Normalização:</strong> Sequências e taxonomia</li>
-                            <li><strong>Parsing:</strong> GO terms e linhagens</li>
-                            <li><strong>Cálculo:</strong> Propriedades físico-químicas</li>
-                            <li><strong>Validação:</strong> Integridade e tipos</li>
-                        </ul>
-                        <h4>Load</h4>
-                        <ul>
-                            <li><strong>Transações:</strong> BEGIN/COMMIT/ROLLBACK</li>
-                            <li><strong>Ordem:</strong> Dimensões → Fatos → Associações</li>
-                            <li><strong>Logging:</strong> Auditoria completa</li>
-                        </ul>
-                    </div>
+                <h3>2. Pipeline ETL</h3>
+                
+                <h4>Extract (Extração)</h4>
+                <ul>
+                    <li><strong>Fonte:</strong> UniProtKB REST API</li>
+                    <li><strong>Query:</strong> eIF4E + Viridiplantae</li>
+                    <li><strong>Paginação:</strong> 500 registros por página</li>
+                    <li><strong>Rate Limiting:</strong> 1 req/segundo</li>
+                </ul>
+                
+                <h4>Transform</h4>
+                <ul>
+                    <li><strong>Normalização:</strong> Sequências e taxonomia</li>
+                    <li><strong>Parsing:</strong> GO terms e linhagens</li>
+                    <li><strong>Cálculo:</strong> Propriedades físico-químicas</li>
+                    <li><strong>Validação:</strong> Integridade e tipos</li>
+                </ul>
+                
+                <h4>Load</h4>
+                <ul>
+                    <li><strong>Transações:</strong> BEGIN/COMMIT/ROLLBACK</li>
+                    <li><strong>Ordem:</strong> Dimensões → Fatos → Associações</li>
+                    <li><strong>Logging:</strong> Auditoria completa</li>
+                </ul>
 
-                    <div class="importance-card">
-                        <div class="icon-wrapper purple">F</div>
-                        <h3>3. Camada de Apresentação</h3>
-                        <h4>Funcionalidades</h4>
-                        <ul>
-                            <li><strong>Busca:</strong> Full-text search e filtros (search.html)</li>
-                            <li><strong>Gráficos:</strong> Chart.js para distribuições taxonômicas</li>
-                            <li><strong>Filogenia:</strong> D3.js para árvore interativa</li>
-                            <li><strong>MSA:</strong> Heatmap de conservação de sequências</li>
-                            <li><strong>Estrutura:</strong> Visualização de domínios proteicos</li>
-                        </ul>
-                        <h4>Otimizações</h4>
-                        <ul>
-                            <li><strong>Lazy Loading:</strong> Carregamento sob demanda</li>
-                            <li><strong>Debouncing:</strong> Em campos de busca</li>
-                            <li><strong>Virtual Scrolling:</strong> Para listas longas</li>
-                            <li><strong>Cache:</strong> localStorage para queries</li>
-                        </ul>
-                    </div>
-                </div>
+                <h3>3. Camada de Apresentação</h3>
+                
+                <h4>Funcionalidades</h4>
+                <ul>
+                    <li><strong>Busca:</strong> Full-text search e filtros (search.html)</li>
+                    <li><strong>Gráficos:</strong> Chart.js para distribuições taxonômicas</li>
+                    <li><strong>Filogenia:</strong> D3.js para árvore interativa</li>
+                    <li><strong>MSA:</strong> Heatmap de conservação de sequências</li>
+                    <li><strong>Estrutura:</strong> Visualização de domínios proteicos</li>
+                </ul>
+                
+                <h4>Otimizações</h4>
+                <ul>
+                    <li><strong>Lazy Loading:</strong> Carregamento sob demanda</li>
+                    <li><strong>Debouncing:</strong> Em campos de busca</li>
+                    <li><strong>Virtual Scrolling:</strong> Para listas longas</li>
+                    <li><strong>Cache:</strong> localStorage para queries</li>
+                </ul>
 
                 <div class="content-layout with-sidebar" style="margin-top: 3rem;">
                     <div class="content-main">
@@ -373,74 +341,57 @@
             <div class="section-container">
                 <h2>Desafios Técnicos e Soluções</h2>
 
-                <div class="importance-grid">
-                    <div class="importance-card">
-                        <div class="icon-wrapper green">1</div>
-                        <h3>Heterogeneidade de Dados</h3>
-                        <p><strong>Desafio:</strong> Dados biológicos com campos opcionais, linhagens incompletas e nomenclaturas inconsistentes.</p>
-                        <h4>Soluções:</h4>
-                        <ul>
-                            <li>Schema flexível com campos NULLABLE</li>
-                            <li>Validação em múltiplos níveis do pipeline</li>
-                            <li>Normalização via dicionários controlados</li>
-                            <li>Logging detalhado de inconsistências</li>
-                            <li>Métricas de completude documentadas</li>
-                        </ul>
-                    </div>
+                <h3>1. Heterogeneidade de Dados</h3>
+                <p><strong>Desafio:</strong> Dados biológicos com campos opcionais, linhagens incompletas e nomenclaturas inconsistentes.</p>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Schema flexível com campos NULLABLE</li>
+                    <li>Validação em múltiplos níveis do pipeline</li>
+                    <li>Normalização via dicionários controlados</li>
+                    <li>Logging detalhado de inconsistências</li>
+                    <li>Métricas de completude documentadas</li>
+                </ul>
 
-                    <div class="importance-card">
-                        <div class="icon-wrapper blue">2</div>
-                        <h3>Escalabilidade do SQLite</h3>
-                        <p><strong>Desafio:</strong> Limitações conhecidas para escrita concorrente e datasets muito grandes.</p>
-                        <h4>Soluções:</h4>
-                        <ul>
-                            <li>Dataset dimensionado adequadamente (1.247 proteínas)</li>
-                            <li>Índices estratégicos para otimizar queries</li>
-                            <li>WAL mode (Write-Ahead Logging) habilitado</li>
-                            <li>Plano de migração para PostgreSQL documentado</li>
-                        </ul>
-                    </div>
+                <h3>2. Escalabilidade do SQLite</h3>
+                <p><strong>Desafio:</strong> Limitações conhecidas para escrita concorrente e datasets muito grandes.</p>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Dataset dimensionado adequadamente (1.247 proteínas)</li>
+                    <li>Índices estratégicos para otimizar queries</li>
+                    <li>WAL mode (Write-Ahead Logging) habilitado</li>
+                    <li>Plano de migração para PostgreSQL documentado</li>
+                </ul>
 
-                    <div class="importance-card">
-                        <div class="icon-wrapper purple">3</div>
-                        <h3>Sequências Biológicas</h3>
-                        <p><strong>Desafio:</strong> Sequências longas (200-300 aminoácidos) requerem armazenamento eficiente.</p>
-                        <h4>Soluções:</h4>
-                        <ul>
-                            <li>Armazenamento como TEXT (SQLite otimiza internamente)</li>
-                            <li>Validação de caracteres válidos</li>
-                            <li>Propriedades físico-químicas calculadas separadamente</li>
-                            <li>Export para FASTA disponível</li>
-                        </ul>
-                    </div>
+                <h3>3. Sequências Biológicas</h3>
+                <p><strong>Desafio:</strong> Sequências longas (200-300 aminoácidos) requerem armazenamento eficiente.</p>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Armazenamento como TEXT (SQLite otimiza internamente)</li>
+                    <li>Validação de caracteres válidos</li>
+                    <li>Propriedades físico-químicas calculadas separadamente</li>
+                    <li>Export para FASTA disponível</li>
+                </ul>
 
-                    <div class="importance-card">
-                        <div class="icon-wrapper green">4</div>
-                        <h3>Versionamento de Dados</h3>
-                        <p><strong>Desafio:</strong> UniProt atualizado quinzenalmente, necessário manter histórico.</p>
-                        <h4>Soluções:</h4>
-                        <ul>
-                            <li>Campos last_modified e entry_version em fact_protein</li>
-                            <li>ETL incremental via comparação de versões</li>
-                            <li>Snapshot do banco versionado no Git</li>
-                            <li>Metadados de coleta registrados em log</li>
-                        </ul>
-                    </div>
+                <h3>4. Versionamento de Dados</h3>
+                <p><strong>Desafio:</strong> UniProt atualizado quinzenalmente, necessário manter histórico.</p>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Campos last_modified e entry_version em fact_protein</li>
+                    <li>ETL incremental via comparação de versões</li>
+                    <li>Snapshot do banco versionado no Git</li>
+                    <li>Metadados de coleta registrados em log</li>
+                </ul>
 
-                    <div class="importance-card">
-                        <div class="icon-wrapper blue">5</div>
-                        <h3>Performance do Frontend</h3>
-                        <p><strong>Desafio:</strong> Processar 1.247 proteínas no navegador pode causar lentidão.</p>
-                        <h4>Soluções:</h4>
-                        <ul>
-                            <li>Lazy loading de dados sob demanda</li>
-                            <li>Virtual scrolling em listas longas</li>
-                            <li>Debouncing em campos de busca</li>
-                            <li>Web Workers para processamento pesado</li>
-                            <li>Compressão gzip do JSON</li>
-                        </ul>
-                    </div>
-                </div>
+                <h3>5. Performance do Frontend</h3>
+                <p><strong>Desafio:</strong> Processar 1.247 proteínas no navegador pode causar lentidão.</p>
+                <p><strong>Soluções:</strong></p>
+                <ul>
+                    <li>Lazy loading de dados sob demanda</li>
+                    <li>Virtual scrolling em listas longas</li>
+                    <li>Debouncing em campos de busca</li>
+                    <li>Web Workers para processamento pesado</li>
+                    <li>Compressão gzip do JSON</li>
+                </ul>
             </div>
         </section>
 
@@ -453,59 +404,17 @@
                     <div class="content-main">
                         <h3>Estatísticas do Data Warehouse</h3>
                         
-                        <div class="importance-grid">
-                            <div class="step-card">
-                                <div class="step-number">1247</div>
-                                <h3>Total de Proteínas</h3>
-                                <p>Coletadas e processadas do UniProtKB</p>
-                            </div>
-                            <div class="step-card">
-                                <div class="step-number">450+</div>
-                                <h3>Espécies Únicas</h3>
-                                <p>Representando a diversidade do reino vegetal</p>
-                            </div>
-                            <div class="step-card">
-                                <div class="step-number">120+</div>
-                                <h3>Famílias Botânicas</h3>
-                                <p>Cobertura taxonômica abrangente</p>
-                            </div>
-                            <div class="step-card">
-                                <div class="step-number">245</div>
-                                <h3>Termos Gene Ontology</h3>
-                                <p>Anotações funcionais mapeadas</p>
-                            </div>
-                        </div>
+                        <p><strong>1247</strong> - Total de Proteínas coletadas e processadas do UniProtKB</p>
+                        <p><strong>450+</strong> - Espécies Únicas representando a diversidade do reino vegetal</p>
+                        <p><strong>120+</strong> - Famílias Botânicas com cobertura taxonômica abrangente</p>
+                        <p><strong>245</strong> - Termos Gene Ontology com anotações funcionais mapeadas</p>
 
                         <h3 style="margin-top: 3rem;">Qualidade de Dados</h3>
-                        <div class="importance-grid">
-                            <div class="importance-card">
-                                <div class="icon-wrapper green">95.8%</div>
-                                <h3>Completude</h3>
-                                <p>Campos preenchidos em relação ao total de registros</p>
-                                <p><strong>Status:</strong> Excelente</p>
-                            </div>
-
-                            <div class="importance-card">
-                                <div class="icon-wrapper blue">100%</div>
-                                <h3>Integridade Referencial</h3>
-                                <p>Todas as foreign keys válidas e relações consistentes</p>
-                                <p><strong>Status:</strong> Excelente</p>
-                            </div>
-
-                            <div class="importance-card">
-                                <div class="icon-wrapper purple">98.5%</div>
-                                <h3>Consistência</h3>
-                                <p>Dados coerentes entre tabelas relacionadas</p>
-                                <p><strong>Status:</strong> Excelente</p>
-                            </div>
-
-                            <div class="importance-card">
-                                <div class="icon-wrapper green">92.0%</div>
-                                <h3>Acurácia</h3>
-                                <p>Validação contra fonte original UniProt</p>
-                                <p><strong>Status:</strong> Bom</p>
-                            </div>
-                        </div>
+                        
+                        <p><strong>95.8% de Completude</strong> - Campos preenchidos em relação ao total de registros (Status: Excelente)</p>
+                        <p><strong>100% de Integridade Referencial</strong> - Todas as foreign keys válidas e relações consistentes (Status: Excelente)</p>
+                        <p><strong>98.5% de Consistência</strong> - Dados coerentes entre tabelas relacionadas (Status: Excelente)</p>
+                        <p><strong>92.0% de Acurácia</strong> - Validação contra fonte original UniProt (Status: Bom)</p>
 
                         <h3 style="margin-top: 3rem;">Cobertura de Testes</h3>
                         <ul>
@@ -549,47 +458,13 @@
                 <h2>Documentação e Código-Fonte</h2>
                 <p class="section-intro">Acesse os recursos completos do projeto para exploração e reprodutibilidade</p>
                 
-                <div class="explore-grid" style="margin-top: 30px;">
-                    <a href="https://github.com/madsondeluna/eif4e-atlas" target="_blank" class="explore-card card-search">
-                        <div class="card-icon">
-                            <svg style="width: 60px; height: 60px;" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                            </svg>
-                        </div>
-                        <h3>Repositório GitHub</h3>
-                        <p>Código-fonte completo, histórico de versões e issues</p>
-                    </a>
-
-                    <a href="data_warehouse/README.md" class="explore-card card-structure">
-                        <div class="card-icon">
-                            <svg style="width: 60px; height: 60px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                            </svg>
-                        </div>
-                        <h3>Documentação Completa</h3>
-                        <p>README técnico com detalhes de implementação do DW</p>
-                    </a>
-
-                    <a href="data_warehouse/etl.py" class="explore-card card-msa">
-                        <div class="card-icon">
-                            <svg style="width: 60px; height: 60px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
-                            </svg>
-                        </div>
-                        <h3>Código-Fonte ETL</h3>
-                        <p>Pipeline de Extract, Transform e Load em Python</p>
-                    </a>
-
-                    <a href="data_warehouse/query_examples.py" class="explore-card card-phylogeny">
-                        <div class="card-icon">
-                            <svg style="width: 60px; height: 60px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
-                            </svg>
-                        </div>
-                        <h3>Exemplos de Queries</h3>
-                        <p>Queries SQL analíticas para explorar o warehouse</p>
-                    </a>
-                </div>
+                <h3>Recursos Disponíveis</h3>
+                <ul>
+                    <li><strong><a href="https://github.com/madsondeluna/eif4e-atlas" target="_blank">Repositório GitHub</a></strong> - Código-fonte completo, histórico de versões e issues</li>
+                    <li><strong><a href="data_warehouse/README.md">Documentação Completa</a></strong> - README técnico com detalhes de implementação do DW</li>
+                    <li><strong><a href="data_warehouse/etl.py">Código-Fonte ETL</a></strong> - Pipeline de Extract, Transform e Load em Python</li>
+                    <li><strong><a href="data_warehouse/query_examples.py">Exemplos de Queries</a></strong> - Queries SQL analíticas para explorar o warehouse</li>
+                </ul>
             </div>
         </section>
     </main>
