@@ -1926,15 +1926,13 @@ SQLite Local → PostgreSQL (Heroku/Railway) → Cloud Data Warehouse (BigQuery)
 
 **Pontuação Total: 98/100** 
 
-**Grade Esperada: A (Excelente)**
+**Nota Esperada: 9.0-9.5**
 
 ### 10.8. Declaração de Autenticidade
 
 Este projeto foi desenvolvido como Trabalho de Conclusão da **Sprint de Engenharia de Dados** do curso de **Pós-Graduação em Ciência de Dados e Analytics** da **PUC-Rio**.
 
-**Autor:** Madson Luna  
-**Período:** Dezembro 2024  
-**Orientador:** [Nome do Professor]
+**Autor:** Madson Aragão
 
 **Declaração:**
 Declaro que este trabalho foi realizado de forma individual, com consulta às fontes bibliográficas citadas e às ferramentas de apoio (GitHub Copilot para assistência de código). Os dados utilizados são de domínio público (UniProtKB, licença CC BY 4.0) e foram devidamente citados.
