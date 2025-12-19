@@ -196,23 +196,22 @@
 }
 
 .importance-card {
-    background: var(--surface-color);
-    border-radius: 1rem;
-    padding: 2rem;
+    background: white;
+    border-radius: 0.75rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
     box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--text-primary);
     display: flex;
     flex-direction: column;
-    min-height: 350px;
+    min-height: 300px;
 }
 
 .importance-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 32px rgba(74, 157, 95, 0.15);
-    border-color: var(--accent-color);
-    background: linear-gradient(135deg, rgba(149, 213, 178, 0.05) 0%, rgba(111, 191, 115, 0.05) 100%);
+    transform: translateX(4px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-left-color: var(--accent-light);
 }
 
 .importance-card h3 {
@@ -305,15 +304,14 @@
 }
 
 .step-card {
-    background: var(--surface-color);
+    background: white;
     border-radius: 0.75rem;
-    padding: 2rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
     min-width: 280px;
     flex: 1;
     max-width: 350px;
     box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-color);
-    border-top: 4px solid var(--accent-color);
+    border-left: 4px solid var(--accent-color);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--text-primary);
     display: flex;
@@ -321,10 +319,9 @@
 }
 
 .step-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 32px rgba(74, 157, 95, 0.15);
-    border-top-color: var(--accent-hover);
-    background: linear-gradient(135deg, rgba(149, 213, 178, 0.05) 0%, rgba(111, 191, 115, 0.05) 100%);
+    transform: translateX(4px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-left-color: var(--accent-light);
 }
 
 .step-number {
@@ -404,15 +401,14 @@
 }
 
 .explore-card {
-    background: var(--surface-color);
-    border-radius: 1rem;
-    padding: 2.5rem 2rem;
+    background: white;
+    border-radius: 0.75rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
     text-decoration: none;
     color: var(--text-primary);
     box-shadow: var(--shadow-md);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
-    border: 1px solid var(--border-color);
     border-left: 4px solid;
     display: flex;
     flex-direction: column;
@@ -421,9 +417,8 @@
 }
 
 .explore-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 32px rgba(74, 157, 95, 0.15);
-    background: linear-gradient(135deg, rgba(149, 213, 178, 0.05) 0%, rgba(111, 191, 115, 0.05) 100%);
+    transform: translateX(4px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
 .explore-card h3 {

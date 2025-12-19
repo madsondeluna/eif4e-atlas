@@ -107,17 +107,17 @@
     height: 400px;
     position: relative;
     background: white;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     box-shadow: var(--shadow-md);
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
 }
 
 .chart-wrapper:hover {
     box-shadow: var(--shadow-lg), var(--shadow-glow);
-    transform: translateY(-2px);
-    border-color: var(--accent-light);
+    transform: translateX(4px);
+    border-left-color: var(--accent-light);
 }
 
 .top-data-section .chart-container {

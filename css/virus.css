@@ -96,14 +96,14 @@
     border-radius: 0.75rem;
     padding: clamp(1.5rem, 3vw, 2rem);
     box-shadow: var(--shadow-md);
-    border-top: 4px solid var(--accent-color);
+    border-left: 4px solid var(--accent-color);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mechanism-card:hover {
-    transform: translateY(-4px);
+    transform: translateX(4px);
     box-shadow: var(--shadow-lg), var(--shadow-glow);
-    border-top-color: var(--accent-light);
+    border-left-color: var(--accent-light);
 }
 
 .mech-number {
@@ -140,15 +140,17 @@
 
 .virus-family-card {
     background: white;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease;
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--accent-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .virus-family-card:hover {
-    transform: translateY(-5px);
+    transform: translateX(4px);
     box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-left-color: var(--accent-light);
 }
 
 .family-header {
@@ -259,16 +261,16 @@
 .resource-card {
     background: white;
     border-radius: 0.75rem;
-    padding: 2rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
     text-decoration: none;
     color: inherit;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 4px solid var(--accent-color);
 }
 
 .resource-card:hover {
-    transform: translateY(-3px);
+    transform: translateX(4px);
     box-shadow: var(--shadow-lg), var(--shadow-glow);
     border-left-color: var(--accent-light);
 }

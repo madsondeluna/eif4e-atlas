@@ -83,36 +83,17 @@
 
 .architecture-card {
     background: white;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     padding: clamp(1.5rem, 3vw, 2rem);
     box-shadow: var(--shadow-md);
-    border-top: 4px solid var(--accent-color);
+    border-left: 4px solid var(--accent-color);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.architecture-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--accent-color), var(--spring-bud));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-}
-
-.architecture-card:hover::before {
-    transform: scaleX(1);
 }
 
 .architecture-card:hover {
-    transform: translateY(-4px);
+    transform: translateX(4px);
     box-shadow: var(--shadow-lg), var(--shadow-glow);
-    border-top-color: var(--accent-light);
+    border-left-color: var(--accent-light);
 }
 
 .architecture-card h3 {
@@ -249,23 +230,26 @@
 
 /* Info Card */
 .info-card {
-    background: linear-gradient(135deg, #52796f 0%, #2d6a4f 100%);
-    color: white;
+    background: white;
+    color: var(--text-primary);
     padding: clamp(1.5rem, 3vw, 2rem);
-    border-radius: 1rem;
-    box-shadow: var(--shadow-lg);
-    transition: all 0.3s ease;
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--accent-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .info-card:hover {
-    box-shadow: var(--shadow-lg), 0 0 30px rgba(45, 106, 79, 0.3);
-    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    transform: translateX(4px);
+    border-left-color: var(--accent-light);
 }
 
 .info-card h4 {
+    color: var(--primary-color);
     font-size: 1.3rem;
     margin-bottom: 1.5rem;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 2px solid var(--border-color);
     padding-bottom: 0.5rem;
 }
 
@@ -295,9 +279,17 @@
 
 .viewer-card {
     background: white;
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 0.75rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--accent-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.viewer-card:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-left-color: var(--accent-light);
 }
 
 .viewer-card h3 {
@@ -354,10 +346,18 @@
 
 .motif-detail-card {
     background: white;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     padding: 0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-md);
     overflow: hidden;
+    border-left: 4px solid var(--accent-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.motif-detail-card:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-left-color: var(--accent-light);
 }
 
 .motif-header {

@@ -53,10 +53,18 @@
 
 .msa-placeholder {
     background: white;
-    border-radius: 1rem;
-    padding: 4rem 3rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border-radius: 0.75rem;
+    padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--accent-color);
     text-align: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.msa-placeholder:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-left-color: var(--accent-light);
 }
 
 .placeholder-card h2 {
