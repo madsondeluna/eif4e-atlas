@@ -107,7 +107,7 @@
 
 <body>
     <div class="container">
-        <h1>🔍 Data Source Verification</h1>
+        <h1>Data Source Verification</h1>
         <p class="subtitle">Verificando de onde os dados estão sendo carregados</p>
 
         <div class="check-item">
@@ -156,39 +156,39 @@
                 const data = await response.json();
 
                 document.getElementById('status-json').className = 'status success';
-                document.getElementById('status-json').textContent = '✅ Disponível';
+                document.getElementById('status-json').textContent = 'Disponível';
                 document.getElementById('json-details').innerHTML = `
-                    ✅ Arquivo JSON carregado com sucesso<br>
-                    📊 Total de registros: <strong>${data.length.toLocaleString()}</strong><br>
-                    📍 Localização: <code>assets/data/data.json</code><br>
-                    💾 Tamanho: ~${(JSON.stringify(data).length / 1024 / 1024).toFixed(2)} MB
+                    Arquivo JSON carregado com sucesso<br>
+                    Total de registros: <strong>${data.length.toLocaleString()}</strong><br>
+                    Localização: <code>assets/data/data.json</code><br>
+                    Tamanho: ~${(JSON.stringify(data).length / 1024 / 1024).toFixed(2)} MB
                 `;
             } catch (error) {
                 document.getElementById('status-json').className = 'status error';
-                document.getElementById('status-json').textContent = '❌ Erro';
+                document.getElementById('status-json').textContent = 'Erro';
                 document.getElementById('json-details').textContent = `Erro: ${error.message}`;
             }
 
             // 2. Verificar módulo
             document.getElementById('status-module').className = 'status success';
-            document.getElementById('status-module').textContent = '✅ Importado';
+            document.getElementById('status-module').textContent = 'Importado';
             document.getElementById('module-details').innerHTML = `
-                ✅ Módulo <code>uniprot.js</code> importado com sucesso<br>
-                📦 Funções disponíveis: searchUniProt(), getProteinDetails(), getGlobalStats()
+                Módulo <code>uniprot.js</code> importado com sucesso<br>
+                Funções disponíveis: searchUniProt(), getProteinDetails(), getGlobalStats()
             `;
 
             // 3. Testar função de busca
             try {
                 const stats = await getGlobalStats();
                 document.getElementById('status-search').className = 'status success';
-                document.getElementById('status-search').textContent = '✅ Funcional';
+                document.getElementById('status-search').textContent = 'Funcional';
                 document.getElementById('search-details').innerHTML = `
-                    ✅ Função <code>searchUniProt()</code> está operacional<br>
-                    📊 Total de proteínas no banco: <strong>${stats.totalEntries.toLocaleString()}</strong>
+                    Função <code>searchUniProt()</code> está operacional<br>
+                    Total de proteínas no banco: <strong>${stats.totalEntries.toLocaleString()}</strong>
                 `;
             } catch (error) {
                 document.getElementById('status-search').className = 'status error';
-                document.getElementById('status-search').textContent = '❌ Erro';
+                document.getElementById('status-search').textContent = 'Erro';
                 document.getElementById('search-details').textContent = `Erro: ${error.message}`;
             }
 
@@ -196,11 +196,11 @@
             try {
                 const results = await searchUniProt('arabidopsis');
                 document.getElementById('status-real').className = 'status success';
-                document.getElementById('status-real').textContent = '✅ Sucesso';
+                document.getElementById('status-real').textContent = 'Sucesso';
 
                 const example = results[0];
                 document.getElementById('real-details').innerHTML = `
-                    ✅ Busca por "arabidopsis" retornou <strong>${results.length}</strong> resultados<br>
+                    Busca por "arabidopsis" retornou <strong>${results.length}</strong> resultados<br>
                     <div class="code">
                         Exemplo do primeiro resultado:<br>
                         • Accession: ${example.primaryAccession}<br>
@@ -209,11 +209,11 @@
                         • Gene: ${example.genes?.[0]?.geneName?.value || 'N/A'}
                     </div>
                     <br>
-                    🎯 <strong>Confirmado:</strong> Todos os dados vêm do arquivo JSON local!
+                    <strong>Confirmado:</strong> Todos os dados vêm do arquivo JSON local!
                 `;
             } catch (error) {
                 document.getElementById('status-real').className = 'status error';
-                document.getElementById('status-real').textContent = '❌ Erro';
+                document.getElementById('status-real').textContent = 'Erro';
                 document.getElementById('real-details').textContent = `Erro: ${error.message}`;
             }
         }
