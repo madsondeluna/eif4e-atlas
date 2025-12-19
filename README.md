@@ -1,6 +1,8 @@
 # Plant eIF4E Atlas (A Data Warehouse Project) - Sobre o Projeto
 
-O projeto constitui o MVP desenvolvido como requisito avaliativo da disciplina de Engenharia de Dados (código 40530010057_20250_02), integrante do curso de Especialização em Data Science and Analytics da Pontifícia Universidade Católica do Rio de Janeiro (PUC-Rio). O projeto pode ser acessado em: madsondeluna.github.io/eif4e-atlas/ 
+O projeto constitui o MVP desenvolvido como requisito avaliativo da disciplina de Engenharia de Dados (código 40530010057_20250_02), integrante do curso de Especialização em Data Science and Analytics da Pontifícia Universidade Católica do Rio de Janeiro (PUC-Rio).
+
+**Acesso ao projeto:** [https://madsondeluna.github.io/eif4e-atlas/](https://madsondeluna.github.io/eif4e-atlas/)
 
 ---
 
