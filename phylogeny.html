@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phylogeny - Plant eIF4E Atlas (A Data Warehouse Project)</title>
-    <meta name="description" content="Interactive phylogenetic tree of eIF4E proteins across species.">
+    <title>Filogenia - Atlas eIF4E de Plantas (Um Projeto de Data Warehouse)</title>
+    <meta name="description" content="Árvore filogenética interativa de proteínas eIF4E em diferentes espécies.">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,14 +30,14 @@
     <!-- Header -->
     <header class="main-header">
         <nav class="nav-container">
-            <div class="logo">Plant eIF4E Atlas (A Data Warehouse Project)</div>
+            <div class="logo">Atlas eIF4E de Plantas (Um Projeto de Data Warehouse)</div>
             <div class="main-nav">
-                <a href="index.html" class="nav-link nav-home">Home</a>
-                <a href="search.html" class="nav-link nav-search">Search</a>
-                <a href="structural-biology.html" class="nav-link nav-structure">Structure</a>
+                <a href="index.html" class="nav-link nav-home">Início</a>
+                <a href="search.html" class="nav-link nav-search">Buscar</a>
+                <a href="structural-biology.html" class="nav-link nav-structure">Estrutura</a>
                 <a href="msa.html" class="nav-link nav-msa">MSA</a>
-                <a href="phylogeny.html" class="nav-link active nav-phylogeny">Phylogeny</a>
-                <a href="virus-interactions.html" class="nav-link nav-viruses">Viruses</a>
+                <a href="phylogeny.html" class="nav-link active nav-phylogeny">Filogenia</a>
+                <a href="virus-interactions.html" class="nav-link nav-viruses">Vírus</a>
             </div>
         </nav>
     </header>
@@ -46,9 +46,8 @@
     <main class="phylogeny-main">
         <!-- Page Header -->
         <section class="phylogeny-header">
-            <h1>Plant eIF4E Phylogenetic Tree</h1>
-            <p class="subtitle">Explore the evolutionary relationships of eIF4E proteins across plant families and
-                species</p>
+            <h1>Árvore Filogenética eIF4E de Plantas</h1>
+            <p class="subtitle">Explore as relações evolutivas de proteínas eIF4E em famílias e espécies de plantas</p>
         </section>
 
         <!-- Controls -->
@@ -56,23 +55,23 @@
             <div class="controls-wrapper">
                 <!-- Search -->
                 <div class="control-group">
-                    <label for="organism-search">Search Organism:</label>
-                    <input type="text" id="organism-search" placeholder="e.g., Vigna, Arabidopsis...">
+                    <label for="organism-search">Buscar Organismo:</label>
+                    <input type="text" id="organism-search" placeholder="ex: Vigna, Arabidopsis...">
                 </div>
 
                 <!-- Stats -->
                 <div class="control-group phylogeny-stats">
                     <div class="stat-item">
                         <span class="stat-value" id="total-proteins">0</span>
-                        <span class="stat-label">Proteins</span>
+                        <span class="stat-label">Proteínas</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-value" id="total-species">0</span>
-                        <span class="stat-label">Species</span>
+                        <span class="stat-label">Espécies</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-value" id="total-kingdoms">0</span>
-                        <span class="stat-label">Kingdoms</span>
+                        <span class="stat-label">Reinos</span>
                     </div>
                 </div>
             </div>
@@ -81,8 +80,8 @@
         <!-- Taxonomic Distribution Chart -->
         <section class="taxonomic-chart-section">
             <div class="chart-header">
-                <h2>Taxonomic Distribution</h2>
-                <p class="chart-description">Diversity of eIF4E proteins across taxonomic levels</p>
+                <h2>Distribuição Taxonômica</h2>
+                <p class="chart-description">Diversidade de proteínas eIF4E em níveis taxonômicos</p>
             </div>
             <div class="chart-wrapper">
                 <div id="taxonomic-chart"></div>
@@ -93,13 +92,13 @@
         <section class="phylogeny-tree-section">
             <div id="loading-tree" class="loading-indicator">
                 <div class="spinner"></div>
-                <p>Loading phylogenetic data...</p>
+                <p>Carregando dados filogenéticos...</p>
             </div>
             <div id="tree-container" class="hidden">
                 <svg id="phylogeny-tree"></svg>
             </div>
             <div id="tree-error" class="error-message hidden">
-                <p>Failed to load phylogenetic data. Please refresh the page.</p>
+                <p>Falha ao carregar dados filogenéticos. Por favor, atualize a página.</p>
             </div>
         </section>
 
@@ -112,7 +111,7 @@
 
     <!-- Footer -->
     <footer class="main-footer">
-        <p>&copy; 2024 Plant eIF4E Atlas (A Data Warehouse Project). Data provided by <a href="https://www.uniprot.org/"
+        <p>&copy; 2024 Atlas eIF4E de Plantas (Um Projeto de Data Warehouse). Dados fornecidos por <a href="https://www.uniprot.org/"
                 target="_blank">UniProt</a>.</p>
     </footer>
 
