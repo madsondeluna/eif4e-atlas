@@ -1,6 +1,10 @@
 # Plant eIF4E Atlas (A Data Warehouse Project)
 
-Um Data Warehouse proteômico e genômico abrangente para eIF4E (Fator de Iniciação de Tradução Eucariótica 4E), apresentando armazenamento centralizado de dados, dados de mutação, insights estruturais e análise entre espécies.
+Um Data Warehouse proteômico e genômico para acessos de eIF4E (Fator de Iniciação de Tradução Eucariótica 4E), apresentando armazenamento centralizado de dados, dados de mutação, insights estruturais e análise entre espécies vegetais.
+
+## Sobre o Projeto
+
+O projeto constitui o MVP (Minimum Viable Product) desenvolvido como requisito avaliativo da disciplina de Engenharia de Dados (código 40530010057_20250_02), integrante do curso de Especialização em Data Science and Analytics da Pontifícia Universidade Católica do Rio de Janeiro (PUC-Rio).
 
 ## Funcionalidades
 
