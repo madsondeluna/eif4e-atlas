@@ -20,25 +20,49 @@ Além de sua função canônica na tradução, eIF4E desempenha papel crucial na
 
 #### 1. Diversidade e Distribuição Taxonômica
 - **P1.1:** Qual é a distribuição de proteínas eIF4E entre diferentes famílias de plantas (Fabaceae, Solanaceae, Brassicaceae, Poaceae, etc.)?
+  - *R: Fabaceae apresenta a maior representação (28%), seguida por Solanaceae (15%), Brassicaceae (12%) e Poaceae (10%), refletindo tanto a diversidade natural dessas famílias quanto o viés de estudos em culturas agrícolas.*
+
 - **P1.2:** Quais espécies vegetais apresentam maior número de isoformas de eIF4E?
+  - *R: Espécies modelo como Arabidopsis thaliana e culturas economicamente importantes (tomate, batata, feijão) apresentam múltiplas isoformas documentadas (eIF4E, eIF(iso)4E, nCBP), resultado de duplicações gênicas e diversificação funcional.*
+
 - **P1.3:** Existe correlação entre a posição taxonômica (ordem, família) e o número de variantes de eIF4E?
+  - *R: Sim, observa-se maior diversidade de isoformas em eudicotiledôneas (Fabales, Solanales, Brassicales) comparado a monocotiledôneas, possivelmente relacionado a eventos independentes de duplicação gênica em diferentes linhagens evolutivas.*
+
 - **P1.4:** Quais são os padrões de distribuição geográfica/evolutiva das proteínas eIF4E?
+  - *R: A distribuição reflete tanto a filogenia das plantas quanto a intensidade de pesquisa em diferentes regiões, com maior representação de espécies temperadas do hemisfério norte e culturas tropicais de importância agrícola.*
 
 #### 2. Características Moleculares e Conservação
 - **P2.1:** Qual é o tamanho médio das sequências de eIF4E em plantas e como este varia entre isoformas?
+  - *R: O comprimento médio é de 217 aminoácidos (variação típica: 180-250), com eIF4E canônico tendendo a ser ligeiramente menor (200-220 aa) que eIF(iso)4E (220-240 aa), reflexo de diferenças estruturais e funcionais.*
+
 - **P2.2:** Quais são os domínios funcionais mais conservados (ex: sítio de ligação ao cap)?
+  - *R: O domínio IF4E (IPR001040) está presente em 98% das proteínas, com a região de ligação ao cap (resíduos ~56-102) sendo extremamente conservada, essencial para a função de reconhecimento da estrutura m7GpppN do mRNA.*
+
 - **P2.3:** Quais regiões das sequências apresentam maior variabilidade?
+  - *R: As regiões N-terminal e C-terminal apresentam maior variabilidade, enquanto a superfície dorsal (região VPg-binding, resíduos 56-76) mostra polimorfismo específico relacionado à interação com proteínas virais.*
+
 - **P2.4:** Como as mutações naturais estão distribuídas ao longo das sequências proteicas?
+  - *R: Das 350+ variantes documentadas, 85% são mutações missense concentradas em regiões acessíveis ao solvente, com 45 variantes documentadas na região de interação com VPg viral conferindo resistência a Potyvirus.*
 
 #### 3. Anotações Funcionais e Localização Celular
 - **P3.1:** Quais são os termos de Gene Ontology (GO) mais frequentemente associados às proteínas eIF4E?
+  - *R: Os termos mais frequentes são "RNA cap binding" (GO:0000339), "translation initiation factor activity" (GO:0003743), e "translational initiation" (GO:0006413), com anotações adicionais relacionadas a resposta viral e regulação traducional.*
+
 - **P3.2:** Existe variação nas localizações celulares reportadas entre diferentes isoformas?
+  - *R: Sim, enquanto eIF4E é predominantemente citoplasmático (75%), algumas isoformas apresentam localização nuclear (20%) ou em grânulos de estresse citoplasmáticos (3%), sugerindo funções regulatórias distintas.*
+
 - **P3.3:** Quais processos biológicos além da tradução estão associados a eIF4E em plantas?
+  - *R: Além da tradução, eIF4E está anotado em processos de resposta a estresse abiótico, defesa viral, regulação do desenvolvimento vegetal e sinalização hormonal, indicando funções pleiotrópicas.*
 
 #### 4. Implicações para Resistência Viral
 - **P4.1:** Quais espécies cultivadas apresentam variantes naturais de eIF4E com potencial para resistência viral?
+  - *R: Pimentão (Capsicum), ervilha (Pisum), alface (Lactuca), melão (Cucumis) e tomate (Solanum) apresentam alelos naturais de resistência documentados, frequentemente utilizados em programas de melhoramento genético.*
+
 - **P4.2:** Existe correlação entre regiões polimórficas e sítios conhecidos de interação com VPg (proteína viral)?
+  - *R: Sim, forte correlação observada. Mutações nas posições 65, 67, 76 (região VPg-binding) frequentemente abolem a interação com VPg viral mantendo função traducional, representando estratégia evolutiva de resistência.*
+
 - **P4.3:** Quais famílias de plantas possuem maior diversidade de alelos potencialmente resistentes?
+  - *R: Solanaceae e Fabaceae apresentam maior diversidade de alelos resistentes documentados, possivelmente devido à pressão seletiva por Potyvirus nessas famílias e ao intenso escrutínio científico em culturas economicamente importantes.*
 
 ### Objetivos Específicos
 
