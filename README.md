@@ -1212,7 +1212,7 @@ ORDER BY year DESC;
 | **Temporalidade** | 84.5% |  Bom | Dados atualizados (2024) |
 | **Duplicação** | 100% |  Excelente | Sem duplicatas verdadeiras |
 
-**Score Geral de Qualidade: 95.1% **
+**Score Geral de Qualidade: 95.1%**
 
 **Recomendações de Melhoria:**
 1.  Enriquecer gene_id para as 67 proteínas faltantes
@@ -1591,20 +1591,6 @@ ORDER BY variant_count DESC;
 1. **71% das mutações em β-sheet 1** - interface VPg-binding
 2. Substituições típicas: **Lys→Glu** (inversão de carga), **Ser→Phe** (hidrofóbico)
 3. Cap-binding mantido em 95% dos casos (essencial para função)
-
-**Modelo Estrutural:**
-```
-      Cap-binding core
-           (conservado)
-               ↓
-    ╔══════════════════╗
-    ║  W56  W102  E103 ║  ← Resíduos críticos preservados
-    ╚══════════════════╝
-           / \
-          /   \
-    K65E ←     → S67F    ← Mutações de resistência
-    (surface-exposed)      (bloqueia VPg)
-```
 
 #### P4.3: Existem proteínas com múltiplas variantes de resistência?
 
@@ -2126,30 +2112,6 @@ Dados acessados via https://www.uniprot.org/ em Dezembro de 2024.
 
 **Licença do Projeto eIF4E Atlas:**
 MIT License (código) + CC BY 4.0 
-
-```
-MIT License
-
-Copyright (c) 2024 Madson Luna
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
 
 ---
 
