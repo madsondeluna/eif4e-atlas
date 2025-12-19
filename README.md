@@ -2099,10 +2099,6 @@ Creative Commons Attribution 4.0 International (CC BY 4.0)
 -  Distribuição
 -  Uso privado
 
-**Requer:**
--  Atribuição (citar fonte)
--  Indicar mudanças
-
 **Citação Recomendada:**
 ```
 UniProt Consortium (2024). UniProt: the Universal Protein Knowledgebase in 2024.
