@@ -98,9 +98,13 @@
 /* Content Layout */
 .content-layout {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr;
     gap: clamp(1.5rem, 4vw, 3rem);
     margin-top: 2rem;
+}
+
+.content-layout.with-sidebar {
+    grid-template-columns: 2fr 1fr;
 }
 
 .content-main .lead {
