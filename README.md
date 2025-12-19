@@ -6,11 +6,13 @@ O projeto constitui o MVP desenvolvido como requisito avaliativo da disciplina d
 
 ## 1. OBJETIVOS E PERGUNTAS DE PESQUISA
 
-### Contexto Científico
+### Contexto
 
 O fator de iniciação de tradução eucariótica 4E (eIF4E) é uma proteína essencial no processo de síntese proteica, responsável por reconhecer e ligar-se à estrutura cap (m⁷GpppN) presente na extremidade 5' dos mRNAs. Em plantas, esta família proteica apresenta características únicas, incluindo múltiplas isoformas (eIF4E, eIF(iso)4E, nCBP) que evoluíram através de duplicações gênicas e diversificação funcional.
 
 Além de sua função canônica na tradução, eIF4E desempenha papel crucial na defesa contra vírus de plantas. Mutações naturais em eIF4E podem conferir resistência a Potyvirus, uma das principais famílias de vírus que afetam culturas agrícolas mundialmente. Esta característica torna o estudo de eIF4E altamente relevante para o melhoramento genético de plantas e segurança alimentar.
+
+**Engenharia de Dados na Bioinformática Aplicada:** A crescente disponibilidade de dados proteômicos e genômicos em repositórios públicos (UniProtKB, NCBI, Ensembl) representa uma oportunidade transformadora para o melhoramento genético vegetal, porém apresenta desafios significativos de integração, qualidade e acessibilidade. A engenharia de dados atua como ponte crítica entre dados brutos dispersos e conhecimento biológico acionável, através de: (1) **Consolidação de Dados Heterogêneos** - integração de sequências, anotações funcionais, variantes genéticas e taxonomia em modelo dimensional unificado; (2) **Qualidade e Rastreabilidade** - implementação de pipelines ETL com validação, linhagem de dados e versionamento, garantindo reprodutibilidade científica; (3) **Performance Analítica** - estruturas otimizadas (índices, agregações pré-computadas) que viabilizam queries complexas em segundos, essenciais para análises exploratórias iterativas; (4) **Democratização do Acesso** - interfaces visuais interativas que permitem que melhoristas e pesquisadores sem expertise técnica em bioinformática explorem padrões moleculares, identifiquem variantes candidatas e tomem decisões baseadas em evidências. No contexto de eIF4E, esta infraestrutura de dados possibilita a identificação rápida de alelos resistentes a vírus através de análises comparativas multi-espécie, acelerando significativamente o ciclo de desenvolvimento de cultivares melhoradas e contribuindo diretamente para segurança alimentar global.
 
 ### Problema Central
 
