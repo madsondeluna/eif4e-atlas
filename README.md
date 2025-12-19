@@ -2115,18 +2115,8 @@ MIT License (código) + CC BY 4.0
 
 ---
 
-**FIM DO DOCUMENTO**
-
 **Última Atualização:** 19 de Dezembro de 2024  
-**Versão:** 1.0 (MVP - Engenharia de Dados)
-
----
-
-## Links Úteis
-
-- ** Website:** [eif4e-atlas.github.io](https://madsondeluna.github.io/eif4e-atlas/)
-- ** Repositório:** [github.com/[usuario]/eif4e-atlas](https://github.com/madsondeluna/eif4e-atlas)
-- ** Contato:** madsonluna@[email].com
+**Versão:** 1.1 (MVP - Engenharia de Dados)
 
 ---
 
