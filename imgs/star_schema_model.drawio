@@ -1,0 +1,118 @@
+<mxfile host="65bd71144e" scale="1" border="30">
+    <diagram id="star-schema-eif4e" name="Star Schema - eIF4E Data Warehouse">
+        <mxGraphModel dx="784" dy="840" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" background="#ffffff" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="fact_protein" value="fact_protein&#xa;──────────────────&#xa;PK protein_id&#xa;FK organism_id&#xa;FK gene_id&#xa;uniprot_id&#xa;protein_name&#xa;protein_full_name&#xa;sequence&#xa;sequence_length&#xa;molecular_weight&#xa;isoelectric_point&#xa;is_reviewed&#xa;date_created&#xa;date_modified&#xa;sequence_version" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;align=left;verticalAlign=top;fontFamily=Courier New;fontSize=11;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="300" width="200" height="240" as="geometry"/>
+                </mxCell>
+                <mxCell id="dim_organism" value="&lt;b&gt;dim_organism&lt;/b&gt;&lt;br&gt;──────────────────&lt;br&gt;PK organism_id&lt;br&gt;species_name&lt;br&gt;common_name&lt;br&gt;taxonomy_id&lt;br&gt;kingdom&lt;br&gt;phylum&lt;br&gt;class&lt;br&gt;order&lt;br&gt;family&lt;br&gt;genus&lt;br&gt;lineage_full" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;verticalAlign=top;fontFamily=Courier New;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="40" width="200" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="dim_gene" value="&lt;b&gt;dim_gene&lt;/b&gt;&lt;br&gt;──────────────────&lt;br&gt;PK gene_id&lt;br&gt;gene_name&lt;br&gt;gene_type&lt;br&gt;synonyms" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;verticalAlign=top;fontFamily=Courier New;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="350" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="dim_function" value="&lt;b&gt;dim_function&lt;/b&gt;&lt;br&gt;──────────────────&lt;br&gt;PK function_id&lt;br&gt;go_id&lt;br&gt;go_term&lt;br&gt;go_aspect&lt;br&gt;go_category&lt;br&gt;evidence_code" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;verticalAlign=top;fontFamily=Courier New;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="284" width="200" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="dim_location" value="&lt;b&gt;dim_location&lt;/b&gt;&lt;br&gt;──────────────────&lt;br&gt;PK location_id&lt;br&gt;location&lt;br&gt;topology&lt;br&gt;evidence" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;verticalAlign=top;fontFamily=Courier New;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="455" width="200" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="fact_variant" value="&lt;b&gt;fact_variant&lt;/b&gt;&lt;br&gt;──────────────────&lt;br&gt;PK variant_id&lt;br&gt;FK protein_id&lt;br&gt;position&lt;br&gt;original_residue&lt;br&gt;variant_residue&lt;br&gt;variant_type&lt;br&gt;clinical_signif&lt;br&gt;disease_assoc&lt;br&gt;source" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;verticalAlign=top;fontFamily=Courier New;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="500" width="200" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="fact_domain" value="&lt;b&gt;fact_domain&lt;/b&gt;&lt;br&gt;──────────────────&lt;br&gt;PK domain_id&lt;br&gt;FK protein_id&lt;br&gt;domain_name&lt;br&gt;domain_type&lt;br&gt;start_position&lt;br&gt;end_position&lt;br&gt;description&lt;br&gt;interpro_id" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;verticalAlign=top;fontFamily=Courier New;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="450" y="620" width="200" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="protein_function" value="&lt;b&gt;protein_function&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;div&gt;PK protein_id&lt;br&gt;PK function_id&lt;br&gt;evidence_type&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;verticalAlign=top;fontFamily=Courier New;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="220" width="100" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="protein_location" value="&lt;b&gt;protein_location&lt;/b&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;PK protein_id&lt;br&gt;PK location_id&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;verticalAlign=top;fontFamily=Courier New;fontSize=10;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="550" width="100" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=2;endArrow=classic;endFill=1;" parent="1" source="dim_organism" target="fact_protein" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="label1" value="1:N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1;fontSize=12;" parent="edge1" vertex="1" connectable="0">
+                    <mxGeometry x="-0.2" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.3;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeWidth=2;endArrow=classic;endFill=1;" parent="1" source="dim_gene" target="fact_protein" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="label2" value="1:N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1;fontSize=12;" parent="edge2" vertex="1" connectable="0">
+                    <mxGeometry x="-0.2" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;strokeWidth=1;endArrow=classic;endFill=1;dashed=1;" parent="1" source="fact_protein" target="protein_function" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeWidth=1;endArrow=classic;endFill=1;dashed=1;" parent="1" source="protein_function" target="dim_function" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="label4" value="N:M" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1;fontSize=12;" parent="edge4" vertex="1" connectable="0">
+                    <mxGeometry x="-0.2" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;strokeWidth=1;endArrow=classic;endFill=1;dashed=1;" parent="1" source="fact_protein" target="protein_location" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="edge6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;strokeWidth=1;endArrow=classic;endFill=1;dashed=1;" parent="1" source="protein_location" target="dim_location" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="label6" value="N:M" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1;fontSize=12;" parent="edge6" vertex="1" connectable="0">
+                    <mxGeometry x="-0.2" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.2;entryDx=0;entryDy=0;exitX=0;exitY=0.8;exitDx=0;exitDy=0;strokeWidth=2;endArrow=classic;endFill=1;" parent="1" source="fact_protein" target="fact_variant" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="label7" value="1:N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1;fontSize=12;" parent="edge7" vertex="1" connectable="0">
+                    <mxGeometry x="-0.2" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="edge8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;strokeWidth=2;endArrow=classic;endFill=1;" parent="1" source="fact_protein" target="fact_domain" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="label8" value="1:N" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1;fontSize=12;" parent="edge8" vertex="1" connectable="0">
+                    <mxGeometry x="-0.2" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="legend_title" value="&lt;b&gt;LEGENDA&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="50" y="50" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_fact" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="90" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_fact_label" value="Tabela (Principal)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="85" width="150" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_dim" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="120" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_dim_label" value="Tabela Dimensão" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="115" width="150" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_fact2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="150" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_fact2_label" value="Tabela (Relacionada)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="145" width="150" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_assoc" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="180" width="30" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend_assoc_label" value="Tabela Associativa (N:M)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="175" width="150" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
