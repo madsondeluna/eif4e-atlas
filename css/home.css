@@ -458,6 +458,87 @@
     color: #1b4332;
 }
 
+/* About MVP Section */
+.tech-details {
+    margin: 2rem 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.tech-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--accent-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tech-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.tech-section h4 {
+    color: var(--accent-color);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tech-section ul {
+    margin-left: 1.5rem;
+    color: var(--text-color);
+}
+
+.tech-section ul ul {
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+}
+
+.tech-section li {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+.tech-section strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.project-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.875rem 1.5rem;
+    background: var(--accent-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.btn-secondary svg {
+    flex-shrink: 0;
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -494,5 +575,14 @@
     .explore-card {
         flex: 1 1 100%;
         max-width: 500px;
+    }
+
+    .project-links {
+        flex-direction: column;
+    }
+
+    .btn-secondary {
+        justify-content: center;
+        text-align: center;
     }
 }
